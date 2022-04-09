@@ -28,33 +28,33 @@ class Lobby(wx.Frame):
         ToggleButton4.Bind(wx.EVT_TOGGLEBUTTON, self.sbloccaStato)
         bag.Add(ToggleButton4, pos=(0,3), flag=wx.ALL | wx.EXPAND, border=5)
         
-        textCtrl1 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TE_MULTILINE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl1, pos=(1,0), flag =wx.ALL|wx.EXPAND, border=5)
+        textCtrl1 = wx.TextCtrl(panel,style = wx.TE_CENTRE)
+        bag.Add(textCtrl1, pos=(2,0), flag =wx.ALL|wx.EXPAND, border=5)
        
         textCtrl2 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TE_MULTILINE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl2, pos=(1,1), flag =wx.ALL|wx.EXPAND, border=5)
+        bag.Add(textCtrl2, pos=(2,1), flag =wx.ALL|wx.EXPAND, border=5)
         
         textCtrl3 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TE_MULTILINE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl3, pos=(1,2), flag =wx.ALL|wx.EXPAND, border=5)
+        bag.Add(textCtrl3, pos=(2,2), flag =wx.ALL|wx.EXPAND, border=5)
         
         textCtrl4 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TE_MULTILINE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl4, pos=(1,3), flag =wx.ALL|wx.EXPAND, border=5)
+        bag.Add(textCtrl4, pos=(2,3), flag =wx.ALL|wx.EXPAND, border=5)
 
         panel1 = wx.Panel(panel)
         panel1.SetOwnBackgroundColour((0,255, 0))
-        bag.Add(panel1,pos = (2,0),flag = wx.ALL|wx.EXPAND,border = 5)
+        bag.Add(panel1,pos = (1,0),flag = wx.ALL|wx.EXPAND,border = 5)
 
         panel2 = wx.Panel(panel)
-        panel2.SetOwnBackgroundColour((0, 255, 0))
-        bag.Add(panel2, pos=(2, 1), flag=wx.ALL | wx.EXPAND, border=5)
+        panel2.SetOwnBackgroundColour((255, 255, 0))
+        bag.Add(panel2, pos=(1, 1), flag=wx.ALL | wx.EXPAND, border=5)
 
         panel3 = wx.Panel(panel)
-        panel3.SetOwnBackgroundColour((0, 255, 0))
-        bag.Add(panel3, pos=(2, 2), flag=wx.ALL | wx.EXPAND, border=5)
+        panel3.SetOwnBackgroundColour((0, 255, 255))
+        bag.Add(panel3, pos=(1, 2), flag=wx.ALL | wx.EXPAND, border=5)
 
         panel4 = wx.Panel(panel)
-        panel4.SetOwnBackgroundColour((0, 255, 0))
-        bag.Add(panel4, pos=(2, 3), flag=wx.ALL | wx.EXPAND, border=5)
+        panel4.SetOwnBackgroundColour((255, 0, 255))
+        bag.Add(panel4, pos=(1, 3), flag=wx.ALL | wx.EXPAND, border=5)
 
         self.listaToggleButton = (ToggleButton1,ToggleButton2,ToggleButton3,ToggleButton4)
         self.listaTc = (textCtrl1,textCtrl2,textCtrl3,textCtrl4)
@@ -71,8 +71,8 @@ class Lobby(wx.Frame):
         bag.AddGrowableCol(3)
         
         bag.AddGrowableRow(0)
+        #bag.AddGrowableRow(2)
         bag.AddGrowableRow(1)
-        bag.AddGrowableRow(2)
         bag.AddGrowableRow(4)
         vbox.Add(bag,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
         panel.SetSizer(vbox)

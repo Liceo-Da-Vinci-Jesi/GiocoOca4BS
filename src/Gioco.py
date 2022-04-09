@@ -83,14 +83,14 @@ class Gioco:
             self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.Risposto)
             self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.Risposto)
             self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.Risposto)
-            self.finestraDomanda.PulsanteD.Bind(wx.EVT_BUTTON, self.Risposto)
             return
         return
     def Risposto(self,event):
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
         ID = event.GetId()
-        if self.finestraDomanda.listaPulsanti[ID - 1].GetLabel()[0] == self.finestraDomanda.rispostaEsatta:
+        #if self.finestraDomanda.listaPulsanti[ID - 1].GetLabel()[0] == self.finestraDomanda.rispostaEsatta:
+        if self.finestraDomanda.esitoRisposta(ID):
             print("ESATTO")
             self.finestraDomanda.Destroy()
         else:
@@ -115,6 +115,7 @@ class Gioco:
         return uscito
 
     def AggiornaInformazioni(self):
+        contaGiocatori = 0
         #aggiorna i label dei pulsanti della griglia per una comprensione migliore di ciò che sta succedendo
         posGiocatori = []
         #print(self.listaGiocatori)
@@ -126,9 +127,9 @@ class Gioco:
             giocatoriDaAggiungere = ""
             for i in posGiocatori:
                 if i[1] == conta:
-                    giocatoriDaAggiungere+="\n"+i[0]
+                    giocatoriDaAggiungere+="\n "+i[0]
+                    contaGiocatori+=1
             self.tabellone.grigliaPulsanti[conta-1].SetLabel(str(conta) + "\n"+n.tipo + giocatoriDaAggiungere)
-
         return
 
     def creaTipoCaselle(self):

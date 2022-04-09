@@ -14,7 +14,7 @@ def load():
         #if riga["argomento"] in self.artistiPresenti:
         if riga["argomento"] not in tutteLeDomande:
             tutteLeDomande[riga["argomento"]] = []
-        tutteLeDomande[riga["argomento"]].append((riga["argomento"], riga["domanda"], riga["rispostaA"],riga["rispostaB"], riga["rispostaC"], riga["rispostaD"],riga["rispostaEsatta"]))
+        tutteLeDomande[riga["argomento"]].append((riga["argomento"], riga["domanda"], riga["rispostaA"],riga["rispostaB"], riga["rispostaC"],riga["rispostaEsatta"]))
         #print(riga["argomento"])
         #print(tutteLeDomande)
     file.close()
