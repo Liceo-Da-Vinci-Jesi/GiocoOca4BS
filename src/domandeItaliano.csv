@@ -1,24 +1,51 @@
-argomento,domanda,rispostaA,rispostaB,rispostaC,rispostaEsatta
-luoghiAutobiografici,Dov'è nato Giacomo Leopari?,Jesi,Firenze,Recanati,Recanati
-canti,Dov'è ambientato l'infinito,Roma,Recanati,Pisa,Recanati
-operette,"Una delle sue operette morali più celebri, è intitolata Dialogo tra un Islandese e?",La natura,l'amico,il figlio,La natura
-poeticaDeiPaesaggi,Colle di Recanati descritto da Leopardi,Tabor,MonteB,MonteC,Tabor
-luoghiAutobiografici,E' mai stato in Sicilia,Si,No,1 volta dagli zii,No
-canti,A?,Elisa,Marta,Silvia,Silvia
-luoghiAutobiografici,Quando nacque Giacomo a Recanati?,29 giugno 1798,29 giugno 1788,19 giugno 1798,29 giugno 1798
-luoghiAutobiografici,Dove si trova palazzo Leopardi?,Rione Monte Morello,Monte Tabor,Porto Recanati,Rione Monte Morello
-luoghiAutobiografici,Con chi gioca Giacomo da bambino nel giardino del paterno ostello?,fratello Carlo e sorella Paolina,sorella Carla e fratello Paolino,Silvia,fratello Carlo e sorella Paolina
-luoghiAutobiografici,In quale stanza della casa trascorre la maggior parte del tempo?,Biblioteca,Camera da letto,Cantina,Biblioteca
-luoghiAutobiografici,Quando l’amico Giordani nel 1818 va a Recanati per conoscerlo dove si recano in gita?,Macerata,Pesaro,Ancona,Macerata
-luoghiAutobiografici,Come si chiama il famoso colle dell’infinito?,Monte Tabor,Conero,Monte Morello,Monte Tabor
-luoghiAutobiografici,Come si chiama la piazza antistante la casa natale del poeta?,Piazza Sabato del villaggio,Piazza Leopardi,Piazza dell’infinito,Piazza Sabato del villaggio
-luoghiAutobiografici,Che cosa si vede dal chiostro della chiesa di sant’Agostino a Recanati?,La torre del passero solitario,Casa Leopardi,Monte Tabor,La torre del passero solitario
-luoghiAutobiografici,Quando Giacomo tenta di fuggire da Recanati?,(1819) appena raggiunta la maggiore età,a 25 anni,a 15 anni,(1819) appena raggiunta la maggiore età
-luoghiAutobiografici,Quando Giacomo compie il desiderato viaggio a Roma?,Novembre 1822,Agosto 1824,Aprile 1820,Novembre 1822
-luoghiAutobiografici,Quanto resterà a Recanati dopo il viaggio romano?,Due anni,Sedici mesi,Quattro anni,Due anni
-luoghiAutobiografici,Che cosa gli consente di trasferirsi a Milano?,Un contratto con l’editore Stella,Presenza dei parenti,Impiego pubblico,Un contratto con l’editore Stella
-luoghiAutobiografici,Quando si trasferisce a Bologna?,1826,1827,1829,1826
-luoghiAutobiografici,Quale ambiente frequenta a Firenze?,Gabinetto Viesseux,Biblioteca Laurenziana,Circolo Mediceo,Gabinetto Viesseux
-poeticaDeiPaesaggi,In base alla descrizione del giardino la natura é:,Matrigna,Madre amorevole,Assente,Matrigna
-poeticaDeiPaesaggi,Quali sono i fiori sofferenti descritti nel giardino del dolore?,Rosa e Giglio,Rosa e Tulipano,Girasole e Giglio,Rosa e Giglio
-poeticaDeiPaesaggi,Nello Zibaldone, durante la descrizione del giardino del dolore, l’essere umano nei confronti della natura si presenta come:,colui che cura le piante sofferenti,colui che odia la natura,colui che ferisce le piante,colui che cura le piante sofferenti
+argomento/domanda/rispostaA/rispostaB/rispostaC/rispostaEsatta/eventualeTesto
+canti/Dov'è ambientato l'infinito/Roma/Recanati/Pisa/Recanati/
+operette/"Una delle sue operette morali più celebri/ è intitolata Dialogo tra un Islandese e?"/La natura/l'amico/il figlio/La natura/
+canti/A?/Elisa/Marta/Silvia/Silvia/
+luoghiAutobiografici/Quando nacque Giacomo a Recanati?/29 giugno 1798/29 giugno 1788/19 giugno 1798/29 giugno 1798/
+luoghiAutobiografici/Dove si trova palazzo Leopardi?/Rione Monte Morello/Monte Tabor/Porto Recanati/Rione Monte Morello/
+luoghiAutobiografici/Con chi gioca Giacomo da bambino nel giardino del paterno ostello?/fratello Carlo e sorella Paolina/sorella Carla e fratello Paolino/Silvia/fratello Carlo e sorella Paolina/
+luoghiAutobiografici/In quale stanza della casa trascorre la maggior parte del tempo?/Biblioteca/Camera da letto/Cantina/Biblioteca/
+luoghiAutobiografici/Quando l’amico Giordani nel 1818 va a Recanati per conoscerlo dove si recano in gita?/Macerata/Pesaro/Ancona/Macerata/
+luoghiAutobiografici/Che cosa dice al Giordani in una lettera di Recanati?/Qui, amabilissimo signor mio, tutto è morte, tutto è insensataggine e stupidità/Qui, amico mio, la vita scorre tra studi leggiadri e  sudate carte./Qui, amabilissimo signor mio, la natura domina incontrastata/Qui, amabilissimo signor mio, tutto è morte, tutto è insensataggine e stupidità/
+luoghiAutobiografici/Come si chiama la piazza antistante la casa natale del poeta?/Piazza Sabato del villaggio/Piazza Leopardi/Piazza dell’infinito/Piazza Sabato del villaggio/
+luoghiAutobiografici/Quando Giacomo tenta di fuggire da Recanati?/Nel 1819, appena raggiunta la maggiore età/Nel 1819 a 25 anni/Nel 1813 a 15 anni/Nel 1819, appena raggiunta la maggiore età/
+luoghiAutobiografici/Quando Giacomo compie il desiderato viaggio a Roma?/Novembre 1822/Agosto 1824/Aprile 1820/Novembre 1822/
+luoghiAutobiografici/Che cosa annoterà nello Zibaldone a proposito della città eterna?/Tutto è falso, e questo falso non è bello, anzi bruttissimo/Roma è grandiosamente superba/Tutto è maestoso ma non è bello, anzi bruttissimo/Tutto è falso, e questo falso non è bello, anzi bruttissimo/
+luoghiAutobiografici/Che cosa gli consente di trasferirsi a Milano?/Un contratto con l’editore Stella/Presenza dei parenti/Impiego pubblico/Un contratto con l’editore Stella/
+luoghiAutobiografici/Che giudizio esprime nello Zibaldone di Milano?/In Milano […] tutti ti guardano in viso e ti squadrano da capo a piedi come a Monte Morello/In Milano Tutti lavorano a testa bassa senza guardarti in volto/In Milano come a Recanati c’è noia e dolore/In Milano […] tutti ti guardano in viso e ti squadrano da capo a piedi come a Monte Morello/
+luoghiAutobiografici/Quando si trasferisce a Bologna?/Nel 1826/Nel 1827/Nel 1829/Nel 1826/
+luoghiAutobiografici/Quale istituto frequenta a Firenze?/Gabinetto Viesseux/Biblioteca Laurenziana/Circolo Mediceo/Gabinetto Viesseux/
+luoghiAutobiografici/Come considera il soggiorno pisano?/Periodo di temporaneo sollievo/Periodo di notte orribile/Periodo di studio matto e disperatissimo/Periodo di temporaneo sollievo/
+luoghiAutobiografici/Che cosa riprende a scrivere a Pisa?/I Canti/Lo Zibaldone/Ciclo di Aspasia/I Canti/
+luoghiAutobiografici/Come definisce l’ultimo soggiorno recanatese?/Sedici mesi di notte orribile/Ritorno all’infanzia/Fiorente periodo d’ispirazione/Sedici mesi di notte orribile/
+luoghiAutobiografici/Come riesce ad allontanarsi da Recanati in modo definitivo?/Con un sussidio mensile offerto da una colletta di amici/Con i proventi della pubblicazione dei Canti/Con l’eredità familiare/Con un sussidio mensile offerto da una colletta di amici/
+luoghiAutobiografici/Che cosa pubblica a Firenze nel 1831 per l’editore Piatti?/1° edizione dei Canti/1° edizione delle Operette morali/Lo Zibaldone/1° edizione dei Canti/
+luoghiAutobiografici/Di chi si innamora a Firenze?/Fanny Targioni Tozzetti/Teresa Fattorini/Paolina Ranieri/Fanny Targioni Tozzetti/
+luoghiAutobiografici/Quando si reca a Napoli con Antonio Ranieri?/2 settembre 1833/2 settembre 1823/2 ottobre 1833/2 settembre 1833/
+luoghiAutobiografici/Che contratto stipula con l’editore Starita a Napoli?/Pubblicazione di tutte le opere/Pubblicazione delle Operette/Pubblicazione dei Canti/Pubblicazione di tutte le opere/
+luoghiAutobiografici/Dove si trasferiscono Giacomo, Antonio e la sorella Paolina per paura del colera?/A villa Ferrigni tra Torre del Greco e Torre Annunziata/A villa dei misteri a Pompei/Nella villa della zia di Ranieri a Capri/A villa Ferrigni tra Torre del Greco e Torre Annunziata/
+luoghiAutobiografici/Quando muore Giacomo?/14 giugno 1837/14 giugno 1835/1 giugno 1837/14 giugno 1837/
+
+
+poeticaDeiPaesaggi/In base alla descrizione del giardino la natura è:/Matrigna/Madre amorevole/Assente/Matrigna/Entrate in un giardino di piante, d’erbe, di fiori. Sia pur quanto volete ridente. Sia nella più mite stagione dell’anno. Voi non potete volger lo sguardo in nessuna parte che voi non vi troviate del patimento
+poeticaDeiPaesaggi/Di che cosa è metafora il giardino del dolore ?/Della condizione umana/Della condizione del poeta/Della condizione della Natura/Della condizione umana/Là quella rosa è offesa dal sole, che gli ha dato la vita; si corruga, langue, appassisce. Là quel giglio è succhiato crudelmente da un'ape, nelle sue parti più sensibili, più vitali. Il dolce mele non si fabbrica dalle industriose, pazienti, buone, virtuose api senza indicibili tormenti di quelle fibre delicatissime, senza strage spietata di teneri fiorellini.
+poeticaDeiPaesaggi/Nello Zibaldone, durante la descrizione del giardino del dolore, l’essere umano nei confronti della natura si presenta come: /Qualcuno  che si prende cura delle piante sofferenti/Qualcuno che odia la natura/Qualcuno che danneggia le piante/Qualcuno  che si prende cura delle piante sofferenti/Intanto tu strazi le erbe co’ tuoi passi; le stritoli, le ammacchi, ne spremi il sangue, le rompi, le uccidi. Quella donzelletta sensibile e gentile, va dolcemente sterpando e infrangendo steli. Il va saggiamente troncando, tagliando membra sensibili, colle unghie, col ferro.
+poeticaDeiPaesaggi/Cosa è ogni giardino per Leopardi?/Vasto ospitale/Largo cimitero/Caro rifugio/Vasto ospitale/Ogni giardino è quasi un …  …
+poeticaDeiPaesaggi/Perché da fanciulli la vista di un paesaggio naturale diletta?/Perché suscita idee indeterminate/Perché da fanciulli si è più innocenti/Perché da fanciulli si è più curiosi/Perché suscita idee indeterminate/Da fanciulli, se una veduta, una campagna, [...] ci piace e diletta, quel piacere e quel diletto è sempre vago e indefinito: l’idea che ci si desta è sempre indeterminata e senza limiti.
+poeticaDeiPaesaggi/Ciò che è antico per Leopardi è:/Più poetico/Meno poetico/Solo vecchio/Più poetico/L’anima [...] vedendo, per esempio, una torre moderna, ma che non sappia quando fabbricata, e un’altra antica della quale sappia l’epoca precisa, tuttavia è molto più commossa da questa che da quella.
+poeticaDeiPaesaggi/Arditamente declive significa:/In grande pendenza/Ampiamente pianeggiante/Largamente lavorata/In grande pendenza/l’idea di una campagna arditamente declive in guisa che la vista in certa lontananza non arrivi alla valle
+poeticaDeiPaesaggi/Un paesaggio poetico è sempre:/Vago e indefinito/Reale e dettagliato/Vasto ma delimitato/Vago e indefinito/un filare d’alberi, la cui fine si perda di vista, o per la lunghezza del filare, o perch’esso pure sia posto in declivio ec.
+poeticaDeiPaesaggi/Secondo Leopardi quale tipo di visione consente di far viaggiare l’immaginazione?/Una limitata da un ostacolo/Una con prevalenza di elementi naturali/La vista dell'orizzonte/Una limitata da un ostacolo/L’anima s'immagina quello che non vede, che quell’albero, quella siepe,quella torre gli nasconde, e va errando in uno spazio immaginario e si figura cose che non potrebbe, se la sua vista si estendesse da per tutto, perchè il reale escluderebbe l’immaginario
+poeticaDeiPaesaggi/Per Leopardi i suoni uditi in piena campagna sono:/Percezioni irrilevanti/Percezioni che possono suscitare immagini poetiche/Percezioni fastidiose perchè deconcentrano/Percezioni che possono suscitare immagini poetiche/Però è piacevole il tuono, un colpo di cannone, e simili, udito in piena campagna, in una gran valle ec. il canto degli agricoltori, degli uccelli, il muggito de’ buoi ec. nelle medesime circostanze
+poeticaDeiPaesaggi/L'immaginazione per Leopardi produce:/Una doppia visione/Una descrizione dettagliata della realtà/Un paesaggio immaginario/Una doppia visione/Egli vedrà cogli occhi una torre, una campagna; udrà cogli orecchi un suono d’una campana; e nel tempo stesso coll’immaginazione vedrà un’altra torre, un’altra campagna, udrà altro suono.
+poeticaDeiPaesaggi/Per Leopardi la poesia nasce:/Dalla descrizione della realtà/Dalla capacità di immaginare/Dalla riproduzione del vero/Dalla capacità di immaginare,Il passato, a ricordarsene, è più bello del presente, come il futuro a immaginarlo. Perché? Perché il solo presente ha la sua vera forma nella concezione umana; è la sola immagine del vero; e tutto il vero è brutto.
+poeticaDeiPaesaggi/Per Leopardi la luce:/Non influisce sulla visione del paesaggio/E’ particolarmente seducente quando è naturale e filtrata/E’ sempre fastidiosa/E’ particolarmente seducente quando è naturale e filtrata/la luce del sole o della luna, veduta in luogo dov’essi non si vedan e non si scopra la sorgente della luce … come attraverso un canneto, in una selva, per li balconi socchiusi ec.
+poeticaDeiPaesaggi/Il paesaggio notturno è sempre:/Malinconico/Misterioroso/Poetico/Poetico/Le descrizioni della notte ec., sono poeticissime, perchè la notte confondendo gli oggetti, l’animo non ne concepisce che un’immagine vaga
+poeticaDeiPaesaggi/Quali suoni sono piacevoli:/Suoni la cui origine non sia definita/Suoni delicati di elementi naturali/Tutti i suoni prodotti dalla Natura/Suoni la cui origine non sia definita/E’ piacevole [...] un canto udito in modo che non si veda il luogo da cui parte; un canto che risuoni per le volte di una stanza ec. dove voi non vi troviate però dentro; il canto degli agricoltori che nella campagna s’ode suonare per le valli, senza però vederli, e così il muggito degli armenti.
+poeticaDeiPaesaggi/Che cosa rende più poetico un paesaggio?/Ricordarlo/Vederlo in compagnia/Scoprirlo in una poesia/Ricordarlo/Un oggetto qualunque, per esempio un luogo, un sito, una campagna, per bella che sia, se non desta alcuna rimembranza, non è poetica punto a vederla
+
+
+
+
+

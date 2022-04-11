@@ -12,6 +12,7 @@ class Gioco:
         self.FinestraLobby = Lobby.Lobby()
         self.FinestraLobby.Show()
         self.FinestraLobby.PIniziaPartita.Bind(wx.EVT_BUTTON,self.IniziaPartita)
+        #tabellone = classe Campo da Gioco
         self.tabellone = CampoDaGioco.CampoDaGioco()
         self.tabellone.Hide()
         self.tabellone.PGiocaTurno.Bind(wx.EVT_BUTTON, self.GiocaTurnoDi)
@@ -63,11 +64,17 @@ class Gioco:
         if not self.attesaDomanda:
             dado = self.tiraDado()
             self.tabellone.testoDado.SetLabel(str(dado))
-            self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(dado)
+            for n in range(dado):
+                if self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].posizione + 1 > 42:
+                    print(self.turnoGiocatore.nome," HAI VINTO!!!")
+                    quit()
+                else:
+                    self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
+                    self.AggiornaInformazioni()
+                    time.sleep(0.5)
             #print(self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)])
             #print(self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)])
-            self.AggiornaInformazioni()
-            time.sleep(2)
+            time.sleep(1)
             if self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo == "":
                 self.tabellone.testoDado.Hide()
                 self.AggiornaTurno()
@@ -78,7 +85,7 @@ class Gioco:
             self.tabellone.PGiocaTurno.Disable()
             self.attesaDomanda = True
             domanda = Domanda.scegliDomandaDaFare(self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo,self.listaDomande)
-            self.finestraDomanda = Domanda.FinestraDomanda(domanda)
+            self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore)
             self.finestraDomanda.Show()
             self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.Risposto)
             self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.Risposto)
@@ -91,7 +98,7 @@ class Gioco:
         ID = event.GetId()
         #if self.finestraDomanda.listaPulsanti[ID - 1].GetLabel()[0] == self.finestraDomanda.rispostaEsatta:
         if self.finestraDomanda.esitoRisposta(ID):
-            print("ESATTO")
+            #print("ESATTO")
             self.finestraDomanda.Destroy()
         else:
             self.finestraDomanda.Destroy()
