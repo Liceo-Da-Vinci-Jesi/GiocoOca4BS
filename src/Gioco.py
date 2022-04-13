@@ -1,10 +1,34 @@
 import Domanda, wx,random , time , Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande
+import wx.adv
+from PIL import Image
+
+coordinateGioc1 = { 0:(47,531), 1:(46,595), 2:(126,595), 3:(205,595) ,4:(284,595) , 5:(364,595) , 6:(443,595) , 7:(524,595) , 8:(603,595) , 9:(682,595) , 10:(763,595) , 11:(842,595) , 12:(921,595),
+                    13:(921,529) , 14:(921,459) , 15:(921,389) , 16:(921,318) , 17:(921,247) , 18:(921,177) , 19:(921,106) , 20:(921,35), 21:(843,35) , 22:(770,35) , 23:(689,35) , 24:(608,35) ,
+                    25:(528,35) , 26:(448,35), 27:(367,35) , 28:(288,35) , 29:(209,35), 30:(129,35) , 31:(129,103) , 32:(129,173) , 33:(129,245) , 34:(129,315), 35:(129,385) , 36:(209,385) , 37:(288,385),
+                    38: (368, 385), 39: (448, 385), 40: (530, 385), 41: (607, 385), 42: (686, 385), 43: (686, 319)}
+
+coordinateGioc2 = { 0:(82,531), 1:(81,595), 2:(161,595), 3:(240,595) ,4:(319,595) , 5:(399,595) , 6:(478,595) , 7:(559,595) , 8:(638,595) , 9:(717,595) , 10:(798,595) , 11:(877,595) , 12:(956,595),
+                    13:(956,529) , 14:(956,459) , 15:(956,389) , 16:(956,318) , 17:(956,247) , 18:(956,177) , 19:(956,106) , 20:(956,35), 21:(880,35) , 22:(805,35) , 23:(724,35) , 24:(643,35) ,
+                    25:(563,35), 26:(483,35) , 27:(402,35) , 28:(323,35) , 29:(244,35), 30:(164,35) , 31:(164,103) , 32:(164,173) , 33:(164,245) , 34:(164,315), 35:(164,385) , 36:(244,385) , 37:(323,385),
+                    38: (403, 385), 39: (483, 385), 40: (565, 385), 41: (642, 385), 42: (721, 385), 43: (721, 319)}
+
+coordinateGioc3 = { 0:(47,559), 1:(46,623), 2:(126,623), 3:(205,623) ,4:(284,623) , 5:(364,623) , 6:(443,623) , 7:(524,623) , 8:(603,623) , 9:(682,623) , 10:(763,623) , 11:(842,623) , 12:(921,623),
+                    13:(921,557) , 14:(921,487) , 15:(921,417) , 16:(921,346) , 17:(921,275) , 18:(921,205) , 19:(921,134) , 20:(921,63), 21:(846,63) , 22:(770,63) , 23:(689,63) , 24:(608,63) ,
+                    25:(528,63) , 26:(448,63), 27:(367,63) , 28:(288,63) , 29:(209,63), 30:(129,63) , 31:(129,131) , 32:(129,201) , 33:(129,273) , 34:(129,343), 35:(129,413) , 36:(209,413) , 37:(288,413),
+                    38: (368, 413), 39: (448, 413), 40: (530, 413), 41: (607, 413), 42: (686, 413), 43: (686, 347)}
+
+
+coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623) , 5:(399,623) , 6:(478,623) , 7:(559,623) , 8:(638,623) , 9:(717,623) , 10:(798,623) , 11:(877,623) , 12:(956,623),
+                    13:(956,557) , 14:(956,487) , 15:(956,417) , 16:(956,346) , 17:(956,275) , 18:(956,205) , 19:(956,134) , 20:(956,63), 21:(880,63) , 22:(805,63) , 23:(724,63) , 24:(643,63),
+                    25:(563,63) , 26:(483,63), 27:(402,63) , 28:(323,63) , 29:(244,63), 30:(164,63) , 31:(164,131) , 32:(164,201) , 33:(164,273) , 34:(164,343), 35:(164,413) , 36:(244,413) , 37:(323,413),
+                    38: (403, 413), 39: (483, 413), 40: (565, 413), 41: (642, 413), 42: (721, 413), 43: (721, 347)}
 
 class Gioco:
     def __init__(self):
+        self.iconeDisponibili = [Image.open("iconaXverde-24.png"),Image.open("iconaXrosa-24.png"),Image.open("iconaXblu-24.png"),Image.open("iconaXgialla-24.png")]
+        random.shuffle(self.iconeDisponibili)
         self.listaTipoCaselle = []
         self.creaTipoCaselle()
-        print(self.listaTipoCaselle[1].tipo)
         self.turnoGiocatore = ""
         self.listaDomande = ElencoDomande.ElencoDomande().listaDomande
         self.listaGiocatori = 0
@@ -19,31 +43,46 @@ class Gioco:
         self.tabellone.PGiocaTurno.Disable()
         self.attesaDomanda = False
         self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
+        self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         return
-
     def chiudiGioco(self,event):
         quit()
         return
 
     def IniziaPartita(self,evt):
+        self.tabellone.Show()
         giocatori = []
+        conta=0
         for n in self.FinestraLobby.listaToggleButton:
             if n.GetValue():
-                giocatori.append(Giocatore.Giocatore((self.FinestraLobby.listaTc[n.GetId()-1]).GetValue()))
+                giocatori.append(Giocatore.Giocatore((self.FinestraLobby.listaTc[n.GetId()-1]).GetValue(),self.iconeDisponibili[conta]))
+                conta+=1
         self.FinestraLobby.Destroy()
         self.listaGiocatori = giocatori
         random.shuffle(self.listaGiocatori)
         self.turnoGiocatore = self.listaGiocatori[0]
+        sfondo = Image.open('fileCampoDaGiocoRid.png')
+        pil_image = sfondo.copy()
+        for n in self.listaGiocatori:
+            pil_image.paste(n.icona, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione])
+
+            wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
+            wx_image.SetData(pil_image.convert("RGB").tobytes())
+            bitmap = wx.Bitmap(wx_image)
+
+            self.tabellone.viewer.SetBitmap(bitmap)
         self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
-        self.tabellone.Show()
+
         self.tabellone.PGiocaTurno.Enable()
         #per non far vedere il testo del dado
         #print(self.tabellone.testoTurno.GetBackgroundColour())
         self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
         self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
-        self.AggiornaInformazioni()
-        #print(self.listaGiocatori)
-        #print(self.turnoGiocatore)
+
+        ico = wx.Image(self.turnoGiocatore.icona.size[0],self.turnoGiocatore.icona.size[1])
+        ico.SetData(self.turnoGiocatore.icona.convert("RGB").tobytes())
+        bmp = wx.Bitmap(ico)
+        self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
 
     def AggiornaTurno(self):
@@ -58,6 +97,21 @@ class Gioco:
             self.turnoGiocatore = giocatori[ix+1]
         self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
         self.tabellone.PGiocaTurno.Enable()
+        ico = wx.Image(self.turnoGiocatore.icona.size[0], self.turnoGiocatore.icona.size[1])
+        ico.SetData(self.turnoGiocatore.icona.convert("RGB").tobytes())
+        bmp = wx.Bitmap(ico)
+        self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
+        return
+
+    def aggiornaGrafica(self):
+        sfondo = Image.open('fileCampoDaGiocoRid.png')
+        pil_image = sfondo.copy()
+        for giocatore in self.listaGiocatori:
+            pil_image.paste(giocatore.icona, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(giocatore)][giocatore.posizione])
+            wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
+            wx_image.SetData(pil_image.convert("RGB").tobytes())
+            bitmap = wx.Bitmap(wx_image)
+            self.tabellone.viewer.SetBitmap(bitmap)
         return
 
     def GiocaTurnoDi(self,event):
@@ -70,7 +124,7 @@ class Gioco:
                     quit()
                 else:
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
-                    self.AggiornaInformazioni()
+                    self.aggiornaGrafica()
                     time.sleep(0.5)
             #print(self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)])
             #print(self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)])
@@ -104,7 +158,6 @@ class Gioco:
             self.finestraDomanda.Destroy()
             self.tabellone.testoDado.Hide()
             self.AggiornaTurno()
-
         return
     def tiraDado(self):
         self.tabellone.testoLancioDado.SetOwnForegroundColour((0, 0, 0))
@@ -121,24 +174,6 @@ class Gioco:
         self.tabellone.testoLancioDado.SetLabel("E' Uscito:")
         return uscito
 
-    def AggiornaInformazioni(self):
-        contaGiocatori = 0
-        #aggiorna i label dei pulsanti della griglia per una comprensione migliore di ciò che sta succedendo
-        posGiocatori = []
-        #print(self.listaGiocatori)
-        for n in self.listaGiocatori:
-            posGiocatori.append([n.nome,n.posizione])
-        conta = 0
-        for n in self.listaTipoCaselle:
-            conta+=1
-            giocatoriDaAggiungere = ""
-            for i in posGiocatori:
-                if i[1] == conta:
-                    giocatoriDaAggiungere+="\n "+i[0]
-                    contaGiocatori+=1
-            self.tabellone.grigliaPulsanti[conta-1].SetLabel(str(conta) + "\n"+n.tipo + giocatoriDaAggiungere)
-        return
-
     def creaTipoCaselle(self):
         listaTipoCaselle = []
         conta = 0
@@ -148,7 +183,6 @@ class Gioco:
         poeticaDeiPaesaggi = 4
         jolly = 4
         while len(listaTipoCaselle) < 42:
-            listaTipoCaselle.append("")
             if luoghiAutobiografici > 0:
                 listaTipoCaselle.append("luoghiAutobiografici")
                 luoghiAutobiografici-=1
@@ -179,6 +213,10 @@ class Gioco:
         #print(len(listaDisposizione))
         #print(listaDisposizione.count("luoghiAutobiografici"),listaDisposizione.count("canti"),listaDisposizione.count("operette"),listaDisposizione.count("poeticaDeiPaesaggi"),listaDisposizione.count("jolly"),listaDisposizione.count(""))
         self.listaTipoCaselle = listaDisposizione
+        diz = {}
+        for n in range(1,len(self.listaTipoCaselle)+1):
+            diz[n] = self.listaTipoCaselle[n-1].tipo
+        print(diz)
         return
 
 if __name__ == "__main__":
