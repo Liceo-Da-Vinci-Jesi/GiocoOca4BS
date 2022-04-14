@@ -50,39 +50,41 @@ class Gioco:
         return
 
     def IniziaPartita(self,evt):
-        self.tabellone.Show()
         giocatori = []
         conta=0
+        nomi = []
         for n in self.FinestraLobby.listaToggleButton:
             if n.GetValue():
                 giocatori.append(Giocatore.Giocatore((self.FinestraLobby.listaTc[n.GetId()-1]).GetValue(),self.iconeDisponibili[conta]))
+                nomi.append(giocatori[conta].nome)
                 conta+=1
-        self.FinestraLobby.Destroy()
-        self.listaGiocatori = giocatori
-        random.shuffle(self.listaGiocatori)
-        self.turnoGiocatore = self.listaGiocatori[0]
-        sfondo = Image.open('fileCampoDaGiocoRid.png')
-        pil_image = sfondo.copy()
-        for n in self.listaGiocatori:
-            pil_image.paste(n.icona, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione])
+        for n in nomi:
+            if nomi.count(n) > 1:
+                break
+        else:
+            self.tabellone.Show()
+            self.FinestraLobby.Destroy()
+            self.listaGiocatori = giocatori
+            random.shuffle(self.listaGiocatori)
+            self.turnoGiocatore = self.listaGiocatori[0]
+            #crea la parte parte grafica X
+            sfondo = Image.open('fileCampoDaGiocoRid.png')
+            pil_image = sfondo.copy()
+            for n in self.listaGiocatori:
+                pil_image.paste(n.icona, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione])
+                wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
+                wx_image.SetData(pil_image.convert("RGB").tobytes())
+                bitmap = wx.Bitmap(wx_image)
+                self.tabellone.viewer.SetBitmap(bitmap)
+            self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
+            self.tabellone.PGiocaTurno.Enable()
+            self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
+            self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
 
-            wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
-            wx_image.SetData(pil_image.convert("RGB").tobytes())
-            bitmap = wx.Bitmap(wx_image)
-
-            self.tabellone.viewer.SetBitmap(bitmap)
-        self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
-
-        self.tabellone.PGiocaTurno.Enable()
-        #per non far vedere il testo del dado
-        #print(self.tabellone.testoTurno.GetBackgroundColour())
-        self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
-        self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
-
-        ico = wx.Image(self.turnoGiocatore.icona.size[0],self.turnoGiocatore.icona.size[1])
-        ico.SetData(self.turnoGiocatore.icona.convert("RGB").tobytes())
-        bmp = wx.Bitmap(ico)
-        self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
+            ico = wx.Image(self.turnoGiocatore.icona.size[0],self.turnoGiocatore.icona.size[1])
+            ico.SetData(self.turnoGiocatore.icona.convert("RGB").tobytes())
+            bmp = wx.Bitmap(ico)
+            self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
 
     def AggiornaTurno(self):
@@ -146,6 +148,7 @@ class Gioco:
             self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.Risposto)
             return
         return
+
     def Risposto(self,event):
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
@@ -159,6 +162,7 @@ class Gioco:
             self.tabellone.testoDado.Hide()
             self.AggiornaTurno()
         return
+
     def tiraDado(self):
         self.tabellone.testoLancioDado.SetOwnForegroundColour((0, 0, 0))
         self.tabellone.testoDado.SetOwnForegroundColour((0,0,0))
@@ -176,7 +180,6 @@ class Gioco:
 
     def creaTipoCaselle(self):
         listaTipoCaselle = []
-        conta = 0
         luoghiAutobiografici = 6
         canti = 6
         operette = 4

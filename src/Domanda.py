@@ -120,8 +120,6 @@ class FinestraDomanda(wx.Frame):
         self.Destroy()
         return
 
-
-#
 def scegliDomandaDaFare(tipologia,lista):
     #print(lista)
     possibili = []
@@ -133,7 +131,7 @@ def scegliDomandaDaFare(tipologia,lista):
         #print("N")
     domanda = random.choice(possibili[0])
     #DA RIMUOVERE # SE NUMERO DI DOMANDE SUFFICIENTI
-    #lista[n].remove(domanda)
+    lista[n].remove(domanda)
     #print(lista)
     return Domanda(domanda[0],domanda[1],domanda[2],domanda[3],domanda[4],domanda[5],domanda[6])
 
@@ -141,8 +139,8 @@ if __name__ == "__main__":
     import ElencoDomande
     domande = ElencoDomande.ElencoDomande().listaDomande
     app = wx.App()
-    player = Giocatore.Giocatore("Io")
-    domandaDaFare = scegliDomandaDaFare("luoghiAutobiografici",domande)
+    player = Giocatore.Giocatore("Io","a")
+    domandaDaFare = scegliDomandaDaFare("canti",domande)
     window = FinestraDomanda(domandaDaFare,player)
     window.Show()
     app.MainLoop()
