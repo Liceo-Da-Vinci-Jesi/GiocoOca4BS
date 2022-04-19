@@ -25,7 +25,7 @@ coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623
 
 class Gioco:
     def __init__(self):
-        self.iconeDisponibili = [Image.open("iconaXverde-100.png"),Image.open("iconaXrosa-100.png"),Image.open("iconaXblu-100.png"),Image.open("iconaXgialla-100.png")]
+        self.iconeDisponibili = ["iconaXverde-100.png" , "iconaXrosa-100.png" , "iconaXblu-100.png" , "iconaXgialla-100.png" ]
         random.shuffle(self.iconeDisponibili)
         self.listaTipoCaselle = []
         self.creaTipoCaselle()
@@ -75,6 +75,7 @@ class Gioco:
             sfondo = Image.open('fileCampoDaGiocoRid.png')
             pil_image = sfondo.copy()
             for n in self.listaGiocatori:
+                
                 pil_image.paste(n.icona24, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione])
                 wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
                 wx_image.SetData(pil_image.convert("RGB").tobytes())
@@ -85,9 +86,8 @@ class Gioco:
             self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
             self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
 
-            ico = wx.Image(self.turnoGiocatore.icona75.size[0],self.turnoGiocatore.icona75.size[1])
-            ico.SetData(self.turnoGiocatore.icona75.convert("RGB").tobytes())
-            bmp = wx.Bitmap(ico)
+            bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
+            bmp.SetSize( (75,75) )
             self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
 
@@ -105,9 +105,9 @@ class Gioco:
             self.turnoGiocatore = giocatori[ix+1]
         self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
         self.tabellone.PGiocaTurno.Enable()
-        ico = wx.Image(self.turnoGiocatore.icona75.size[0], self.turnoGiocatore.icona75.size[1])
-        ico.SetData(self.turnoGiocatore.icona75.convert("RGB").tobytes())
-        bmp = wx.Bitmap(ico)
+
+        bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
+        bmp.SetSize( (75,75) )
         self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
 
@@ -115,6 +115,7 @@ class Gioco:
         sfondo = Image.open('fileCampoDaGiocoRid.png')
         pil_image = sfondo.copy()
         for giocatore in self.listaGiocatori:
+            # PROF: SISTEMA QUI
             pil_image.paste(giocatore.icona24, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(giocatore)][giocatore.posizione])
             wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
             wx_image.SetData(pil_image.convert("RGB").tobytes())

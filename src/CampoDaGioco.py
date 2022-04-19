@@ -74,8 +74,9 @@ class CampoDaGioco(wx.Frame):
             for player in giocatori:
                 if player.posizione == n:
                     classifica.append(player)
-        print(classifica)
+        #print(classifica)
         return classifica
+    
     def finale(self,giocatori):
         self.DestroyChildren()
         panel2 = wx.Panel(self)
@@ -119,12 +120,15 @@ class CampoDaGioco(wx.Frame):
         self.SetMaxSize((837,793))
         self.SetSize((670,635))
         return
+    
     def finestraStatistiche(self,event):
         a = finestraStatistiche.Statistiche(self.classifica)
         a.Show()
         return
+    
     def close(self,event):
         self.Destroy()
+        quit()
         #print(self.GetSize())
         #self.testoTurno.SetLabel("O")
         #self.Destroy()
