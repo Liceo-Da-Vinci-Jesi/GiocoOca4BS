@@ -7,7 +7,7 @@ class CampoDaGioco(wx.Frame):
         self.posizione2 = -1
         panel = wx.Panel(self)
         box = wx.BoxSizer(wx.HORIZONTAL)
-        bmp = wx.Bitmap("FileCampoDaGiocoRid.png")
+        bmp = wx.Bitmap("fileCampoDaGiocoRid.png")
         self.viewer = wx.StaticBitmap(panel, bitmap=bmp)
         box.Add(self.viewer, proportion=1, flag=wx.ALL, border=5)
 
