@@ -39,27 +39,19 @@ class Lobby(wx.Frame):
         textCtrl4 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TEXT_ALIGNMENT_CENTER)
         bag.Add(textCtrl4, pos=(1,3), flag =wx.ALL|wx.EXPAND, border=5)
 
-        wx_image1 = wx.Image(listaIcone[0].size[0], listaIcone[0].size[1])
-        wx_image1.SetData(listaIcone[0].convert("RGB").tobytes())
-        bitmap1 = wx.Bitmap(wx_image1)
+        bitmap1 = wx.Bitmap(listaIcone[0])
         viewer1 = wx.StaticBitmap(panel,bitmap = bitmap1)
         bag.Add(viewer1,pos = (2,0),flag = wx.ALL|wx.EXPAND,border = 5)
 
-        wx_image2 = wx.Image(listaIcone[1].size[0], listaIcone[1].size[1])
-        wx_image2.SetData(listaIcone[1].convert("RGB").tobytes())
-        bitmap2 = wx.Bitmap(wx_image2)
+        bitmap2 = wx.Bitmap(listaIcone[1])
         viewer2 = wx.StaticBitmap(panel,bitmap = bitmap2)
         bag.Add(viewer2,pos = (2,1),flag = wx.ALL|wx.EXPAND,border = 5)
 
-        wx_image3 = wx.Image(listaIcone[2].size[0], listaIcone[2].size[1])
-        wx_image3.SetData(listaIcone[2].convert("RGB").tobytes())
-        bitmap3 = wx.Bitmap(wx_image3)
+        bitmap3 = wx.Bitmap(listaIcone[2])
         viewer3 = wx.StaticBitmap(panel,bitmap = bitmap3)
         bag.Add(viewer3,pos = (2,2),flag = wx.ALL|wx.EXPAND,border = 5)
 
-        wx_image4 = wx.Image(listaIcone[3].size[0], listaIcone[3].size[1])
-        wx_image4.SetData(listaIcone[3].convert("RGB").tobytes())
-        bitmap4 = wx.Bitmap(wx_image4)
+        bitmap4 = wx.Bitmap(listaIcone[3])
         viewer4 = wx.StaticBitmap(panel,bitmap = bitmap4)
         bag.Add(viewer4,pos = (2,3),flag = wx.ALL|wx.EXPAND,border = 5)
 
@@ -132,6 +124,6 @@ class Lobby(wx.Frame):
 # ----------------------------------------
 if __name__ == "__main__":
     app = wx.App()
-    window = Lobby([Image.open("iconaXverde-100.png"),Image.open("iconaXrosa-100.png"),Image.open("iconaXblu-100.png"),Image.open("iconaXgialla-100.png")])
+    window = Lobby( ["iconaXverde-100.png" , "iconaXrosa-100.png" , "iconaXblu-100.png" , "iconaXgialla-100.png"] )
     window.Show()
     app.MainLoop()
