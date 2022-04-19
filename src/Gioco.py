@@ -43,12 +43,16 @@ class Gioco:
         self.tabellone.PGiocaTurno.Disable()
         self.attesaDomanda = False
         self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
+        self.tabellone.SetTitle("Leopardi - Gioco Dell'Oca 4Bs")
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         return
     def chiudiGioco(self,event):
         quit()
         return
-
+    def Riavvia(self,event):
+        self.tabellone.Destroy()
+        self.__init__()
+        return
     def IniziaPartita(self,evt):
         giocatori = []
         conta=0
@@ -81,8 +85,8 @@ class Gioco:
             self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
             self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
 
-            ico = wx.Image(self.turnoGiocatore.icona50.size[0],self.turnoGiocatore.icona50.size[1])
-            ico.SetData(self.turnoGiocatore.icona50.convert("RGB").tobytes())
+            ico = wx.Image(self.turnoGiocatore.icona75.size[0],self.turnoGiocatore.icona75.size[1])
+            ico.SetData(self.turnoGiocatore.icona75.convert("RGB").tobytes())
             bmp = wx.Bitmap(ico)
             self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
@@ -93,14 +97,16 @@ class Gioco:
         turnoDi = self.turnoGiocatore
         #ix = index
         ix = giocatori.index(turnoDi)
+        # ix = 0/1/2/3 --> +2 = 2/3/4/5
+        # len =                   2/3/4
         if (ix + 2) > len(giocatori):
             self.turnoGiocatore = giocatori[0]
         else:
             self.turnoGiocatore = giocatori[ix+1]
         self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
         self.tabellone.PGiocaTurno.Enable()
-        ico = wx.Image(self.turnoGiocatore.icona50.size[0], self.turnoGiocatore.icona50.size[1])
-        ico.SetData(self.turnoGiocatore.icona50.convert("RGB").tobytes())
+        ico = wx.Image(self.turnoGiocatore.icona75.size[0], self.turnoGiocatore.icona75.size[1])
+        ico.SetData(self.turnoGiocatore.icona75.convert("RGB").tobytes())
         bmp = wx.Bitmap(ico)
         self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
@@ -122,15 +128,14 @@ class Gioco:
             self.tabellone.testoDado.SetLabel(str(dado))
             for n in range(dado):
                 if self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].posizione + 1 > 42:
-                    print(self.turnoGiocatore.nome, " HAI VINTO!!!")
-                    self.tabellone.Destroy()
-                    self.__init__()
+                    self.tabellone.finale(self.listaGiocatori)
+                    self.tabellone.pulsanteChiudi.Bind(wx.EVT_BUTTON, self.chiudiGioco)
+                    self.tabellone.pulsanteRigioca.Bind(wx.EVT_BUTTON, self.Riavvia)
+                    return
                 else:
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
                     self.aggiornaGrafica()
                     time.sleep(0.5)
-            #print(self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)])
-            #print(self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)])
             time.sleep(1)
             if self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo == "":
                 self.tabellone.testoDado.Hide()
@@ -150,30 +155,29 @@ class Gioco:
             return
         return
     def visualizzaCorretteErrate(self,event):
-        print("A")
         ID = event.GetId()
         self.EsitoCorretto = False
         if self.finestraDomanda.esitoRisposta(ID):
             self.EsitoCorretto = True
         self.finestraDomanda.Bind(wx.EVT_TIMER,self.Risposto,self.finestraDomanda.timer)
-        self.finestraDomanda.timer.Start(2200)
+        self.finestraDomanda.timer.StartOnce(2200)
         lista = [self.finestraDomanda.PulsanteA,self.finestraDomanda.PulsanteB,self.finestraDomanda.PulsanteC]
         for pulsante in lista:
-            #pulsante.SetForegroundColour("red")
+            #Colorazione delle risposte giuste e sbagliate (verdi e rosse)
             pulsante.SetBackgroundColour("red")
-            print(pulsante.GetId(),ID)
             if self.finestraDomanda.IdCorretto == pulsante.GetId():
                 pulsante.SetBackgroundColour("green")
         return
     def Risposto(self,event):
-        print("AA")
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
         self.finestraDomanda.Destroy()
         if not self.EsitoCorretto:
+            self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].sbagliate += 1
             self.tabellone.testoDado.Hide()
             self.AggiornaTurno()
-        print("A")
+        else:
+            self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].corrette += 1
         return
 
     def tiraDado(self):
@@ -192,6 +196,8 @@ class Gioco:
         return uscito
 
     def creaTipoCaselle(self):
+        #funzione iniziale per creare e distribuire le varie tipologie di caselle
+        #numero caselle = 42 + una iniziale (0)
         listaTipoCaselle = []
         luoghiAutobiografici = 6
         canti = 6
@@ -215,8 +221,6 @@ class Gioco:
                 listaTipoCaselle.append("jolly")
                 jolly-=1
             listaTipoCaselle.append("")
-        #print(len(listaTipoCaselle))
-        #print(listaTipoCaselle.count("luoghiAutobiografici"),listaTipoCaselle.count("canti"),listaTipoCaselle.count("operette"),listaTipoCaselle.count("poeticaDeiPaesaggi"),listaTipoCaselle.count("jolly"),listaTipoCaselle.count(""))
         listaDisposizione = [Casella.Casella(1,"")]
         listaTipoCaselle.remove("")
         conta = 1
@@ -225,9 +229,6 @@ class Gioco:
             x = random.choice(listaTipoCaselle)
             listaDisposizione.append(Casella.Casella(conta,x))
             listaTipoCaselle.remove(x)
-        #print(listaDisposizione)
-        #print(len(listaDisposizione))
-        #print(listaDisposizione.count("luoghiAutobiografici"),listaDisposizione.count("canti"),listaDisposizione.count("operette"),listaDisposizione.count("poeticaDeiPaesaggi"),listaDisposizione.count("jolly"),listaDisposizione.count(""))
         self.listaTipoCaselle = listaDisposizione
         diz = {}
         for n in range(1,len(self.listaTipoCaselle)+1):
@@ -236,6 +237,10 @@ class Gioco:
         return
 
 if __name__ == "__main__":
+    lista = [4,1,5]
+    lista.sort()
+    lista.reverse()
+    print(lista)
     app = wx.App()
     gioco = Gioco()
     app.MainLoop()

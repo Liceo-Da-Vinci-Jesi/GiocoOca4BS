@@ -16,14 +16,11 @@ class Domanda:
 
 class FinestraDomanda(wx.Frame):
     def __init__(self,Domanda,giocatore):
-        #print(Domanda)
         super().__init__(None, title="Domanda - "+giocatore.nome)
         panel = wx.Panel(self)
         self.rispostaEsatta = Domanda.rispostaEsatta
         risposte = [Domanda.rispostaA, Domanda.rispostaB, Domanda.rispostaC]
-        #print(risposte)
         random.shuffle(risposte)
-        #print(risposte)
         for n in risposte:
             if n == self.rispostaEsatta:
                 self.IdCorretto = risposte.index(n) + 1
@@ -31,6 +28,7 @@ class FinestraDomanda(wx.Frame):
         self.PulsanteB = wx.Button(panel, label="B: " + risposte[1], id=2)
         self.PulsanteC = wx.Button(panel, label="C: " + risposte[2], id=3)
         if Domanda.testo != "":
+            #crea questo tipo di finestra se la domanda necessita di uno spazio apposito dove riportare una parte di testo
             box = wx.BoxSizer(wx.HORIZONTAL)
             textCtrl = wx.TextCtrl(panel,style = wx.TE_MULTILINE|wx.TE_READONLY)
             textCtrl.SetValue(Domanda.testo)
@@ -55,6 +53,7 @@ class FinestraDomanda(wx.Frame):
             vboxDestra.Add(self.PulsanteB,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
             vboxDestra.Add(self.PulsanteC,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
         else:
+            #crea questo tipo di finestra se la domanda non necessita di uno spazio apposito dove riportare una parte di testo
             box = wx.BoxSizer(wx.VERTICAL)
             hTesto = wx.BoxSizer(wx.HORIZONTAL)
             testo = wx.StaticText(panel,label = Domanda.domanda)
@@ -95,44 +94,26 @@ class FinestraDomanda(wx.Frame):
         self.Hide()
         self.Show()
         self.Bind(wx.EVT_CLOSE,self.nonChiudi)
-        self.Bind(wx.EVT_ICONIZE,self.nonIconizzare)
         self.Centre()
+        
     def esitoRisposta(self,ID):
-        #ID perchè lo prendo da Gioco.py, altrimenti event con il bind
-        #ID = event.GetId()
-        #print(ID,self.IdCorretto)
         if ID == self.IdCorretto:
             #print("corretto")
             return True
         return False
-
-    def nonIconizzare(self,event):
-        self.Iconize(False)
-        return
+    
     def nonChiudi(self,event):
-        return
-    def Risposto(self,event):
-        ID = event.GetId()
-        if self.listaPulsanti[ID-1].GetLabel()[0] == self.rispostaEsatta:
-            self.valore = True
-        else:
-            self.valore = False
-        self.Destroy()
         return
 
 def scegliDomandaDaFare(tipologia,lista):
-    #print(lista)
     possibili = []
     for n in lista:
         if n == tipologia:
-            #print(lista[n])
             possibili.append(lista[n])
             break
-        #print("N")
     domanda = random.choice(possibili[0])
     #DA RIMUOVERE # SE NUMERO DI DOMANDE SUFFICIENTI
     lista[n].remove(domanda)
-    #print(lista)
     return Domanda(domanda[0],domanda[1],domanda[2],domanda[3],domanda[4],domanda[5],domanda[6])
 
 if __name__ == "__main__":
