@@ -20,7 +20,7 @@ class CampoDaGioco(wx.Frame):
         hbox.Add(testoSpazio, proportion=0, flag=wx.ALL | wx.ALIGN_TOP)
         vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL, border=0)
 
-        bmp = wx.Bitmap("iconaXverde-24.png")
+        bmp = wx.Bitmap("iconaXverde-100.png")
         self.viewerIconPlayerTurno = wx.StaticBitmap(panel, bitmap=bmp)
         vboxLaterale.Add(self.viewerIconPlayerTurno, proportion=1, flag=wx.ALL|wx.ALIGN_CENTER, border=5)
 

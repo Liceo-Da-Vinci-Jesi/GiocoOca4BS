@@ -25,7 +25,7 @@ coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623
 
 class Gioco:
     def __init__(self):
-        self.iconeDisponibili = [Image.open("iconaXverde-24.png"),Image.open("iconaXrosa-24.png"),Image.open("iconaXblu-24.png"),Image.open("iconaXgialla-24.png")]
+        self.iconeDisponibili = [Image.open("iconaXverde-100.png"),Image.open("iconaXrosa-100.png"),Image.open("iconaXblu-100.png"),Image.open("iconaXgialla-100.png")]
         random.shuffle(self.iconeDisponibili)
         self.listaTipoCaselle = []
         self.creaTipoCaselle()
@@ -33,8 +33,8 @@ class Gioco:
         self.listaDomande = ElencoDomande.ElencoDomande().listaDomande
         self.listaGiocatori = 0
         self.pulsanteGioca = ""
-        self.FinestraLobby = Lobby.Lobby()
-        self.FinestraLobby.Show()
+        self.FinestraLobby = Lobby.Lobby(self.iconeDisponibili)
+        self.FinestraLobby.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
         self.FinestraLobby.PIniziaPartita.Bind(wx.EVT_BUTTON,self.IniziaPartita)
         #tabellone = classe Campo da Gioco
         self.tabellone = CampoDaGioco.CampoDaGioco()
@@ -55,11 +55,11 @@ class Gioco:
         nomi = []
         for n in self.FinestraLobby.listaToggleButton:
             if n.GetValue():
-                giocatori.append(Giocatore.Giocatore((self.FinestraLobby.listaTc[n.GetId()-1]).GetValue(),self.iconeDisponibili[conta]))
+                giocatori.append(Giocatore.Giocatore((self.FinestraLobby.listaTc[n.GetId()-1]).GetValue(),self.iconeDisponibili[n.GetId()-1]))
                 nomi.append(giocatori[conta].nome)
                 conta+=1
         for n in nomi:
-            if nomi.count(n) > 1:
+            if nomi.count(n) > 1 or n.replace(" ","") == "":
                 break
         else:
             self.tabellone.Show()
@@ -71,7 +71,7 @@ class Gioco:
             sfondo = Image.open('fileCampoDaGiocoRid.png')
             pil_image = sfondo.copy()
             for n in self.listaGiocatori:
-                pil_image.paste(n.icona, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione])
+                pil_image.paste(n.icona24, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione])
                 wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
                 wx_image.SetData(pil_image.convert("RGB").tobytes())
                 bitmap = wx.Bitmap(wx_image)
@@ -81,8 +81,8 @@ class Gioco:
             self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
             self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
 
-            ico = wx.Image(self.turnoGiocatore.icona.size[0],self.turnoGiocatore.icona.size[1])
-            ico.SetData(self.turnoGiocatore.icona.convert("RGB").tobytes())
+            ico = wx.Image(self.turnoGiocatore.icona50.size[0],self.turnoGiocatore.icona50.size[1])
+            ico.SetData(self.turnoGiocatore.icona50.convert("RGB").tobytes())
             bmp = wx.Bitmap(ico)
             self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
@@ -99,8 +99,8 @@ class Gioco:
             self.turnoGiocatore = giocatori[ix+1]
         self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
         self.tabellone.PGiocaTurno.Enable()
-        ico = wx.Image(self.turnoGiocatore.icona.size[0], self.turnoGiocatore.icona.size[1])
-        ico.SetData(self.turnoGiocatore.icona.convert("RGB").tobytes())
+        ico = wx.Image(self.turnoGiocatore.icona50.size[0], self.turnoGiocatore.icona50.size[1])
+        ico.SetData(self.turnoGiocatore.icona50.convert("RGB").tobytes())
         bmp = wx.Bitmap(ico)
         self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         return
@@ -109,7 +109,7 @@ class Gioco:
         sfondo = Image.open('fileCampoDaGiocoRid.png')
         pil_image = sfondo.copy()
         for giocatore in self.listaGiocatori:
-            pil_image.paste(giocatore.icona, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(giocatore)][giocatore.posizione])
+            pil_image.paste(giocatore.icona24, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(giocatore)][giocatore.posizione])
             wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
             wx_image.SetData(pil_image.convert("RGB").tobytes())
             bitmap = wx.Bitmap(wx_image)
@@ -122,8 +122,9 @@ class Gioco:
             self.tabellone.testoDado.SetLabel(str(dado))
             for n in range(dado):
                 if self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].posizione + 1 > 42:
-                    print(self.turnoGiocatore.nome," HAI VINTO!!!")
-                    quit()
+                    print(self.turnoGiocatore.nome, " HAI VINTO!!!")
+                    self.tabellone.Destroy()
+                    self.__init__()
                 else:
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
                     self.aggiornaGrafica()
@@ -142,25 +143,37 @@ class Gioco:
             self.attesaDomanda = True
             domanda = Domanda.scegliDomandaDaFare(self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo,self.listaDomande)
             self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore)
-            self.finestraDomanda.Show()
-            self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.Risposto)
-            self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.Risposto)
-            self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.Risposto)
+            self.finestraDomanda.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=800)
+            self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
+            self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
+            self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             return
         return
-
+    def visualizzaCorretteErrate(self,event):
+        print("A")
+        ID = event.GetId()
+        self.EsitoCorretto = False
+        if self.finestraDomanda.esitoRisposta(ID):
+            self.EsitoCorretto = True
+        self.finestraDomanda.Bind(wx.EVT_TIMER,self.Risposto,self.finestraDomanda.timer)
+        self.finestraDomanda.timer.Start(2200)
+        lista = [self.finestraDomanda.PulsanteA,self.finestraDomanda.PulsanteB,self.finestraDomanda.PulsanteC]
+        for pulsante in lista:
+            #pulsante.SetForegroundColour("red")
+            pulsante.SetBackgroundColour("red")
+            print(pulsante.GetId(),ID)
+            if self.finestraDomanda.IdCorretto == pulsante.GetId():
+                pulsante.SetBackgroundColour("green")
+        return
     def Risposto(self,event):
+        print("AA")
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
-        ID = event.GetId()
-        #if self.finestraDomanda.listaPulsanti[ID - 1].GetLabel()[0] == self.finestraDomanda.rispostaEsatta:
-        if self.finestraDomanda.esitoRisposta(ID):
-            #print("ESATTO")
-            self.finestraDomanda.Destroy()
-        else:
-            self.finestraDomanda.Destroy()
+        self.finestraDomanda.Destroy()
+        if not self.EsitoCorretto:
             self.tabellone.testoDado.Hide()
             self.AggiornaTurno()
+        print("A")
         return
 
     def tiraDado(self):
@@ -175,7 +188,7 @@ class Gioco:
             time.sleep(0.5)
         uscito = random.randint(1,6)
         self.tabellone.testoDado.SetLabel(str(uscito))
-        self.tabellone.testoLancioDado.SetLabel("E' Uscito:")
+        self.tabellone.testoLancioDado.SetLabel("È Uscito:")
         return uscito
 
     def creaTipoCaselle(self):

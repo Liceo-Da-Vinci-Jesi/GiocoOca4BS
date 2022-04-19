@@ -71,7 +71,7 @@ class FinestraDomanda(wx.Frame):
         self.listaPulsanti = (self.PulsanteA, self.PulsanteB, self.PulsanteC)
         panel.SetSizer(box)
         box.Fit(self)
-        
+        self.timer = wx.Timer(self)
         #adatta al meglio le dimensioni della finestra in base alla domanda
         dimensioni = self.GetSize()
         if dimensioni[0] <= 423:
@@ -96,7 +96,7 @@ class FinestraDomanda(wx.Frame):
         self.Show()
         self.Bind(wx.EVT_CLOSE,self.nonChiudi)
         self.Bind(wx.EVT_ICONIZE,self.nonIconizzare)
-
+        self.Centre()
     def esitoRisposta(self,ID):
         #ID perchè lo prendo da Gioco.py, altrimenti event con il bind
         #ID = event.GetId()
@@ -140,7 +140,7 @@ if __name__ == "__main__":
     domande = ElencoDomande.ElencoDomande().listaDomande
     app = wx.App()
     player = Giocatore.Giocatore("Io","a")
-    domandaDaFare = scegliDomandaDaFare("canti",domande)
+    domandaDaFare = scegliDomandaDaFare("luoghiAutobiografici",domande)
     window = FinestraDomanda(domandaDaFare,player)
     window.Show()
     app.MainLoop()
