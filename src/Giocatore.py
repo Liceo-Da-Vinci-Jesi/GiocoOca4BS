@@ -4,7 +4,7 @@ class Giocatore:
     def __init__(self,nome,iconPath):
         self.posizione = 0
         self.nome = nome
-        self.iconaPath = iconPath
+        self.iconPath = iconPath
         self.corrette = 0
         self.sbagliate = 0
         

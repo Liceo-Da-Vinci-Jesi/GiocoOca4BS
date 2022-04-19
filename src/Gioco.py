@@ -71,16 +71,10 @@ class Gioco:
             self.listaGiocatori = giocatori
             random.shuffle(self.listaGiocatori)
             self.turnoGiocatore = self.listaGiocatori[0]
-            #crea la parte parte grafica X
-            sfondo = Image.open('fileCampoDaGiocoRid.png')
-            pil_image = sfondo.copy()
-            for n in self.listaGiocatori:
-                
-                pil_image.paste(n.icona24, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione])
-                wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
-                wx_image.SetData(pil_image.convert("RGB").tobytes())
-                bitmap = wx.Bitmap(wx_image)
-                self.tabellone.viewer.SetBitmap(bitmap)
+
+            # PROF: invece di ripetere il codice...
+            self.aggiornaGrafica()
+            
             self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
             self.tabellone.PGiocaTurno.Enable()
             self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
@@ -112,15 +106,20 @@ class Gioco:
         return
 
     def aggiornaGrafica(self):
-        sfondo = Image.open('fileCampoDaGiocoRid.png')
-        pil_image = sfondo.copy()
-        for giocatore in self.listaGiocatori:
-            # PROF: SISTEMA QUI
-            pil_image.paste(giocatore.icona24, self.coordinatePosizioniGiocatori[self.listaGiocatori.index(giocatore)][giocatore.posizione])
-            wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
-            wx_image.SetData(pil_image.convert("RGB").tobytes())
-            bitmap = wx.Bitmap(wx_image)
-            self.tabellone.viewer.SetBitmap(bitmap)
+        #crea la parte parte grafica X
+        campoDaGioco = Image.open('fileCampoDaGiocoRid.png')
+        sfondo = campoDaGioco.copy()
+
+        for n in self.listaGiocatori:
+            iconaGiocatore = Image.open(n.iconPath).resize( (24,24) )
+            coordinatePosizioneGiocatore = self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione]    
+            sfondo.paste(iconaGiocatore, coordinatePosizioneGiocatore, iconaGiocatore)
+
+        wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
+        wx_image.SetData(sfondo.convert("RGB").tobytes())
+        bitmap = wx.Bitmap(wx_image)
+
+        self.tabellone.viewer.SetBitmap(bitmap)
         return
 
     def GiocaTurnoDi(self,event):
