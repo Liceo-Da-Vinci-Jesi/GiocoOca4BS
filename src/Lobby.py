@@ -90,6 +90,7 @@ class Lobby(wx.Frame):
         viewer4.Hide()
         textCtrl4.Disable()
         #self.Bind(wx.EVT_SIZE,self.aggiustaScalaIcone)
+    
     def aggiustaScalaIcone(self,evt):
         self.Refresh()
         for n in self.listaPanel:
@@ -97,15 +98,19 @@ class Lobby(wx.Frame):
                 print("AA")
                 n.SetScaleMode(1)
         return
+    
+    # PROF: Perché una funzione chiamata "nonChiudere" fa Destroy??? :)
     def nonChiudere(self,event):
         self.Destroy()
         return
+    
     def sbloccaStato(self,event):
         self.Refresh()
         if self.listaToggleButton[event.GetId()-1].GetValue():
             self.contaGiocatori+=1
-            self.listaTc[event.GetId()-1].Enable()
             self.listaViewer[event.GetId()-1].Show()
+            self.listaTc[event.GetId()-1].Enable()
+            self.listaTc[event.GetId()-1].SetFocus()
         else:
             self.contaGiocatori-=1
             self.listaTc[event.GetId()-1].Disable()
@@ -113,6 +118,7 @@ class Lobby(wx.Frame):
         self.sbloccaTastoInizioPartita()
         self.Refresh()
         return
+    
     def sbloccaTastoInizioPartita(self):
         if self.contaGiocatori >= 2:
             self.PIniziaPartita.Enable()
