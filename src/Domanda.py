@@ -27,6 +27,7 @@ class FinestraDomanda(wx.Frame):
         self.PulsanteA = wx.Button(panel, label="A: " + risposte[0], id=1)
         self.PulsanteB = wx.Button(panel, label="B: " + risposte[1], id=2)
         self.PulsanteC = wx.Button(panel, label="C: " + risposte[2], id=3)
+        self.listaPulsanti = (self.PulsanteA, self.PulsanteB, self.PulsanteC)
         if Domanda.testo != "":
             #crea questo tipo di finestra se la domanda necessita di uno spazio apposito dove riportare una parte di testo
             box = wx.BoxSizer(wx.HORIZONTAL)
@@ -60,37 +61,31 @@ class FinestraDomanda(wx.Frame):
             hTesto.Add(testo,proportion = 1,flag = wx.ALL,border = 5)
             box.Add(hTesto,proportion = 1,flag = wx.ALL|wx.ALIGN_CENTER,border = 5)
             hPulsanti = wx.BoxSizer(wx.HORIZONTAL)
-            hPulsanti.Add(self.PulsanteA,proportion = 1,flag = wx.ALL,border = 5)
-            hPulsanti.Add(self.PulsanteB,proportion = 1,flag = wx.ALL,border = 5)
-            hPulsanti.Add(self.PulsanteC,proportion = 1,flag = wx.ALL,border = 5)
+            hPulsanti.Add(self.PulsanteA,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
+            hPulsanti.Add(self.PulsanteB,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
+            hPulsanti.Add(self.PulsanteC,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
             box.Add(hPulsanti,proportion = 0,flag = wx.ALL|wx.EXPAND,border = 5)
+            for puls in self.listaPulsanti:
+                label = ""
+                conta = ""
+                for n in puls.GetLabel().split():
+                    if len(conta + n) <= 35:
+                        label += " " + n
+                        conta += " " + n
+                    else:
+                        conta = n
+                        label += "\n"
+                        label += n
+                puls.SetLabel(label)
+
         #self.PulsanteA.Bind(wx.EVT_BUTTON, self.esitoRisposta)
         #self.PulsanteB.Bind(wx.EVT_BUTTON, self.esitoRisposta)
         #self.PulsanteC.Bind(wx.EVT_BUTTON, self.esitoRisposta)
-        self.listaPulsanti = (self.PulsanteA, self.PulsanteB, self.PulsanteC)
         panel.SetSizer(box)
         box.Fit(self)
         self.timer = wx.Timer(self)
         #adatta al meglio le dimensioni della finestra in base alla domanda
         dimensioni = self.GetSize()
-        if dimensioni[0] <= 423:
-            self.SetMaxSize((423, dimensioni[1]))
-            self.SetMinSize((423,dimensioni[1]))
-            self.SetSize((423,dimensioni[1]))
-        else:
-            self.SetMaxSize(dimensioni)
-            self.SetMinSize(dimensioni)
-            self.SetSize(dimensioni)
-        dimensioni = self.GetSize()
-        if dimensioni[1] <= 125:
-            self.SetMaxSize((dimensioni[0], 125))
-            self.SetMinSize((dimensioni[0],125))
-            self.SetSize((dimensioni[0],125))
-        else:
-            self.SetMaxSize(dimensioni)
-            self.SetMinSize(dimensioni)
-            self.SetSize(dimensioni)
-        self.Refresh()
         self.Hide()
         self.Show()
         self.Bind(wx.EVT_CLOSE,self.nonChiudi)
@@ -101,7 +96,7 @@ class FinestraDomanda(wx.Frame):
             #print("corretto")
             return True
         return False
-    
+
     def nonChiudi(self,event):
         return
 

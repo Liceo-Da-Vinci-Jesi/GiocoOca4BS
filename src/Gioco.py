@@ -45,8 +45,10 @@ class Gioco:
         self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
         self.tabellone.SetTitle("Leopardi - Gioco Dell'Oca 4Bs")
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
+        #self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
         return
     def chiudiGioco(self,event):
+        #self.tabellone.finale(self.listaGiocatori)
         quit()
         return
     def Riavvia(self,event):
@@ -106,7 +108,6 @@ class Gioco:
         return
 
     def aggiornaGrafica(self):
-        #crea la parte parte grafica X
         campoDaGioco = Image.open('fileCampoDaGiocoRid.png')
         sfondo = campoDaGioco.copy()
 
@@ -114,7 +115,10 @@ class Gioco:
             iconaGiocatore = Image.open(n.iconPath).resize( (24,24) )
             coordinatePosizioneGiocatore = self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione]    
             sfondo.paste(iconaGiocatore, coordinatePosizioneGiocatore, iconaGiocatore)
-
+        iconaROSSA = Image.open("quadratoRosspTrasparente-500.png").resize((50,50))
+        iconaVERDE = Image.open("quadratoVerdeTrasparente-500.png").resize((50,50))
+        sfondo.paste(iconaVERDE,(250,250),iconaVERDE)
+        sfondo.paste(iconaROSSA,(150,150),iconaROSSA)
         wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
         wx_image.SetData(sfondo.convert("RGB").tobytes())
         bitmap = wx.Bitmap(wx_image)
