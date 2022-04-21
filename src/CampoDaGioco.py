@@ -22,6 +22,7 @@ class CampoDaGioco(wx.Frame):
 
         bmp = wx.Bitmap("iconaXverde-100.png")
         self.viewerIconPlayerTurno = wx.StaticBitmap(panel, bitmap=bmp)
+        self.viewerIconPlayerTurno.SetSize((100,100))
         vboxLaterale.Add(self.viewerIconPlayerTurno, proportion=1, flag=wx.ALL|wx.ALIGN_CENTER, border=5)
 
         self.testoTurno = wx.StaticText(panel, label="_PLAYER_")
@@ -30,7 +31,7 @@ class CampoDaGioco(wx.Frame):
         hbox.Add(self.testoTurno, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL)
         vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL | wx.ALIGN_CENTER, border=15)
 
-        # vboxLaterale.Add((-1,60))
+        # vboxLaterale.Add((-1,60))A
         self.PGiocaTurno = wx.Button(panel, label="GIOCA")
         self.PGiocaTurno.SetFont(font)
         vboxLaterale.Add(self.PGiocaTurno, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
@@ -49,6 +50,12 @@ class CampoDaGioco(wx.Frame):
         hbox.Add(self.testoDado, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL)
         vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
 
+        #
+        bmp = wx.Bitmap("iconaEsatto.png")
+        self.viewerIconaEsito = wx.StaticBitmap(panel,bitmap = bmp)
+        vboxLaterale.Add(self.viewerIconaEsito,proportion = 1,flag = wx.ALL|wx.ALIGN_CENTER,border = 5)
+
+
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         testoSpazio = wx.StaticText(panel, label="------------------------")
         testoSpazio.SetFont(font)
@@ -59,6 +66,7 @@ class CampoDaGioco(wx.Frame):
         self.SetMinSize((1280, 720))
         self.SetMaxSize((1280, 720))
         panel.SetSizer(box)
+        self.SetIcon(wx.Icon("simboloInfinito-500.png"))
 
     def calcolaClassifica(self,giocatori):
         classifica = []

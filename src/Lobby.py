@@ -1,59 +1,71 @@
 import wx, Domanda
 from PIL import Image
 class Lobby(wx.Frame):
-    def __init__(self,listaIcone):
+    def __init__(self,listaIconeDisponibili):
         super().__init__(None, title="Lobby")
-
+        self.listaIcone = listaIconeDisponibili
         self.giocatori = []
         panel = wx.Panel(self)
+        box = wx.BoxSizer(wx.VERTICAL)
         vbox = wx.BoxSizer(wx.VERTICAL)
-        bag = wx.GridBagSizer(vgap=5, hgap=5)
+        grid = wx.GridSizer(rows = 2,cols = 4, vgap=0, hgap=0)
         
         panel.SetOwnBackgroundColour((40,40,40))
-        
+        font13Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        font9Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        font25Bold = wx.Font(20, wx.DEFAULT, wx.NORMAL, wx.BOLD)
         ToggleButton1=wx.ToggleButton(panel, label="Giocatore 1",id = 1)
         ToggleButton1.Bind(wx.EVT_TOGGLEBUTTON,self.sbloccaStato)
-        bag.Add(ToggleButton1, pos=(0,0), flag=wx.ALL | wx.EXPAND, border=5)
+        ToggleButton1.SetFont(font13Norm)
+        grid.Add(ToggleButton1,proportion = 0, flag=wx.ALL | wx.EXPAND, border=5)
         
         ToggleButton2=wx.ToggleButton(panel, label="Giocatore 2",id = 2)
         ToggleButton2.Bind(wx.EVT_TOGGLEBUTTON, self.sbloccaStato)
-        bag.Add(ToggleButton2, pos=(0,1), flag=wx.ALL | wx.EXPAND, border=5)
+        ToggleButton2.SetFont(font13Norm)
+        grid.Add(ToggleButton2,proportion = 0, flag=wx.ALL | wx.EXPAND, border=5)
         
         ToggleButton3=wx.ToggleButton(panel, label="Giocatore 3",id = 3)
         ToggleButton3.Bind(wx.EVT_TOGGLEBUTTON, self.sbloccaStato)
-        bag.Add(ToggleButton3, pos=(0,2), flag=wx.ALL | wx.EXPAND, border=5)
+        ToggleButton3.SetFont(font13Norm)
+        grid.Add(ToggleButton3,proportion = 0, flag=wx.ALL | wx.EXPAND, border=5)
         
         ToggleButton4=wx.ToggleButton(panel, label="Giocatore 4",id = 4)
         ToggleButton4.Bind(wx.EVT_TOGGLEBUTTON, self.sbloccaStato)
-        bag.Add(ToggleButton4, pos=(0,3), flag=wx.ALL | wx.EXPAND, border=5)
+        ToggleButton4.SetFont(font13Norm)
+        grid.Add(ToggleButton4,proportion = 0, flag=wx.ALL | wx.EXPAND, border=5)
         
         textCtrl1 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl1, pos=(1,0), flag =wx.ALL|wx.EXPAND, border=5)
+        textCtrl1.SetFont(font9Norm)
+        grid.Add(textCtrl1, proportion=0, flag =wx.ALL|wx.EXPAND, border=5)
        
         textCtrl2 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl2, pos=(1,1), flag =wx.ALL|wx.EXPAND, border=5)
+        textCtrl2.SetFont(font9Norm)
+        grid.Add(textCtrl2, proportion=0, flag =wx.ALL|wx.EXPAND, border=5)
         
         textCtrl3 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl3, pos=(1,2), flag =wx.ALL|wx.EXPAND, border=5)
+        textCtrl3.SetFont(font9Norm)
+        grid.Add(textCtrl3, proportion=0, flag =wx.ALL|wx.EXPAND, border=5)
         
         textCtrl4 = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TEXT_ALIGNMENT_CENTER)
-        bag.Add(textCtrl4, pos=(1,3), flag =wx.ALL|wx.EXPAND, border=5)
+        textCtrl4.SetFont(font9Norm)
+        grid.Add(textCtrl4, proportion=0, flag =wx.ALL|wx.EXPAND, border=5)
 
-        bitmap1 = wx.Bitmap(listaIcone[0])
+        hbox=wx.BoxSizer(wx.HORIZONTAL)
+        bitmap1 = wx.Bitmap(self.listaIcone[0])
         viewer1 = wx.StaticBitmap(panel,bitmap = bitmap1)
-        bag.Add(viewer1,pos = (2,0),flag = wx.ALL|wx.EXPAND,border = 5)
+        hbox.Add(viewer1,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
 
-        bitmap2 = wx.Bitmap(listaIcone[1])
+        bitmap2 = wx.Bitmap(self.listaIcone[1])
         viewer2 = wx.StaticBitmap(panel,bitmap = bitmap2)
-        bag.Add(viewer2,pos = (2,1),flag = wx.ALL|wx.EXPAND,border = 5)
+        hbox.Add(viewer2,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
 
-        bitmap3 = wx.Bitmap(listaIcone[2])
+        bitmap3 = wx.Bitmap(self.listaIcone[2])
         viewer3 = wx.StaticBitmap(panel,bitmap = bitmap3)
-        bag.Add(viewer3,pos = (2,2),flag = wx.ALL|wx.EXPAND,border = 5)
+        hbox.Add(viewer3,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
 
-        bitmap4 = wx.Bitmap(listaIcone[3])
+        bitmap4 = wx.Bitmap(self.listaIcone[3])
         viewer4 = wx.StaticBitmap(panel,bitmap = bitmap4)
-        bag.Add(viewer4,pos = (2,3),flag = wx.ALL|wx.EXPAND,border = 5)
+        hbox.Add(viewer4,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
 
         self.listaToggleButton = (ToggleButton1,ToggleButton2,ToggleButton3,ToggleButton4)
         self.listaTc = (textCtrl1,textCtrl2,textCtrl3,textCtrl4)
@@ -61,35 +73,29 @@ class Lobby(wx.Frame):
 
         self.contaGiocatori = 0
         self.PIniziaPartita= wx.Button(panel, label="INIZIA LA PARTITA")
-        bag.Add(self.PIniziaPartita, pos=(3,0), span=(0,4),flag =wx.ALL|wx.EXPAND, border=5)
+        self.PIniziaPartita.SetFont(font25Bold)
+        vbox.Add(grid,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
+        vbox.Add(hbox,proportion = 2,flag = wx.ALL|wx.EXPAND,border = 5)
+        vbox.Add(self.PIniziaPartita,proportion = 1,flag =wx.ALL|wx.EXPAND, border=5)
+        box.Add(vbox,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
         self.PIniziaPartita.Disable()
-
-        bag.AddGrowableCol(0)
-        bag.AddGrowableCol(1)
-        bag.AddGrowableCol(2)
-        bag.AddGrowableCol(3)
-        
-        #bag.AddGrowableRow(0)
-        bag.AddGrowableRow(2)
-        bag.AddGrowableRow(3)
-        vbox.Add(bag,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
-        panel.SetSizer(vbox)
-        self.SetMinSize((600,300))
-        self.SetSize((800,400))
-        self.SetMaxSize((1000,500))
+        panel.SetSizer(box)
+        self.SetMinSize((685,350))
+        self.SetSize((814,310))
+        self.SetMaxSize((903,414))
         self.Centre()
         self.Refresh()
         self.Bind(wx.EVT_CLOSE,self.nonChiudere)
 
-        viewer1.Hide()
+        viewer1.SetBitmap(wx.Bitmap((100,100), depth=2))
         textCtrl1.Disable()
-        viewer2.Hide()
+        viewer2.SetBitmap(wx.Bitmap((100,100), depth=2))
         textCtrl2.Disable()
-        viewer3.Hide()
+        viewer3.SetBitmap(wx.Bitmap((100,100), depth=2))
         textCtrl3.Disable()
-        viewer4.Hide()
+        viewer4.SetBitmap(wx.Bitmap((100,100), depth=2))
         textCtrl4.Disable()
-        #self.Bind(wx.EVT_CLOSE,self.aggiustaScalaIcone)
+        self.Bind(wx.EVT_CLOSE,self.aggiustaScalaIcone)
     
     def aggiustaScalaIcone(self,evt):
         print(self.GetSize())
@@ -109,13 +115,13 @@ class Lobby(wx.Frame):
         self.Refresh()
         if self.listaToggleButton[event.GetId()-1].GetValue():
             self.contaGiocatori+=1
-            self.listaViewer[event.GetId()-1].Show()
+            self.listaViewer[event.GetId()-1].SetBitmap(wx.Bitmap(self.listaIcone[event.GetId()-1]))
             self.listaTc[event.GetId()-1].Enable()
             self.listaTc[event.GetId()-1].SetFocus()
         else:
             self.contaGiocatori-=1
             self.listaTc[event.GetId()-1].Disable()
-            self.listaViewer[event.GetId()-1].Hide()
+            self.listaViewer[event.GetId()-1].SetBitmap(wx.Bitmap((100,100), depth=2))
         self.sbloccaTastoInizioPartita()
         self.Refresh()
         return

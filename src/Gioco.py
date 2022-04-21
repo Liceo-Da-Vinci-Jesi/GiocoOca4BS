@@ -31,7 +31,7 @@ coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623
 
 class Gioco:
     def __init__(self):
-        self.iconeDisponibili = ["iconaGinevra-100.png" , "iconaCandela-100.png" , "iconaZibaldone-100.png" , "iconaPassero-100.png" ]
+        self.iconeDisponibili = ["iconaGinestra-100.png" , "iconaCandela-100.png" , "iconaZibaldone-100.png" , "iconaPassero-100.png" ]
         random.shuffle(self.iconeDisponibili)
         self.listaTipoCaselle = []
         self.creaTipoCaselle()
@@ -40,6 +40,7 @@ class Gioco:
         self.listaGiocatori = 0
         self.pulsanteGioca = ""
         self.FinestraLobby = Lobby.Lobby(self.iconeDisponibili)
+        self.FinestraLobby.SetTitle("Lobby - Gioco Dell'Oca 4Bs")
         self.FinestraLobby.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
         self.FinestraLobby.PIniziaPartita.Bind(wx.EVT_BUTTON,self.IniziaPartita)
         #tabellone = classe Campo da Gioco
@@ -79,8 +80,6 @@ class Gioco:
             self.listaGiocatori = giocatori
             random.shuffle(self.listaGiocatori)
             self.turnoGiocatore = self.listaGiocatori[0]
-
-            # PROF: invece di ripetere il codice...
             self.aggiornaGrafica()
             
             self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
@@ -89,8 +88,10 @@ class Gioco:
             self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
 
             bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
-            bmp.SetSize( (75,75) )
+            bmp.SetSize( (100,100) )
             self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
+            #self.tabellone.viewerIconPlayerTurno.SetSize((150,100))
+            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
         return
 
     def AggiornaTurno(self):
@@ -109,8 +110,9 @@ class Gioco:
         self.tabellone.PGiocaTurno.Enable()
 
         bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
-        bmp.SetSize( (75,75) )
+        bmp.SetSize((100, 100))
         self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
+        #self.tabellone.viewerIconPlayerTurno.SetSize((75,75))
         return
 
     def aggiornaGrafica(self):
@@ -166,8 +168,10 @@ class Gioco:
     def visualizzaCorretteErrate(self,event):
         ID = event.GetId()
         self.EsitoCorretto = False
+        self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("iconaErrato.png"))
         if self.finestraDomanda.esitoRisposta(ID):
             self.EsitoCorretto = True
+            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("iconaEsatto.png"))
         self.finestraDomanda.Bind(wx.EVT_TIMER,self.Risposto,self.finestraDomanda.timer)
         self.finestraDomanda.timer.StartOnce(2200)
         lista = [self.finestraDomanda.PulsanteA,self.finestraDomanda.PulsanteB,self.finestraDomanda.PulsanteC]
@@ -183,6 +187,7 @@ class Gioco:
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
         self.finestraDomanda.Destroy()
+        self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
         if not self.EsitoCorretto:
             self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].sbagliate += 1
             self.tabellone.testoDado.Hide()
