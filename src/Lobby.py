@@ -89,9 +89,10 @@ class Lobby(wx.Frame):
         textCtrl3.Disable()
         viewer4.Hide()
         textCtrl4.Disable()
-        #self.Bind(wx.EVT_SIZE,self.aggiustaScalaIcone)
+        #self.Bind(wx.EVT_CLOSE,self.aggiustaScalaIcone)
     
     def aggiustaScalaIcone(self,evt):
+        print(self.GetSize())
         self.Refresh()
         for n in self.listaPanel:
             if type(n) == type(wx.StaticBitmap()):

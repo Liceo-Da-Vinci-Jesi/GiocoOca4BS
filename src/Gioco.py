@@ -25,7 +25,7 @@ coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623
 
 class Gioco:
     def __init__(self):
-        self.iconeDisponibili = ["iconaXverde-100.png" , "iconaXrosa-100.png" , "iconaXblu-100.png" , "iconaXgialla-100.png" ]
+        self.iconeDisponibili = ["iconaGinevra-100.png" , "iconaCandela-100.png" , "iconaZibaldone-100.png" , "iconaPassero-100.png" ]
         random.shuffle(self.iconeDisponibili)
         self.listaTipoCaselle = []
         self.creaTipoCaselle()
@@ -148,7 +148,7 @@ class Gioco:
             self.attesaDomanda = True
             domanda = Domanda.scegliDomandaDaFare(self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo,self.listaDomande)
             self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore)
-            self.finestraDomanda.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=800)
+            self.finestraDomanda.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
             self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
@@ -240,7 +240,9 @@ if __name__ == "__main__":
     lista = [4,1,5]
     lista.sort()
     lista.reverse()
-    print(lista)
     app = wx.App()
     gioco = Gioco()
     app.MainLoop()
+
+    #pyinstaller --onefile -w file.py
+    #NSIS
