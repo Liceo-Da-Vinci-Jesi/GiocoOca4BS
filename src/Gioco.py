@@ -2,6 +2,12 @@ import Domanda, wx,random , time , Lobby , Casella, Giocatore, CampoDaGioco, Ele
 import wx.adv
 from PIL import Image
 
+coordinateCaselle = {1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
+                     9:((671,589),(80,63)), 10: ((751,589),(81,63)), 11: ((832,589),(78,63)), 12:((910,589),(80,63)), 13:((910,519),(80,70)), 14:((910,449),(80,70)), 15:((910,377),(80,72)), 16:((910,308),(80,69)),
+                     17:((910,237),(80,70)), 18:((910,166),(80,71)), 19:((910,95),(80,71)), 20:((910,26),(80,69)), 21:((837,26),(73,69)), 22:((756,26),(81,69)), 23:((676,26),(80,69)), 24:((595,26),(81,69)),
+                     25:((517,26),(78,69)),26:((435,26),(82,68)),27:((355,26),(81,68)),28:((277,26),(79,68)),29:((196,26),(82,68)),30:((119,25),(80,70)),31:((117,95),(82,69)),32:((118,164),(80,72)),33:((118,236),(80,71)),
+                     34:((118,307),(81,70)),35:((118,376),(80,71)),36:((199,376),(77,71)),37:((277,377),(78,70)),38:((356,377),(79,70)),39:((436,377),(85,70)),40:((522,377),(73,70)),41:((595,377),(79,70)),42:((675,377),(78,70))}
+
 coordinateGioc1 = { 0:(47,531), 1:(46,595), 2:(126,595), 3:(205,595) ,4:(284,595) , 5:(364,595) , 6:(443,595) , 7:(524,595) , 8:(603,595) , 9:(682,595) , 10:(763,595) , 11:(842,595) , 12:(921,595),
                     13:(921,529) , 14:(921,459) , 15:(921,389) , 16:(921,318) , 17:(921,247) , 18:(921,177) , 19:(921,106) , 20:(921,35), 21:(843,35) , 22:(770,35) , 23:(689,35) , 24:(608,35) ,
                     25:(528,35) , 26:(448,35), 27:(367,35) , 28:(288,35) , 29:(209,35), 30:(129,35) , 31:(129,103) , 32:(129,173) , 33:(129,245) , 34:(129,315), 35:(129,385) , 36:(209,385) , 37:(288,385),
@@ -108,17 +114,13 @@ class Gioco:
         return
 
     def aggiornaGrafica(self):
-        campoDaGioco = Image.open('fileCampoDaGiocoRid.png')
+        campoDaGioco = Image.open('fileCampoDaGiocoRid2.png')
         sfondo = campoDaGioco.copy()
 
         for n in self.listaGiocatori:
             iconaGiocatore = Image.open(n.iconPath).resize( (24,24) )
             coordinatePosizioneGiocatore = self.coordinatePosizioniGiocatori[self.listaGiocatori.index(n)][n.posizione]    
             sfondo.paste(iconaGiocatore, coordinatePosizioneGiocatore, iconaGiocatore)
-        iconaROSSA = Image.open("quadratoRosspTrasparente-500.png").resize((50,50))
-        iconaVERDE = Image.open("quadratoVerdeTrasparente-500.png").resize((50,50))
-        sfondo.paste(iconaVERDE,(250,250),iconaVERDE)
-        sfondo.paste(iconaROSSA,(150,150),iconaROSSA)
         wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
         wx_image.SetData(sfondo.convert("RGB").tobytes())
         bitmap = wx.Bitmap(wx_image)
@@ -243,6 +245,36 @@ class Gioco:
         for n in range(1,len(self.listaTipoCaselle)+1):
             diz[n] = self.listaTipoCaselle[n-1].tipo
         print(diz)
+        self.creaGraficaCaselle(diz)
+        return
+    def creaGraficaCaselle(self,diz):
+        #BLU = OPERETTE x4
+        #VERDE = POETICHEDEIPAESAGGI x4
+        #ROSSO = LUOGHIAUTOBIOGRAFICI x6
+        #GIALLO = CANTI x6
+        #campoDaGioco = Image.open('fileCampoDaGiocoRid.png')
+        campoDaGioco = Image.open('bgMHA.jpg').resize((1075,670))
+        sfondo = campoDaGioco.copy()
+        wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
+        wx_image.SetData(sfondo.convert("RGB").tobytes())
+        bitmap = wx.Bitmap(wx_image)
+        for n in diz:
+            tipo = diz[n]
+            if tipo != "":
+                if tipo == "luoghiAutobiografici":
+                    icona = Image.open("quadratoRossoTrasparente-500.png")
+                elif tipo == "poeticaDeiPaesaggi":
+                    icona = Image.open("quadratoVerdeTrasparente-500.png")
+                elif tipo == "canti":
+                    icona = Image.open("quadratoGialloTrasparente-500.png")
+                elif tipo == "operette":
+                    icona = Image.open("quadratoBluTrasparente-500.png")
+                elif tipo == "jolly":
+                    icona = Image.open("simboloInfinito-500.png")
+                icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
+                sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
+        sfondo.save("fileCampoDaGiocoRid2.png")
+                    
         return
 
 if __name__ == "__main__":
