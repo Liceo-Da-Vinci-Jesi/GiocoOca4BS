@@ -154,6 +154,9 @@ class Gioco:
             self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             return
         return
+
+    def nulla(self,evt):
+        return
     def visualizzaCorretteErrate(self,event):
         ID = event.GetId()
         self.EsitoCorretto = False
@@ -165,6 +168,8 @@ class Gioco:
         for pulsante in lista:
             #Colorazione delle risposte giuste e sbagliate (verdi e rosse)
             pulsante.SetBackgroundColour("red")
+            #non permette di correggere la risposta: prende in considerazione la prima risposta data.
+            pulsante.Bind(wx.EVT_BUTTON,self.nulla)
             if self.finestraDomanda.IdCorretto == pulsante.GetId():
                 pulsante.SetBackgroundColour("green")
         return
