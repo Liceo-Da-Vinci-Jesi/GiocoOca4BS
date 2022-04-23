@@ -2,7 +2,7 @@ import Domanda, wx,random , time , Lobby , Casella, Giocatore, CampoDaGioco, Ele
 import wx.adv
 from PIL import Image
 
-coordinateCaselle = {1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
+coordinateCaselle = {0:((34,524),(80,65)),1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
                      9:((671,589),(80,63)), 10: ((751,589),(81,63)), 11: ((832,589),(78,63)), 12:((910,589),(80,63)), 13:((910,519),(80,70)), 14:((910,449),(80,70)), 15:((910,377),(80,72)), 16:((910,308),(80,69)),
                      17:((910,237),(80,70)), 18:((910,166),(80,71)), 19:((910,95),(80,71)), 20:((910,26),(80,69)), 21:((837,26),(73,69)), 22:((756,26),(81,69)), 23:((676,26),(80,69)), 24:((595,26),(81,69)),
                      25:((517,26),(78,69)),26:((435,26),(82,68)),27:((355,26),(81,68)),28:((277,26),(79,68)),29:((196,26),(82,68)),30:((119,25),(80,70)),31:((117,95),(82,69)),32:((118,164),(80,72)),33:((118,236),(80,71)),
@@ -136,6 +136,7 @@ class Gioco:
             self.tabellone.testoDado.SetLabel(str(dado))
             for n in range(dado):
                 if self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].posizione + 1 > 42:
+                    self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
                     self.tabellone.finale(self.listaGiocatori)
                     self.tabellone.pulsanteChiudi.Bind(wx.EVT_BUTTON, self.chiudiGioco)
                     self.tabellone.pulsanteRigioca.Bind(wx.EVT_BUTTON, self.Riavvia)
@@ -155,7 +156,7 @@ class Gioco:
             self.tabellone.PGiocaTurno.Disable()
             self.attesaDomanda = True
             domanda = Domanda.scegliDomandaDaFare(self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo,self.listaDomande)
-            self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore)
+            self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore,self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo)
             self.finestraDomanda.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
             self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
@@ -249,35 +250,39 @@ class Gioco:
         diz = {}
         for n in range(1,len(self.listaTipoCaselle)+1):
             diz[n] = self.listaTipoCaselle[n-1].tipo
-        print(diz)
+        #print(diz)
         self.creaGraficaCaselle(diz)
         return
     def creaGraficaCaselle(self,diz):
-        #BLU = OPERETTE x4
-        #VERDE = POETICHEDEIPAESAGGI x4
-        #ROSSO = LUOGHIAUTOBIOGRAFICI x6
-        #GIALLO = CANTI x6
-        #campoDaGioco = Image.open('fileCampoDaGiocoRid.png')
-        campoDaGioco = Image.open('bgMHA.jpg').resize((1075,670))
+        #BLU = POETICHEDEIPAESAGGI 
+        #VERDE = LUOGHIAUTOBIOGRAFICI 
+        #ROSSO = CANTI 
+        #GIALLO = OPERETTE 
+        campoDaGioco = Image.open('fileCampoDaGiocoRid.png')
+        #campoDaGioco = Image.open('bgMHA.jpg').resize((1075,670))
         sfondo = campoDaGioco.copy()
         wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
         wx_image.SetData(sfondo.convert("RGB").tobytes())
-        bitmap = wx.Bitmap(wx_image)
+        icona = Image.open("quadratoNeroTrasparente-500.png")
+        icona = icona.resize((coordinateCaselle[0][1][0], coordinateCaselle[0][1][1]))
+        sfondo.paste(icona, (coordinateCaselle[0][0][0], coordinateCaselle[0][0][1]), icona)
         for n in diz:
             tipo = diz[n]
             if tipo != "":
                 if tipo == "luoghiAutobiografici":
-                    icona = Image.open("quadratoRossoTrasparente-500.png")
-                elif tipo == "poeticaDeiPaesaggi":
                     icona = Image.open("quadratoVerdeTrasparente-500.png")
-                elif tipo == "canti":
-                    icona = Image.open("quadratoGialloTrasparente-500.png")
-                elif tipo == "operette":
+                elif tipo == "poeticaDeiPaesaggi":
                     icona = Image.open("quadratoBluTrasparente-500.png")
+                elif tipo == "canti":
+                    icona = Image.open("quadratoRossoTrasparente-500.png")
+                elif tipo == "operette":
+                    icona = Image.open("quadratoGialloTrasparente-500.png")
                 elif tipo == "jolly":
                     icona = Image.open("simboloInfinito-500.png")
-                icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
-                sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
+            else:
+                icona = Image.open("quadratoNeroTrasparente-500.png")
+            icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
+            sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
         sfondo.save("fileCampoDaGiocoRid2.png")
                     
         return

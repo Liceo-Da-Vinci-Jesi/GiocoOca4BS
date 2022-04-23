@@ -15,7 +15,7 @@ class Domanda:
         return self.argomento + self.domanda + self.rispostaA + self.rispostaB + self.rispostaC + self.rispostaEsatta + self.testo
 
 class FinestraDomanda(wx.Frame):
-    def __init__(self,Domanda,giocatore):
+    def __init__(self,Domanda,giocatore,tipo):
         super().__init__(None, title="Domanda - "+giocatore.nome)
         panel = wx.Panel(self)
         font13Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
@@ -85,9 +85,10 @@ class FinestraDomanda(wx.Frame):
             puls.SetLabel(label)
             puls.SetFont(font10Norm)
 
-        #self.PulsanteA.Bind(wx.EVT_BUTTON, self.esitoRisposta)
-        #self.PulsanteB.Bind(wx.EVT_BUTTON, self.esitoRisposta)
-        #self.PulsanteC.Bind(wx.EVT_BUTTON, self.esitoRisposta)
+        n = ("operette","canti","poeticaDeiPaesaggi","luoghiAutobiografici")
+        c = ((255,253,227),(255,225,225),(227,233,255),(228,255,227))
+        panel.SetBackgroundColour(c[n.index(tipo)])
+
         panel.SetSizer(box)
         box.Fit(self)
         self.SetMinSize(self.GetSize())
