@@ -51,7 +51,7 @@ class CampoDaGioco(wx.Frame):
         vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
 
         #
-        bmp = wx.Bitmap("iconaEsatto.png")
+        bmp = wx.Bitmap()
         self.viewerIconaEsito = wx.StaticBitmap(panel,bitmap = bmp)
         vboxLaterale.Add(self.viewerIconaEsito,proportion = 1,flag = wx.ALL|wx.ALIGN_CENTER,border = 5)
 
