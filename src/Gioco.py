@@ -1,6 +1,10 @@
-import Domanda, wx,random , time , Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande
+import wx
 import wx.adv
 from PIL import Image
+import random , time
+import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande
+
+
 
 coordinateCaselle = {0:((34,524),(80,65)),1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
                      9:((671,589),(80,63)), 10: ((751,589),(81,63)), 11: ((832,589),(78,63)), 12:((910,589),(80,63)), 13:((910,519),(80,70)), 14:((910,449),(80,70)), 15:((910,377),(80,72)), 16:((910,308),(80,69)),
@@ -54,14 +58,17 @@ class Gioco:
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         #self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
         return
+
     def chiudiGioco(self,event):
         #self.tabellone.finale(self.listaGiocatori)
         quit()
         return
+
     def Riavvia(self,event):
         self.tabellone.Destroy()
         self.__init__()
         return
+
     def IniziaPartita(self,evt):
         giocatori = []
         conta=0
@@ -166,6 +173,7 @@ class Gioco:
 
     def nulla(self,evt):
         return
+
     def visualizzaCorretteErrate(self,event):
         ID = event.GetId()
         self.EsitoCorretto = False
@@ -184,6 +192,7 @@ class Gioco:
             if self.finestraDomanda.IdCorretto == pulsante.GetId():
                 pulsante.SetBackgroundColour("green")
         return
+
     def Risposto(self,event):
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
@@ -253,6 +262,7 @@ class Gioco:
         #print(diz)
         self.creaGraficaCaselle(diz)
         return
+
     def creaGraficaCaselle(self,diz):
         #BLU = POETICHEDEIPAESAGGI 
         #VERDE = LUOGHIAUTOBIOGRAFICI 
@@ -288,9 +298,6 @@ class Gioco:
         return
 
 if __name__ == "__main__":
-    lista = [4,1,5]
-    lista.sort()
-    lista.reverse()
     app = wx.App()
     gioco = Gioco()
     app.MainLoop()

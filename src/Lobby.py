@@ -1,5 +1,6 @@
 import wx, Domanda
 from PIL import Image
+
 class Lobby(wx.Frame):
     def __init__(self,listaIconeDisponibili):
         super().__init__(None, title="Lobby")
@@ -80,6 +81,7 @@ class Lobby(wx.Frame):
         box.Add(vbox,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
         self.PIniziaPartita.Disable()
         panel.SetSizer(box)
+        
         self.SetMinSize((685,350))
         self.SetSize((814,310))
         self.SetMaxSize((903,414))
@@ -95,7 +97,8 @@ class Lobby(wx.Frame):
         textCtrl3.Disable()
         viewer4.SetBitmap(wx.Bitmap((100,100), depth=2))
         textCtrl4.Disable()
-        self.Bind(wx.EVT_CLOSE,self.aggiustaScalaIcone)
+        # PROF: Che senso ha sto Bind qua? Per me nessuno...
+        #self.Bind(wx.EVT_CLOSE,self.aggiustaScalaIcone)
     
     def aggiustaScalaIcone(self,evt):
         print(self.GetSize())
@@ -108,6 +111,7 @@ class Lobby(wx.Frame):
     
     # PROF: Perché una funzione chiamata "nonChiudere" fa Destroy??? :)
     def nonChiudere(self,event):
+        print("non dovrei chiudere, ma...")
         self.Destroy()
         return
     
@@ -137,6 +141,6 @@ class Lobby(wx.Frame):
 # ----------------------------------------
 if __name__ == "__main__":
     app = wx.App()
-    window = Lobby( ["iconaXverde-100.png" , "iconaXrosa-100.png" , "iconaXblu-100.png" , "iconaXgialla-100.png"] )
+    window = Lobby( ["iconaCandela-100.png" , "iconaGinestra-100.png" , "iconaPassero-100.png" , "iconaZibaldone-100.png"] )
     window.Show()
     app.MainLoop()
