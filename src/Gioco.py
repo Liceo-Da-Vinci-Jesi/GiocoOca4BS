@@ -5,7 +5,6 @@ import random , time
 import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande
 
 
-
 coordinateCaselle = {0:((34,524),(80,65)),1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
                      9:((671,589),(80,63)), 10: ((751,589),(81,63)), 11: ((832,589),(78,63)), 12:((910,589),(80,63)), 13:((910,519),(80,70)), 14:((910,449),(80,70)), 15:((910,377),(80,72)), 16:((910,308),(80,69)),
                      17:((910,237),(80,70)), 18:((910,166),(80,71)), 19:((910,95),(80,71)), 20:((910,26),(80,69)), 21:((837,26),(73,69)), 22:((756,26),(81,69)), 23:((676,26),(80,69)), 24:((595,26),(81,69)),
@@ -53,10 +52,9 @@ class Gioco:
         self.tabellone.PGiocaTurno.Bind(wx.EVT_BUTTON, self.GiocaTurnoDi)
         self.tabellone.PGiocaTurno.Disable()
         self.attesaDomanda = False
-        self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
         self.tabellone.SetTitle("Leopardi - Gioco Dell'Oca 4Bs")
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
-        #self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
+        #self.tabellone.Bind(wx.EVT_COSE,self.chiudiGioco)
 
         # conterrà l'immagine del campo da gioco, generata dalla funzione "creaGraficaCaselle"
         #self.sfondoCampoDaGioco
@@ -65,6 +63,7 @@ class Gioco:
 
     def chiudiGioco(self,event):
         #self.tabellone.finale(self.listaGiocatori)
+        self.tabellone.Close()
         quit()
         return
 
@@ -99,29 +98,57 @@ class Gioco:
             bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
             bmp.SetSize( (100,100) )
             self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
+            self.aggiornaGraficaTurni()
             #self.tabellone.viewerIconPlayerTurno.SetSize((150,100))
             #self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
         return
 
     def AggiornaTurno(self):
-        giocatori = self.listaGiocatori
-        turnoDi = self.turnoGiocatore
-        #ix = index
-        ix = giocatori.index(turnoDi)
-        # ix = 0/1/2/3 --> +2 = 2/3/4/5
-        # len =                   2/3/4
-        if (ix + 2) > len(giocatori):
-            self.turnoGiocatore = giocatori[0]
-        else:
-            self.turnoGiocatore = giocatori[ix+1]
+        self.turnoGiocatore = self.giocatoreSuccessivoA(self.turnoGiocatore)
         self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
         self.tabellone.PGiocaTurno.Enable()
-
         bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
         bmp.SetSize((100, 100))
         self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
         self.tabellone.viewerDado.SetBitmap(wx.Bitmap())
+        self.aggiornaGraficaTurni()
         return
+
+    def aggiornaGraficaTurni(self):
+        p1 = self.giocatoreSuccessivoA(self.turnoGiocatore)
+        bmp1 = wx.Bitmap(p1.iconPath)
+        img1 = bmp1.ConvertToImage()
+        img1.Rescale(60,60)
+        nbmp1 = wx.Bitmap(img1)
+        self.tabellone.viewerTurno1.SetBitmap(nbmp1)
+
+        p2 = self.giocatoreSuccessivoA(p1)
+        bmp2 = wx.Bitmap(p2.iconPath)
+        img2 = bmp2.ConvertToImage().ConvertToDisabled()
+        img2.Rescale(40,40)
+        nbmp2 = wx.Bitmap(img2)
+        self.tabellone.viewerTurno2.SetBitmap(nbmp2)
+
+        p3 = self.giocatoreSuccessivoA(p2)
+        bmp3 = wx.Bitmap(p3.iconPath)
+        img3 = bmp3.ConvertToImage().ConvertToDisabled()
+        img3.Rescale(40,40)
+        nbmp3 = wx.Bitmap(img3)
+        self.tabellone.viewerTurno3.SetBitmap(nbmp3)
+        return
+
+    def giocatoreSuccessivoA(self,giocatore):
+        giocatori = self.listaGiocatori
+        turnoDi = giocatore
+        # ix = index
+        ix = giocatori.index(turnoDi)
+        # ix = 0/1/2/3 --> +2 = 2/3/4/5
+        # len =                   2/3/4
+        if (ix + 2) > len(giocatori):
+            player = giocatori[0]
+        else:
+            player = giocatori[ix + 1]
+        return player
 
     def aggiornaGrafica(self):
         sfondo = self.sfondoCampoDaGioco.copy()
@@ -163,6 +190,7 @@ class Gioco:
             domanda = Domanda.scegliDomandaDaFare(self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo,self.listaDomande)
             self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore,self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo)
             self.finestraDomanda.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
+            self.finestraDomanda.SetFocus()
             self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)

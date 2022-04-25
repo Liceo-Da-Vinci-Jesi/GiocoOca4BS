@@ -18,7 +18,17 @@ class CampoDaGioco(wx.Frame):
         testoSpazio.Disable()
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         hbox.Add(testoSpazio, proportion=0, flag=wx.ALL | wx.ALIGN_TOP)
-        vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL, border=0)
+        vboxLaterale.Add(hbox, proportion=0, flag=wx.ALL, border=0)
+
+        hboxTurni = wx.BoxSizer(wx.HORIZONTAL)
+        self.viewerTurno1 = wx.StaticBitmap(panel,bitmap = wx.Bitmap())
+        self.viewerTurno2 = wx.StaticBitmap(panel,bitmap = wx.Bitmap())
+        self.viewerTurno3 = wx.StaticBitmap(panel,bitmap = wx.Bitmap())
+        hboxTurni.Add(self.viewerTurno1,proportion = 0,flag = wx.ALL|wx.ALIGN_CENTER,border = 5)
+        hboxTurni.Add(self.viewerTurno2,proportion = 0,flag = wx.ALL|wx.ALIGN_CENTER,border = 5)
+        hboxTurni.Add(self.viewerTurno3,proportion = 0,flag = wx.ALL|wx.ALIGN_CENTER,border = 5)
+        vboxLaterale.Add(hboxTurni,proportion = 1,flag = wx.EXPAND)
+
 
         bmp = wx.Bitmap()
         self.viewerIconPlayerTurno = wx.StaticBitmap(panel, bitmap=bmp)
@@ -66,6 +76,7 @@ class CampoDaGioco(wx.Frame):
         self.SetMaxSize((1280, 720))
         panel.SetSizer(box)
         self.SetIcon(wx.Icon("../tabellone/simboloInfinito-500vuoto.png"))
+        self.Bind(wx.EVT_CLOSE,self.close)
 
     def calcolaClassifica(self,giocatori):
         classifica = []
