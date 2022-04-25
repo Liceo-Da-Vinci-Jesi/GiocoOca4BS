@@ -95,8 +95,6 @@ class Gioco:
             
             self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
             self.tabellone.PGiocaTurno.Enable()
-            self.tabellone.testoLancioDado.SetOwnForegroundColour((240, 240, 240))
-            self.tabellone.testoDado.SetOwnForegroundColour((240,240,240))
 
             bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
             bmp.SetSize( (100,100) )
@@ -106,7 +104,6 @@ class Gioco:
         return
 
     def AggiornaTurno(self):
-        self.tabellone.testoLancioDado.SetLabel("")
         giocatori = self.listaGiocatori
         turnoDi = self.turnoGiocatore
         #ix = index
@@ -123,7 +120,7 @@ class Gioco:
         bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
         bmp.SetSize((100, 100))
         self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
-        #self.tabellone.viewerIconPlayerTurno.SetSize((75,75))
+        self.tabellone.viewerDado.SetBitmap(wx.Bitmap())
         return
 
     def aggiornaGrafica(self):
@@ -143,7 +140,6 @@ class Gioco:
     def GiocaTurnoDi(self,event):
         if not self.attesaDomanda:
             dado = self.tiraDado()
-            self.tabellone.testoDado.SetLabel(str(dado))
             for n in range(dado):
                 if self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].posizione + 1 > 42:
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
@@ -157,7 +153,6 @@ class Gioco:
                     time.sleep(0.5)
             time.sleep(1)
             if self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo == "":
-                self.tabellone.testoDado.Hide()
                 self.AggiornaTurno()
                 return
             if self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo == "jolly":
@@ -201,27 +196,23 @@ class Gioco:
         self.attesaDomanda = False
         self.finestraDomanda.Destroy()
         self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
+        self.tabellone.viewerDado.SetBitmap(wx.Bitmap((100, 100), depth=2))
         if not self.EsitoCorretto:
             self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].sbagliate += 1
-            self.tabellone.testoDado.Hide()
             self.AggiornaTurno()
         else:
             self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].corrette += 1
         return
 
     def tiraDado(self):
-        self.tabellone.testoLancioDado.SetOwnForegroundColour((0, 0, 0))
-        self.tabellone.testoDado.SetOwnForegroundColour((0,0,0))
-        self.tabellone.testoDado.Show()
-        self.tabellone.testoLancioDado.Show()
-        self.tabellone.testoLancioDado.SetLabel("Lancio del\ndado")
-        for n in range(3):
-            self.tabellone.testoLancioDado.SetLabel(self.tabellone.testoLancioDado.GetLabel()+".")
-            self.tabellone.testoDado.SetLabel(str(random.randint(1,6)))
-            time.sleep(0.5)
-        uscito = random.randint(1,6)
-        self.tabellone.testoDado.SetLabel(str(uscito))
-        self.tabellone.testoLancioDado.SetLabel("È Uscito:")
+        self.tabellone.viewerDado.SetBitmap(wx.Bitmap((100,100),depth = 2))
+        for n in range(7):
+            uscito = random.randint(1, 6)
+            percorso = "../dado/dado"+str(uscito)+".png"
+            bmp = wx.Bitmap(percorso)
+            bmp.SetSize( (100,100) )
+            self.tabellone.viewerDado.SetBitmap(bmp)
+            time.sleep(0.3)
         return uscito
 
     def creaTipoCaselle(self):

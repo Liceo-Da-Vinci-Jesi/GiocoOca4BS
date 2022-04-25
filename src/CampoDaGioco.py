@@ -36,24 +36,23 @@ class CampoDaGioco(wx.Frame):
         self.PGiocaTurno.SetFont(font)
         vboxLaterale.Add(self.PGiocaTurno, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
 
-        # vboxLaterale.Add((-1,60))
-        hbox = wx.BoxSizer(wx.HORIZONTAL)
-        self.testoLancioDado = wx.StaticText(panel, label="Lancio del\ndado...", style=wx.ALIGN_CENTER_HORIZONTAL)
-        self.testoLancioDado.SetFont(font)
-        hbox.Add(self.testoLancioDado, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL)
-        vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
-
-        # vboxLaterale.Add((-1,60))
-        hbox = wx.BoxSizer(wx.HORIZONTAL)
-        self.testoDado = wx.StaticText(panel, label="0")
-        self.testoDado.SetFont(font)
-        hbox.Add(self.testoDado, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL)
-        vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
-
         #
         bmp = wx.Bitmap()
+        vboxLaterale.Add((-1,10))
+        self.viewerDado = wx.StaticBitmap(panel, bitmap=bmp)
+        self.viewerDado.SetSize((100,100))
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        vbox.Add(self.viewerDado,proportion = 0,flag = wx.ALIGN_CENTER)
+        vboxLaterale.Add(vbox, proportion=1, flag=wx.LEFT|wx.RIGHT, border=33)
+
+        #
+        vboxLaterale.Add((-1,30))
+        bmp = wx.Bitmap()
         self.viewerIconaEsito = wx.StaticBitmap(panel,bitmap = bmp)
-        vboxLaterale.Add(self.viewerIconaEsito,proportion = 1,flag = wx.ALL|wx.ALIGN_CENTER,border = 5)
+        self.viewerIconaEsito.SetSize((100,100))
+        vbox2 = wx.BoxSizer(wx.VERTICAL)
+        vbox2.Add(self.viewerIconaEsito,proportion = 0,flag = wx.ALIGN_CENTER)
+        vboxLaterale.Add(vbox2,proportion = 1,flag = wx.LEFT|wx.RIGHT,border = 33)
 
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)

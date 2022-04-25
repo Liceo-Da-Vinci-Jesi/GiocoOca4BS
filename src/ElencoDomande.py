@@ -1,4 +1,4 @@
-import csv,time
+import csv
 #calcola tutte le domande presenti nel file "domandeItaliano.csv" e le divide in dizionari
 #con chiavi l'argomento principale; i rispettivi valori sono liste con elementi della domanda
 #es: {'Machiavelli': [('Machiavelli', "Dov'Ã¨ nato NiccolÃ² Machiavelli?", 'Jesi', 'Firenze', 'Ancona', 'Roma', 'B'), ('Machiavelli', 'Cosa ha scritto Machiavelli?', 'Gerusalemme Liberata', 'Il Principe', 'Divina Commedia', 'Orlando Furioso', 'B')}
@@ -46,3 +46,6 @@ class ElencoDomande:
 
 if __name__ == "__main__":
     a = ElencoDomande()
+    for n in a.listaDomande:
+        for b in a.listaDomande[n]:
+            print(b,"\n")

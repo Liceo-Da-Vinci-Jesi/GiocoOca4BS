@@ -87,7 +87,6 @@ class Lobby(wx.Frame):
         self.SetMaxSize((903,414))
         self.Centre()
         self.Refresh()
-        self.Bind(wx.EVT_CLOSE,self.nonChiudere)
 
         viewer1.SetBitmap(wx.Bitmap((100,100), depth=2))
         textCtrl1.Disable()
@@ -97,23 +96,6 @@ class Lobby(wx.Frame):
         textCtrl3.Disable()
         viewer4.SetBitmap(wx.Bitmap((100,100), depth=2))
         textCtrl4.Disable()
-        # PROF: Che senso ha sto Bind qua? Per me nessuno...
-        #self.Bind(wx.EVT_CLOSE,self.aggiustaScalaIcone)
-    
-    def aggiustaScalaIcone(self,evt):
-        print(self.GetSize())
-        self.Refresh()
-        for n in self.listaPanel:
-            if type(n) == type(wx.StaticBitmap()):
-                print("AA")
-                n.SetScaleMode(1)
-        return
-    
-    # PROF: Perché una funzione chiamata "nonChiudere" fa Destroy??? :)
-    def nonChiudere(self,event):
-        print("non dovrei chiudere, ma...")
-        self.Destroy()
-        return
     
     def sbloccaStato(self,event):
         self.Refresh()

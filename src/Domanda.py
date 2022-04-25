@@ -19,7 +19,6 @@ class FinestraDomanda(wx.Frame):
         super().__init__(None, title="Domanda - "+giocatore.nome)
         panel = wx.Panel(self)
         font13Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
-        font9Norm = wx.Font(9, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         font10Norm = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         self.rispostaEsatta = Domanda.rispostaEsatta
         risposte = [Domanda.rispostaA, Domanda.rispostaB, Domanda.rispostaC]
@@ -91,8 +90,9 @@ class FinestraDomanda(wx.Frame):
 
         panel.SetSizer(box)
         box.Fit(self)
-        self.SetMinSize(self.GetSize())
-        self.SetMaxSize((950,350))
+        dim = self.GetSize()
+        self.SetMinSize(dim)
+        self.SetMaxSize((dim[0]+150,dim[1]+100))
         self.timer = wx.Timer(self)
         #adatta al meglio le dimensioni della finestra in base alla domanda
         self.Hide()
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     domande = ElencoDomande.ElencoDomande().listaDomande
     app = wx.App()
     player = Giocatore.Giocatore("Io","a")
-    domandaDaFare = scegliDomandaDaFare("operette",domande)
-    window = FinestraDomanda(domandaDaFare,player)
+    domandaDaFare = scegliDomandaDaFare("poeticaDeiPaesaggi",domande)
+    window = FinestraDomanda(domandaDaFare,player,"poeticaDeiPaesaggi")
     window.Show()
     app.MainLoop()
