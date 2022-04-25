@@ -57,6 +57,10 @@ class Gioco:
         self.tabellone.SetTitle("Leopardi - Gioco Dell'Oca 4Bs")
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         #self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
+
+        # conterrà l'immagine del campo da gioco, generata dalla funzione "creaGraficaCaselle"
+        #self.sfondoCampoDaGioco
+
         return
 
     def chiudiGioco(self,event):
@@ -123,8 +127,7 @@ class Gioco:
         return
 
     def aggiornaGrafica(self):
-        campoDaGioco = Image.open('fileCampoDaGiocoRid2.png')
-        sfondo = campoDaGioco.copy()
+        sfondo = self.sfondoCampoDaGioco.copy()
 
         for n in self.listaGiocatori:
             iconaGiocatore = Image.open(n.iconPath).resize( (24,24) )
@@ -293,7 +296,8 @@ class Gioco:
                 icona = Image.open("quadratoNeroTrasparente-500.png")
             icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
             sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
-        sfondo.save("fileCampoDaGiocoRid2.png")
+        
+        self.sfondoCampoDaGioco = sfondo
                     
         return
 
