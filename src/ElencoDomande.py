@@ -18,6 +18,7 @@ def load():
     file.close()
 
     return tutteLeDomande
+
 def aggiustaCaratteriStrani(testo):
     testo = testo.replace("Ã¹","ù")
     testo = testo.replace("Ã¨","è")
@@ -32,6 +33,7 @@ def aggiustaCaratteriStrani(testo):
     testo = testo.replace("â€¦", "...")
     testo = testo.replace("à©", "é")
     return testo
+
 def mettiACapo(testo):
     #Ho scelto 000 come elemento del testo da sostituire ma andava benissimo qualsiasi altro carattere/sequenza ben individuabile e che non interferisca in qualche modo con il resto
     testo = testo.replace("000","\n")

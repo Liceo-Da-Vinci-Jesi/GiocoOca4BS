@@ -35,7 +35,7 @@ coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623
 
 class Gioco:
     def __init__(self):
-        self.iconeDisponibili = ["iconaGinestra-100.png" , "iconaCandela-100.png" , "iconaZibaldone-100.png" , "iconaPassero-100.png" ]
+        self.iconeDisponibili = ["../icone/iconaGinestra-100.png" , "../icone/iconaCandela-100.png" , "../icone/iconaZibaldone-100.png" , "../icone/iconaPassero-100.png" ]
         random.shuffle(self.iconeDisponibili)
         self.listaTipoCaselle = []
         self.creaTipoCaselle()
@@ -180,10 +180,10 @@ class Gioco:
     def visualizzaCorretteErrate(self,event):
         ID = event.GetId()
         self.EsitoCorretto = False
-        self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("iconaErrato.png"))
+        self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaErrato.png"))
         if self.finestraDomanda.esitoRisposta(ID):
             self.EsitoCorretto = True
-            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("iconaEsatto.png"))
+            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaEsatto.png"))
         self.finestraDomanda.Bind(wx.EVT_TIMER,self.Risposto,self.finestraDomanda.timer)
         self.finestraDomanda.timer.StartOnce(2200)
         lista = [self.finestraDomanda.PulsanteA,self.finestraDomanda.PulsanteB,self.finestraDomanda.PulsanteC]
@@ -271,29 +271,29 @@ class Gioco:
         #VERDE = LUOGHIAUTOBIOGRAFICI 
         #ROSSO = CANTI 
         #GIALLO = OPERETTE 
-        campoDaGioco = Image.open('fileCampoDaGiocoRid.png')
+        campoDaGioco = Image.open('../tabellone/fileCampoDaGiocoRid.png')
         #campoDaGioco = Image.open('bgMHA.jpg').resize((1075,670))
         sfondo = campoDaGioco.copy()
         wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
         wx_image.SetData(sfondo.convert("RGB").tobytes())
-        icona = Image.open("quadratoNeroTrasparente-500.png")
+        icona = Image.open("../tabellone/quadratoNeroTrasparente-500.png")
         icona = icona.resize((coordinateCaselle[0][1][0], coordinateCaselle[0][1][1]))
         sfondo.paste(icona, (coordinateCaselle[0][0][0], coordinateCaselle[0][0][1]), icona)
         for n in diz:
             tipo = diz[n]
             if tipo != "":
                 if tipo == "luoghiAutobiografici":
-                    icona = Image.open("quadratoVerdeTrasparente-500.png")
+                    icona = Image.open("../tabellone/quadratoVerdeTrasparente-500.png")
                 elif tipo == "poeticaDeiPaesaggi":
-                    icona = Image.open("quadratoBluTrasparente-500.png")
+                    icona = Image.open("../tabellone/quadratoBluTrasparente-500.png")
                 elif tipo == "canti":
-                    icona = Image.open("quadratoRossoTrasparente-500.png")
+                    icona = Image.open("../tabellone/quadratoRossoTrasparente-500.png")
                 elif tipo == "operette":
-                    icona = Image.open("quadratoGialloTrasparente-500.png")
+                    icona = Image.open("../tabellone/quadratoGialloTrasparente-500.png")
                 elif tipo == "jolly":
-                    icona = Image.open("simboloInfinito-500.png")
+                    icona = Image.open("../tabellone/simboloInfinito-500.png")
             else:
-                icona = Image.open("quadratoNeroTrasparente-500.png")
+                icona = Image.open("../tabellone/quadratoNeroTrasparente-500.png")
             icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
             sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
         

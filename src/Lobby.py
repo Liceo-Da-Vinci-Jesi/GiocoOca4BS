@@ -141,6 +141,6 @@ class Lobby(wx.Frame):
 # ----------------------------------------
 if __name__ == "__main__":
     app = wx.App()
-    window = Lobby( ["iconaCandela-100.png" , "iconaGinestra-100.png" , "iconaPassero-100.png" , "iconaZibaldone-100.png"] )
+    window = Lobby( ["../icone/iconaCandela-100.png" , "../icone/iconaGinestra-100.png" , "../icone/iconaPassero-100.png" , "../icone/iconaZibaldone-100.png"] )
     window.Show()
     app.MainLoop()
