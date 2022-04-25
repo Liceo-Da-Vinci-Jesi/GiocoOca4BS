@@ -44,6 +44,7 @@ class Statistiche(wx.Frame):
         box.Fit(self)
         self.SetMinSize(self.GetSize())
         self.SetMaxSize(self.GetSize())
+        self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
 
 
 if __name__ == "__main__":

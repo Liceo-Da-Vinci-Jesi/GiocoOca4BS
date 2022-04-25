@@ -86,6 +86,7 @@ class Lobby(wx.Frame):
         self.SetSize((814,310))
         self.SetMaxSize((903,414))
         self.Centre()
+        self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
         self.Refresh()
 
         viewer1.SetBitmap(wx.Bitmap((100,100), depth=2))

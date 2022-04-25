@@ -99,6 +99,7 @@ class FinestraDomanda(wx.Frame):
         self.Show()
         self.Bind(wx.EVT_CLOSE,self.nonChiudi)
         self.Centre()
+        self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
         
     def esitoRisposta(self,ID):
         if ID == self.IdCorretto:

@@ -75,7 +75,7 @@ class CampoDaGioco(wx.Frame):
         self.SetMinSize((1280, 720))
         self.SetMaxSize((1280, 720))
         panel.SetSizer(box)
-        self.SetIcon(wx.Icon("../tabellone/simboloInfinito-500vuoto.png"))
+        self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
         self.Bind(wx.EVT_CLOSE,self.close)
 
     def calcolaClassifica(self,giocatori):
@@ -135,6 +135,7 @@ class CampoDaGioco(wx.Frame):
         panel2.SetSizer(vbox)
         self.SetMinSize((536, 508))
         self.SetMaxSize((837,793))
+        self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
         self.SetSize((670,635))
         return
     
