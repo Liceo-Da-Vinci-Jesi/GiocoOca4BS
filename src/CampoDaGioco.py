@@ -3,6 +3,7 @@ import wx, finestraStatistiche
 class CampoDaGioco(wx.Frame):
     def __init__(self):
         super().__init__(None, title="Campo Da Gioco - Preview")
+        self.conta = 0
         self.posizione1 = -1
         self.posizione2 = -1
         panel = wx.Panel(self)
@@ -118,7 +119,6 @@ class CampoDaGioco(wx.Frame):
             testo.SetFont(font20)
             hbox.Add(testo,proportion = 1,flag = wx.ALL,border = 5)
             bitmap = wx.Bitmap(player.iconPath)
-            bitmap.SetSize((75,75))
             viewer = wx.StaticBitmap(panel2, bitmap=bitmap)
             hbox.Add(viewer,proportion = 1,flag = wx.ALL,border = 5)
             vboxClassifica.Add(hbox,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
@@ -133,17 +133,21 @@ class CampoDaGioco(wx.Frame):
         vbox.Add(hbox,proportion = 0,flag = wx.ALL|wx.EXPAND,border = 5)
         self.pulsanteInfo.Bind(wx.EVT_BUTTON,self.finestraStatistiche)
         panel2.SetSizer(vbox)
-        self.SetMinSize((536, 508))
-        self.SetMaxSize((837,793))
+        self.SetMinSize((536, 590))
+        self.SetMaxSize((750,730))
         self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
         self.SetSize((670,635))
         return
     
     def finestraStatistiche(self,event):
-        a = finestraStatistiche.Statistiche(self.classifica)
-        a.Show()
+        try:
+            self.a.Close()
+        except AttributeError:
+            self.a = finestraStatistiche.Statistiche(self.classifica)
+        finally:
+            self.a.Show()
         return
-    
+
     def close(self,event):
         self.Destroy()
         quit()

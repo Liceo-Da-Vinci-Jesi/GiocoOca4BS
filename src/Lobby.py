@@ -73,7 +73,7 @@ class Lobby(wx.Frame):
         self.listaViewer = (viewer1,viewer2,viewer3,viewer4)
 
         self.contaGiocatori = 0
-        self.PIniziaPartita= wx.Button(panel, label="INIZIA LA PARTITA")
+        self.PIniziaPartita= wx.Button(panel, label="INIZIA PARTITA")
         self.PIniziaPartita.SetFont(font25Bold)
         vbox.Add(grid,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
         vbox.Add(hbox,proportion = 2,flag = wx.ALL|wx.EXPAND,border = 5)

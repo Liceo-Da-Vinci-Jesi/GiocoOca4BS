@@ -54,10 +54,7 @@ class Gioco:
         self.attesaDomanda = False
         self.tabellone.SetTitle("Leopardi - Gioco Dell'Oca 4Bs")
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
-        #self.tabellone.Bind(wx.EVT_COSE,self.chiudiGioco)
-
-        # conterrà l'immagine del campo da gioco, generata dalla funzione "creaGraficaCaselle"
-        #self.sfondoCampoDaGioco
+        self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
 
         return
 
@@ -290,7 +287,7 @@ class Gioco:
         #VERDE = LUOGHIAUTOBIOGRAFICI 
         #ROSSO = CANTI 
         #GIALLO = OPERETTE 
-        campoDaGioco = Image.open('../tabellone/fileCampoDaGiocoRid.png')
+        campoDaGioco = Image.open('../tabellone/fileSfondoCampoDaGioco.png')
         #campoDaGioco = Image.open('bgMHA.jpg').resize((1075,670))
         sfondo = campoDaGioco.copy()
         wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
@@ -315,6 +312,8 @@ class Gioco:
                 icona = Image.open("../tabellone/quadratoNeroTrasparente-500.png")
             icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
             sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
+        img = Image.open("../tabellone/fileScheletroTabellone.png")
+        sfondo.paste(img,(0,0),img)
         
         self.sfondoCampoDaGioco = sfondo
                     
