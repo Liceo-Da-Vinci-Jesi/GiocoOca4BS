@@ -133,10 +133,10 @@ class CampoDaGioco(wx.Frame):
         vbox.Add(hbox,proportion = 0,flag = wx.ALL|wx.EXPAND,border = 5)
         self.pulsanteInfo.Bind(wx.EVT_BUTTON,self.finestraStatistiche)
         panel2.SetSizer(vbox)
-        self.SetMinSize((536, 590))
+        self.SetMinSize((536, 678))
         self.SetMaxSize((750,730))
         self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
-        self.SetSize((670,635))
+        self.SetSize((670,679))
         return
     
     def finestraStatistiche(self,event):
