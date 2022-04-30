@@ -2,7 +2,7 @@ import wx
 import wx.adv
 from PIL import Image
 import random , time
-import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande
+import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande, datetime
 
 
 coordinateCaselle = {0:((34,524),(80,65)),1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
@@ -90,6 +90,7 @@ class Gioco:
             self.aggiornaGrafica()
             
             self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
+            self.tabellone.testoTurno.SetForegroundColour(((255,255,255)))
             self.tabellone.PGiocaTurno.Enable()
 
             bmp = wx.Bitmap(self.turnoGiocatore.iconPath)
@@ -166,6 +167,7 @@ class Gioco:
             dado = self.tiraDado()
             for n in range(dado):
                 if self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].posizione + 1 > 42:
+                    #QUALCUNO HA VINTO
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
                     self.tabellone.finale(self.listaGiocatori)
                     self.tabellone.pulsanteChiudi.Bind(wx.EVT_BUTTON, self.chiudiGioco)

@@ -7,6 +7,7 @@ class CampoDaGioco(wx.Frame):
         self.posizione1 = -1
         self.posizione2 = -1
         panel = wx.Panel(self)
+        panel.SetOwnBackgroundColour((40, 40, 40))
         box = wx.BoxSizer(wx.HORIZONTAL)
         bmp = wx.Bitmap("../tabellone/fileCampoDaGiocoRid.png")
         self.viewer = wx.StaticBitmap(panel, bitmap=bmp)

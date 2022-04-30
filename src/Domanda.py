@@ -1,4 +1,4 @@
-import wx,random
+import wx,random, wx.adv
 import Giocatore
 
 
@@ -18,6 +18,7 @@ class FinestraDomanda(wx.Frame):
     def __init__(self,Domanda,giocatore,tipo):
         super().__init__(None, title="Domanda - "+giocatore.nome)
         panel = wx.Panel(self)
+        self.suonoChiusura = wx.adv.Sound(fileName = "../audio/conan errape.wav")
         font13Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         font10Norm = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         self.rispostaEsatta = Domanda.rispostaEsatta
@@ -108,6 +109,7 @@ class FinestraDomanda(wx.Frame):
         return False
 
     def nonChiudi(self,event):
+        self.suonoChiusura.Play()
         return
 
 def scegliDomandaDaFare(tipologia,lista):
