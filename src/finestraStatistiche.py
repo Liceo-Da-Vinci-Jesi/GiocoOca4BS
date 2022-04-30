@@ -2,7 +2,7 @@ import wx
 
 class Statistiche(wx.Frame):
     def __init__(self,classifica):
-        super().__init__(None, title="Statistiche - Gioco Dell'oca Leopardi 4Bs")
+        super().__init__(None, title="Il gioco dei paesaggi di Giacomo - Statistiche")
         panel = wx.Panel(self)
         box = wx.BoxSizer(wx.VERTICAL)
         font20 = wx.Font(20, wx.DEFAULT, wx.NORMAL, wx.BOLD)

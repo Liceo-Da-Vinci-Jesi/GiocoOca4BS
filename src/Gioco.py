@@ -1,5 +1,7 @@
 import wx
 import wx.adv
+import pygame
+import pygame.mixer
 from PIL import Image
 import random , time
 import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande, datetime
@@ -30,7 +32,7 @@ coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623
                     13:(956,557) , 14:(956,487) , 15:(956,417) , 16:(956,346) , 17:(956,275) , 18:(956,205) , 19:(956,134) , 20:(956,63), 21:(880,63) , 22:(805,63) , 23:(724,63) , 24:(643,63),
                     25:(563,63) , 26:(483,63), 27:(402,63) , 28:(323,63) , 29:(244,63), 30:(164,63) , 31:(164,131) , 32:(164,201) , 33:(164,273) , 34:(164,343), 35:(164,413) , 36:(244,413) , 37:(323,413),
                     38: (403, 413), 39: (483, 413), 40: (565, 413), 41: (642, 413), 42: (721, 413), 43: (721, 347)}
-
+pygame.init()
 
 class Gioco:
     def __init__(self):
@@ -43,7 +45,7 @@ class Gioco:
         self.listaGiocatori = 0
         self.pulsanteGioca = ""
         self.FinestraLobby = Lobby.Lobby(self.iconeDisponibili)
-        self.FinestraLobby.SetTitle("Lobby - Gioco Dell'Oca 4Bs")
+        self.FinestraLobby.SetTitle("Il gioco dei paesaggi di Giacomo - Lobby")
         self.FinestraLobby.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
         self.FinestraLobby.PIniziaPartita.Bind(wx.EVT_BUTTON,self.IniziaPartita)
         #tabellone = classe Campo da Gioco
@@ -52,16 +54,19 @@ class Gioco:
         self.tabellone.PGiocaTurno.Bind(wx.EVT_BUTTON, self.GiocaTurnoDi)
         self.tabellone.PGiocaTurno.Disable()
         self.attesaDomanda = False
-        self.tabellone.SetTitle("Leopardi - Gioco Dell'Oca 4Bs")
+        self.tabellone.SetTitle("Il gioco dei paesaggi di Giacomo")
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
-
+        self.audioDadi = wx.adv.Sound("../audio/Casting dices.wav")
+        #self.audioSottofondo = wx.adv.Sound("../audio/aria.wav")
+        
         return
 
     def chiudiGioco(self,event):
         #self.tabellone.finale(self.listaGiocatori)
-        self.tabellone.Close()
         quit()
+        pygame.mixer.music.stop()
+        self.tabellone.Close()
         return
 
     def Riavvia(self,event):
@@ -99,6 +104,8 @@ class Gioco:
             self.aggiornaGraficaTurni()
             #self.tabellone.viewerIconPlayerTurno.SetSize((150,100))
             #self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
+            pygame.mixer.music.load("../audio/aria.wav")
+            pygame.mixer.music.play(-1)
         return
 
     def AggiornaTurno(self):
@@ -201,11 +208,15 @@ class Gioco:
 
     def visualizzaCorretteErrate(self,event):
         ID = event.GetId()
-        self.EsitoCorretto = False
-        self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaErrato.png"))
         if self.finestraDomanda.esitoRisposta(ID):
+            wx.adv.Sound("../audio/audioPositive"+str(random.randint(1,6))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
             self.EsitoCorretto = True
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaEsatto.png"))
+        else:
+            wx.adv.Sound("../audio/audioNegative"+str(random.randint(1,3))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
+            self.EsitoCorretto = False
+            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaErrato.png"))
+            
         self.finestraDomanda.Bind(wx.EVT_TIMER,self.Risposto,self.finestraDomanda.timer)
         self.finestraDomanda.timer.StartOnce(2200)
         lista = [self.finestraDomanda.PulsanteA,self.finestraDomanda.PulsanteB,self.finestraDomanda.PulsanteC]
@@ -233,13 +244,14 @@ class Gioco:
 
     def tiraDado(self):
         self.tabellone.viewerDado.SetBitmap(wx.Bitmap((100,100),depth = 2))
+        self.audioDadi.Play(flags = wx.adv.SOUND_ASYNC)
         for n in range(7):
             uscito = random.randint(1, 6)
             percorso = "../dado/dado"+str(uscito)+".png"
             bmp = wx.Bitmap(percorso)
             bmp.SetSize( (100,100) )
             self.tabellone.viewerDado.SetBitmap(bmp)
-            time.sleep(0.3)
+            time.sleep(0.2)
         return uscito
 
     def creaTipoCaselle(self):
