@@ -61,19 +61,17 @@ class Lobby(wx.Frame):
         self.SetMaxSize((903,414))
         self.Centre()
         self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
-        self.Refresh()
 
     def sbloccaStato(self,event):
-        self.Refresh()
         if self.listaToggleButton[event.GetId()-1].GetValue():
             self.contaGiocatori+=1
             self.listaViewer[event.GetId()-1].SetBitmap(wx.Bitmap(self.listaIcone[event.GetId()-1]))
             self.listaTc[event.GetId()-1].Enable()
             self.listaTc[event.GetId()-1].SetFocus()
         else:
+            #quando un pulsante viene disattivato fa ritornare l'immagine corrispondente sulla scala dei grigi (ToDisabled)
             self.contaGiocatori-=1
             self.listaTc[event.GetId()-1].Disable()
-            img = wx.Bitmap(self.listaIcone[event.GetId()-1]).ConvertToDisabled()
             self.listaViewer[event.GetId()-1].SetBitmap(wx.Bitmap(self.listaIcone[event.GetId()-1]).ConvertToDisabled())
         self.sbloccaTastoInizioPartita()
         self.Refresh()

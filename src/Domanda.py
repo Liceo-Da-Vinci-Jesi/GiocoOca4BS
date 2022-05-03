@@ -18,12 +18,14 @@ class FinestraDomanda(wx.Frame):
     def __init__(self,Domanda,giocatore,tipo):
         super().__init__(None, title="Domanda - "+giocatore.nome)
         panel = wx.Panel(self)
-        self.suonoChiusura = wx.adv.Sound(fileName = "../audio/conan errape.wav")
+        self.suonoChiusura = wx.adv.Sound()
         font13Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         font10Norm = wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         self.rispostaEsatta = Domanda.rispostaEsatta
         risposte = [Domanda.rispostaA, Domanda.rispostaB, Domanda.rispostaC]
         random.shuffle(risposte)
+        #attraverso il random mischio la sequenza delle risposte
+        #mi salvo però l'id del pulsante che contiene quella esatta
         for n in risposte:
             if n == self.rispostaEsatta:
                 self.IdCorretto = risposte.index(n) + 1
@@ -41,6 +43,7 @@ class FinestraDomanda(wx.Frame):
             vboxDestra = wx.BoxSizer(wx.VERTICAL)
             testoDomanda = wx.StaticText(panel,style = wx.TE_CENTRE)
             partiDomanda = Domanda.domanda.split()
+            #per essere sicuri che la domanda non risulti molto larga, ogni 60 caratteri va a capo
             label = ""
             conta = ""
             for n in partiDomanda:
@@ -71,6 +74,7 @@ class FinestraDomanda(wx.Frame):
             hPulsanti.Add(self.PulsanteB,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
             hPulsanti.Add(self.PulsanteC,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
             box.Add(hPulsanti,proportion = 0,flag = wx.ALL|wx.EXPAND,border = 5)
+        #controllo che anche i label dei pulsanti non siano composto da righe di testo troppo lunghe
         for puls in self.listaPulsanti:
             label = ""
             conta = ""
@@ -87,17 +91,19 @@ class FinestraDomanda(wx.Frame):
 
         n = ("operette","canti","poeticaDeiPaesaggi","luoghiAutobiografici")
         c = ((255,253,227),(255,225,225),(227,233,255),(228,255,227))
+        #imposto il colore dello sfondo in base alla tipologia di Casella in cui mi trovo
         panel.SetBackgroundColour(c[n.index(tipo)])
 
         panel.SetSizer(box)
+        #adatta al meglio le dimensioni della finestra in base alla domanda
         box.Fit(self)
         dim = self.GetSize()
         self.SetMinSize(dim)
         self.SetMaxSize((dim[0]+150,dim[1]+100))
         self.timer = wx.Timer(self)
-        #adatta al meglio le dimensioni della finestra in base alla domanda
         self.Hide()
         self.Show()
+        #la finestra non si deve chiudere e produrra un suono
         self.Bind(wx.EVT_CLOSE,self.nonChiudi)
         self.Centre()
         self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))

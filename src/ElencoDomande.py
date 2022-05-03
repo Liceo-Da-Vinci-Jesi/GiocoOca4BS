@@ -1,7 +1,7 @@
 import csv
 #calcola tutte le domande presenti nel file "domandeItaliano.csv" e le divide in dizionari
-#con chiavi l'argomento principale; i rispettivi valori sono liste con elementi della domanda
-#es: {'Machiavelli': [('Machiavelli', "Dov'Ã¨ nato NiccolÃ² Machiavelli?", 'Jesi', 'Firenze', 'Ancona', 'Roma', 'B'), ('Machiavelli', 'Cosa ha scritto Machiavelli?', 'Gerusalemme Liberata', 'Il Principe', 'Divina Commedia', 'Orlando Furioso', 'B')}
+#con chiavi l'argomento principale (tipo di domanda); i rispettivi valori sono liste con tuple di elementi della domanda (tipo/domanda/rispostaA/rispostaB/rispostaC/rispostaEsatta/eventualeTesto)
+#es: {luoghiAutobiografici': [('luoghiAutobiografici', 'Quando nacque Giacomo a Recanati?', '29 giugno 1798', '29 giugno 1788', '19 giugno 1798', '29 giugno 1798', ''), ('luoghiAutobiografici', 'Dove si trova palazzo Leopardi?', 'Rione Monte Morello', 'Monte Tabor', 'Porto Recanati', 'Rione Monte Morello', '')]}
 def load():
     file = open("domandeItaliano.csv","r")
     lettore = csv.DictReader(file,delimiter = "/")
@@ -35,7 +35,7 @@ def aggiustaCaratteriStrani(testo):
     return testo
 
 def mettiACapo(testo):
-    #Ho scelto 000 come elemento del testo da sostituire ma andava benissimo qualsiasi altro carattere/sequenza ben individuabile e che non interferisca in qualche modo con il resto
+    # 000 è un elemento del testo da sostituire con un banale \n; anzichè 000 andava bene qualsiasi altro carattere/sequenza ben individuabile e che non interferirebbe in qualche modo con il testo
     testo = testo.replace("000","\n")
     return testo
 
@@ -46,6 +46,8 @@ class ElencoDomande:
 
 if __name__ == "__main__":
     a = ElencoDomande()
+    print(a.listaDomande)
     for n in a.listaDomande:
-        for b in a.listaDomande[n]:
-            print(b,"\n")
+        print(n)
+    #    for b in a.listaDomande[n]:
+    #        print(b,"\n")

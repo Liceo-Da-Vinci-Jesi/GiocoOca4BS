@@ -3,9 +3,7 @@ import wx, finestraStatistiche
 class CampoDaGioco(wx.Frame):
     def __init__(self):
         super().__init__(None, title="Campo Da Gioco - Preview")
-        self.conta = 0
-        self.posizione1 = -1
-        self.posizione2 = -1
+        #E' una schermata di prova, il campo da gioco effettivo verrà visualizzato una volta eseguito il file 'Gioco.py'
         panel = wx.Panel(self)
         panel.SetOwnBackgroundColour((40, 40, 40))
         box = wx.BoxSizer(wx.HORIZONTAL)
@@ -15,6 +13,7 @@ class CampoDaGioco(wx.Frame):
 
         vboxLaterale = wx.BoxSizer(wx.VERTICAL)
         font = wx.Font(15, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        # i trattini sono solo per estetica, niente di più
         testoSpazio = wx.StaticText(panel, label="------------------------")
         testoSpazio.SetFont(font)
         testoSpazio.Disable()
@@ -22,6 +21,7 @@ class CampoDaGioco(wx.Frame):
         hbox.Add(testoSpazio, proportion=0, flag=wx.ALL | wx.ALIGN_TOP)
         vboxLaterale.Add(hbox, proportion=0, flag=wx.ALL, border=0)
 
+        #sezione relativa alle icone dei giocatori dei turni successivi
         hboxTurni = wx.BoxSizer(wx.HORIZONTAL)
         self.viewerTurno1 = wx.StaticBitmap(panel,bitmap = wx.Bitmap())
         self.viewerTurno2 = wx.StaticBitmap(panel,bitmap = wx.Bitmap())
@@ -48,7 +48,7 @@ class CampoDaGioco(wx.Frame):
         self.PGiocaTurno.SetFont(font)
         vboxLaterale.Add(self.PGiocaTurno, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
 
-        #
+        # spazio per l'icona del dado
         bmp = wx.Bitmap()
         vboxLaterale.Add((-1,10))
         self.viewerDado = wx.StaticBitmap(panel, bitmap=bmp)
@@ -57,7 +57,7 @@ class CampoDaGioco(wx.Frame):
         vbox.Add(self.viewerDado,proportion = 0,flag = wx.ALIGN_CENTER)
         vboxLaterale.Add(vbox, proportion=1, flag=wx.LEFT|wx.RIGHT, border=33)
 
-        #
+        # spazio per l'icona che da l'esito della risposta
         vboxLaterale.Add((-1,30))
         bmp = wx.Bitmap()
         self.viewerIconaEsito = wx.StaticBitmap(panel,bitmap = bmp)
@@ -74,6 +74,7 @@ class CampoDaGioco(wx.Frame):
         hbox.Add(testoSpazio, proportion=0, flag=wx.ALL | wx.ALIGN_BOTTOM)
         vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL, border=0)
         box.Add(vboxLaterale, proportion=0, flag=wx.ALL | wx.EXPAND, border=5)
+        #la schermata non può essere ridimensionata poichè altrimenti si andrebbe a perdere le coordinate a cui vanno inserite le icone dei giocatori
         self.SetMinSize((1280, 720))
         self.SetMaxSize((1280, 720))
         panel.SetSizer(box)
@@ -81,6 +82,7 @@ class CampoDaGioco(wx.Frame):
         self.Bind(wx.EVT_CLOSE,self.close)
 
     def calcolaClassifica(self,giocatori):
+        #data una lista di giocatori, ne calcola la classifica in base alla posizione
         classifica = []
         classificapos = []
         for player in giocatori:
@@ -94,10 +96,11 @@ class CampoDaGioco(wx.Frame):
             for player in giocatori:
                 if player.posizione == n:
                     classifica.append(player)
-        #print(classifica)
         return classifica
     
     def finale(self,giocatori):
+        #finale è la funzione che viene eseguita dall'interno del file Gioco una volta che un giocatore ha superato la casella N°42
+        #consiste nel cancellare tutti gli attributi precedenti di questa classe per andare a creare una "nuova" finestra seppur è sempre la stessa
         self.DestroyChildren()
         panel2 = wx.Panel(self)
         panel2.SetBackgroundColour((40,40,40))
@@ -141,6 +144,7 @@ class CampoDaGioco(wx.Frame):
         return
     
     def finestraStatistiche(self,event):
+        # è necessario ciò affinchè venga creata al massimo una finestra statistiche (probabile bug)
         try:
             self.a.Close()
         except AttributeError:

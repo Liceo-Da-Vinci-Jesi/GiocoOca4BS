@@ -58,7 +58,6 @@ class Gioco:
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
         self.audioDadi = wx.adv.Sound("../audio/Casting dices.wav")
-        #self.audioSottofondo = wx.adv.Sound("../audio/aria.wav")
         
         return
 
@@ -86,6 +85,7 @@ class Gioco:
         for n in nomi:
             if nomi.count(n) > 1 or n.replace(" ","") == "":
                 break
+        #l'else viene eseguito se non il ciclo for si completa
         else:
             self.tabellone.Show()
             self.FinestraLobby.Destroy()
@@ -109,6 +109,7 @@ class Gioco:
         return
 
     def AggiornaTurno(self):
+        #"imposta" il tabellone con i dati del giocatore prossimo a giocare
         self.turnoGiocatore = self.giocatoreSuccessivoA(self.turnoGiocatore)
         self.tabellone.testoTurno.SetLabel(self.turnoGiocatore.nome)
         self.tabellone.PGiocaTurno.Enable()
@@ -120,6 +121,7 @@ class Gioco:
         return
 
     def aggiornaGraficaTurni(self):
+        #sezione di anteprima dove è possibile vedere i turni successivi a quello in corso
         p1 = self.giocatoreSuccessivoA(self.turnoGiocatore)
         bmp1 = wx.Bitmap(p1.iconPath)
         img1 = bmp1.ConvertToImage()
@@ -141,7 +143,7 @@ class Gioco:
         nbmp3 = wx.Bitmap(img3)
         self.tabellone.viewerTurno3.SetBitmap(nbmp3)
         return
-
+    #calcola il giocatore successivo a "giocatore"
     def giocatoreSuccessivoA(self,giocatore):
         giocatori = self.listaGiocatori
         turnoDi = giocatore
@@ -156,6 +158,7 @@ class Gioco:
         return player
 
     def aggiornaGrafica(self):
+        #ad ogni movimento di ogni singolo giocatore, crea una copia dello sfondo e ci incolla sopra le icone dei giocatori alle rispettive coordinate
         sfondo = self.sfondoCampoDaGioco.copy()
 
         for n in self.listaGiocatori:
@@ -170,6 +173,7 @@ class Gioco:
         return
 
     def GiocaTurnoDi(self,event):
+        #funzione che viene eseguita ogni volta che il pulsante principale gioca viene premuto
         if not self.attesaDomanda:
             dado = self.tiraDado()
             for n in range(dado):
@@ -183,18 +187,22 @@ class Gioco:
                 else:
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
                     self.aggiornaGrafica()
-                    time.sleep(0.5)
-            time.sleep(1)
-            if self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo == "":
+                    time.sleep(0.38)
+            time.sleep(0.5)
+            tipoDiCasella = self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo
+            #se il tipo di casella su cui è capitato il giocatore è nulla o c'è il jolly, la finestra domanda non viene aperta
+            if tipoDiCasella == "":
                 self.AggiornaTurno()
                 return
-            if self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo == "jolly":
+            if tipoDiCasella == "jolly":
+                #se è capitato su un jolly il giocatore rilancia il dado
                 return
+
             ############### Apertura finestra domanda
             self.tabellone.PGiocaTurno.Disable()
             self.attesaDomanda = True
-            domanda = Domanda.scegliDomandaDaFare(self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo,self.listaDomande)
-            self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore,self.listaTipoCaselle[self.turnoGiocatore.posizione-1].tipo)
+            domanda = Domanda.scegliDomandaDaFare(tipoDiCasella,self.listaDomande)
+            self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore,tipoDiCasella)
             self.finestraDomanda.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
             self.finestraDomanda.SetFocus()
             self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
@@ -203,25 +211,24 @@ class Gioco:
             return
         return
 
-    def nulla(self,evt):
-        return
-
     def visualizzaCorretteErrate(self,event):
         ID = event.GetId()
         if self.finestraDomanda.esitoRisposta(ID):
+            #se la risposta è corretta
             wx.adv.Sound("../audio/audioPositive"+str(random.randint(1,6))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
-            self.EsitoCorretto = True
+            self.EsitoDomanda = True
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaEsatto.png"))
         else:
+            #se la risposta NON è corretta
             wx.adv.Sound("../audio/audioNegative"+str(random.randint(1,3))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
-            self.EsitoCorretto = False
+            self.EsitoDomanda = False
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaErrato.png"))
             
         self.finestraDomanda.Bind(wx.EVT_TIMER,self.Risposto,self.finestraDomanda.timer)
         self.finestraDomanda.timer.StartOnce(2200)
         lista = [self.finestraDomanda.PulsanteA,self.finestraDomanda.PulsanteB,self.finestraDomanda.PulsanteC]
+        #un timer presente nella finestraDomanda si attiva (2.2s) e successivamente si attiva la funzione Risposto, però nel mentre i pulsanti si colorano in base alla loro risposta (verde->corretto;rosso->sbagliato)
         for pulsante in lista:
-            #Colorazione delle risposte giuste e sbagliate (verdi e rosse)
             pulsante.SetBackgroundColour("red")
             #non permette di correggere la risposta: prende in considerazione la prima risposta data.
             pulsante.Bind(wx.EVT_BUTTON,self.nulla)
@@ -233,9 +240,9 @@ class Gioco:
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
         self.finestraDomanda.Destroy()
-        self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
-        self.tabellone.viewerDado.SetBitmap(wx.Bitmap((100, 100), depth=2))
-        if not self.EsitoCorretto:
+        self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap())
+        self.tabellone.viewerDado.SetBitmap(wx.Bitmap())
+        if not self.EsitoDomanda:
             self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].sbagliate += 1
             self.AggiornaTurno()
         else:
@@ -330,7 +337,9 @@ class Gioco:
         sfondo.paste(img,(0,0),img)
         
         self.sfondoCampoDaGioco = sfondo
-                    
+        return
+
+    def nulla(self,evt):
         return
 
 if __name__ == "__main__":
