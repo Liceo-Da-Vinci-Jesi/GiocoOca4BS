@@ -1,6 +1,7 @@
 import wx, Domanda
 from PIL import Image
 
+
 class Lobby(wx.Frame):
     def __init__(self,listaIconeDisponibili):
         super().__init__(None, title="Giochi dei Paesaggi di Giacomo")
@@ -13,8 +14,8 @@ class Lobby(wx.Frame):
         
         panel.SetOwnBackgroundColour((40,40,40))
         font13Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
-        font9Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
         font25Bold = wx.Font(20, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        font13Bold = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.BOLD)
 
         self.listaToggleButton = []
         self.listaTc = []
@@ -32,7 +33,7 @@ class Lobby(wx.Frame):
         #textctrl
         for n in range(4):
             textCtrl = wx.TextCtrl(panel,style = wx.TE_CENTRE|wx.TEXT_ALIGNMENT_CENTER)
-            textCtrl.SetFont(font9Norm)
+            textCtrl.SetFont(font13Norm)
             textCtrl.Disable()
             grid.Add(textCtrl, proportion=0, flag =wx.ALL|wx.EXPAND, border=5)
             self.listaTc.append(textCtrl)
@@ -46,18 +47,24 @@ class Lobby(wx.Frame):
             self.listaViewer.append(viewer)
             hbox.Add(viewer,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
 
-        self.contaGiocatori = 0
-        self.PIniziaPartita= wx.Button(panel, label="INIZIA PARTITA")
-        self.PIniziaPartita.SetFont(font25Bold)
+
         vbox.Add(grid,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
         vbox.Add(hbox,proportion = 2,flag = wx.ALL|wx.EXPAND,border = 5)
-        vbox.Add(self.PIniziaPartita,proportion = 1,flag =wx.ALL|wx.EXPAND, border=5)
+        self.contaGiocatori = 0
+        hbox = wx.BoxSizer(wx.VERTICAL)
+        self.PImpostazioni= wx.Button(panel, label = "IMPOSTAZIONI")
+        self.PIniziaPartita= wx.Button(panel, label="INIZIA PARTITA")
+        self.PIniziaPartita.SetFont(font25Bold)
+        self.PImpostazioni.SetFont(font13Bold)
+        hbox.Add(self.PIniziaPartita, proportion = 2, flag = wx.EXPAND|wx.ALL, border = 5)
+        hbox.Add(self.PImpostazioni, proportion = 1, flag = wx.EXPAND|wx.ALL, border = 5)
+        vbox.Add(hbox,proportion = 1,flag =wx.ALL|wx.EXPAND, border=5)
         box.Add(vbox,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
         self.PIniziaPartita.Disable()
         panel.SetSizer(box)
         
         self.SetMinSize((685,350))
-        self.SetSize((814,310))
+        self.SetSize((814,380))
         self.SetMaxSize((903,414))
         self.Centre()
         self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))

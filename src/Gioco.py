@@ -4,7 +4,7 @@ import pygame
 import pygame.mixer
 from PIL import Image
 import random , time
-import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande, datetime
+import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande, datetime, Impostazioni
 
 
 coordinateCaselle = {0:((34,524),(80,65)),1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
@@ -48,6 +48,7 @@ class Gioco:
         self.FinestraLobby.SetTitle("Il gioco dei paesaggi di Giacomo - Lobby")
         self.FinestraLobby.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
         self.FinestraLobby.PIniziaPartita.Bind(wx.EVT_BUTTON,self.IniziaPartita)
+        self.FinestraLobby.Bind(wx.EVT_CLOSE, self.chiudiGioco)
         #tabellone = classe Campo da Gioco
         self.tabellone = CampoDaGioco.CampoDaGioco()
         self.tabellone.Hide()
@@ -58,9 +59,40 @@ class Gioco:
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
         self.audioDadi = wx.adv.Sound("../audio/Casting dices.wav")
+        pygame.mixer.music.load("../audio/MarioGalaxy.mp3")
+        pygame.mixer.music.play(-1)
+        self.Impostazioni = Impostazioni.finestraImpostazioni()
+        self.Impostazioni.combo.Bind(wx.EVT_COMBOBOX, self.cambioTema)
+        self.FinestraLobby.PImpostazioni.Bind(wx.EVT_BUTTON, self.apriImpostazioni)
+        self.Impostazioni.Bind(wx.EVT_CLOSE, self.tornaAllaLobby)
+        self.Impostazioni.list.Bind(wx.EVT_LISTBOX, self.sceltaTracciaAudio)
+        self.tracciaAudio = "../audio/Lacrimosa.mp3"
         
         return
-
+    def cambioTema(self,evt):
+        if self.Impostazioni.combo.GetStringSelection() == "Chiaro":
+            self.Impostazioni.panel.SetBackgroundColour((240,240,240))
+            self.Impostazioni.panel.SetForegroundColour("black")
+        
+            
+        self.Impostazioni.Refresh()
+        return
+    
+    def apriImpostazioni(self,evt):
+        self.FinestraLobby.Disable()
+        self.Impostazioni.Show()
+        return
+    
+    def tornaAllaLobby(self,evt):
+        self.FinestraLobby.Enable()
+        self.Impostazioni.Hide()
+        return
+    
+    def sceltaTracciaAudio(self,evt):
+        if self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection()) != "":
+            self.tracciaAudio = "../audio/"+self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection())+".mp3"
+        return
+    
     def chiudiGioco(self,event):
         #self.tabellone.finale(self.listaGiocatori)
         quit()
@@ -104,7 +136,7 @@ class Gioco:
             self.aggiornaGraficaTurni()
             #self.tabellone.viewerIconPlayerTurno.SetSize((150,100))
             #self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
-            pygame.mixer.music.load("../audio/aria.wav")
+            pygame.mixer.music.load(self.tracciaAudio)
             pygame.mixer.music.play(-1)
         return
 
@@ -220,7 +252,7 @@ class Gioco:
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaEsatto.png"))
         else:
             #se la risposta NON è corretta
-            wx.adv.Sound("../audio/audioNegative"+str(random.randint(1,3))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
+            wx.adv.Sound("../audio/audioNegative"+str(random.randint(1,4))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
             self.EsitoDomanda = False
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaErrato.png"))
             
