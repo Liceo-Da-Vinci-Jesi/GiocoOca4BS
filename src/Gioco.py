@@ -76,6 +76,7 @@ class Gioco:
         return
     def cambioTema(self,evt):
         if self.Impostazioni.r1.GetValue():
+            #se il radio Button ci da True o  meglio é premuto
             self.ColoreSfondo = (240,240,240)
             self.ColoreTesto = (40,40,40)
         else:
@@ -84,6 +85,7 @@ class Gioco:
 
         self.Impostazioni.panel.SetBackgroundColour(self.ColoreSfondo)
         for n in self.Impostazioni.listaTesti:
+            #testi ovviamente più scuri
             n.SetForegroundColour(self.ColoreTesto)
         self.FinestraLobby.panel.SetBackgroundColour(self.ColoreSfondo)
 
@@ -93,6 +95,8 @@ class Gioco:
     
     def apriImpostazioni(self,evt):
         self.FinestraLobby.Disable()
+        #non inizi una partita senza prima aver preparato
+        #le impostazioni di partita
         self.Impostazioni.Show()
         return
     
@@ -104,6 +108,7 @@ class Gioco:
     def sceltaTracciaAudio(self,evt):
         if self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection()) != "":
             self.tracciaAudio = "../audio/Bg/"+self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection())+".mp3"
+            #la path e poi serve per il play()
         return
     
     def chiudiGioco(self,event):

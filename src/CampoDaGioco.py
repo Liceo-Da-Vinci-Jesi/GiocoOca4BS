@@ -6,6 +6,7 @@ class CampoDaGioco(wx.Frame):
         #E' una schermata di prova, il campo da gioco effettivo verrà visualizzato una volta eseguito il file 'Gioco.py'
         self.panel = wx.Panel(self)
         self.panel.SetOwnBackgroundColour((40, 40, 40))
+        #se non cambi niente colore preimpostato
         box = wx.BoxSizer(wx.HORIZONTAL)
         bmp = wx.Bitmap("../tabellone/fileCampoDaGiocoRid.png")
         self.viewer = wx.StaticBitmap(self.panel, bitmap=bmp)
@@ -111,6 +112,7 @@ class CampoDaGioco(wx.Frame):
         panel2 = wx.Panel(self)
         self.coloreSfondo = coloreSfondo
         self.coloreTesto = coloreTesto
+        #ciao eccomi di nuovo con i colors
         panel2.SetBackgroundColour(self.coloreSfondo)
         vbox = wx.BoxSizer(wx.VERTICAL)
         self.classifica = self.calcolaClassifica(giocatori)
