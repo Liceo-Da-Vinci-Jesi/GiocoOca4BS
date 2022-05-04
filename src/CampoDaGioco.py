@@ -98,9 +98,10 @@ class CampoDaGioco(wx.Frame):
                     classifica.append(player)
         return classifica
     
-    def finale(self,giocatori):
+    def finale(self,giocatori,Time):
         #finale è la funzione che viene eseguita dall'interno del file Gioco una volta che un giocatore ha superato la casella N°42
         #consiste nel cancellare tutti gli attributi precedenti di questa classe per andare a creare una "nuova" finestra seppur è sempre la stessa
+        self.TempoTrascorso = Time
         self.DestroyChildren()
         panel2 = wx.Panel(self)
         panel2.SetBackgroundColour((40,40,40))
@@ -148,7 +149,7 @@ class CampoDaGioco(wx.Frame):
         try:
             self.a.Close()
         except AttributeError:
-            self.a = finestraStatistiche.Statistiche(self.classifica)
+            self.a = finestraStatistiche.Statistiche(self.classifica, self.TempoTrascorso)
         finally:
             self.a.Show()
         return

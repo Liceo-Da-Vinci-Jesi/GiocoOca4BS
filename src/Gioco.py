@@ -94,7 +94,7 @@ class Gioco:
         return
     
     def chiudiGioco(self,event):
-        #self.tabellone.finale(self.listaGiocatori)
+        #self.tabellone.finale(self.listaGiocatori, datetime.datetime.now() - self.OraInizio)
         quit()
         pygame.mixer.music.stop()
         self.tabellone.Close()
@@ -106,6 +106,7 @@ class Gioco:
         return
 
     def IniziaPartita(self,evt):
+        self.OraInizio = datetime.datetime.now()
         giocatori = []
         conta=0
         nomi = []
@@ -211,8 +212,9 @@ class Gioco:
             for n in range(dado):
                 if self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].posizione + 1 > 42:
                     #QUALCUNO HA VINTO
+                    TempoTrascorso = datetime.datetime.now() - self.OraInizio
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
-                    self.tabellone.finale(self.listaGiocatori)
+                    self.tabellone.finale(self.listaGiocatori, TempoTrascorso)
                     self.tabellone.pulsanteChiudi.Bind(wx.EVT_BUTTON, self.chiudiGioco)
                     self.tabellone.pulsanteRigioca.Bind(wx.EVT_BUTTON, self.Riavvia)
                     return

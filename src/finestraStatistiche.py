@@ -1,13 +1,21 @@
 import wx
 
 class Statistiche(wx.Frame):
-    def __init__(self,classifica):
+    def __init__(self,classifica,Time):
         super().__init__(None, title="Il gioco dei paesaggi di Giacomo - Statistiche")
         # per ogni giocatore (in ordine di classifica) ne va a "schematizzare" le statistiche principali
         panel = wx.Panel(self)
         box = wx.BoxSizer(wx.VERTICAL)
         font20 = wx.Font(20, wx.DEFAULT, wx.NORMAL, wx.BOLD)
         panel.SetBackgroundColour((40,40,40))
+        secondiTot = int(Time.total_seconds())
+        secondiTrascorsi = secondiTot%60
+        minutiTrascorsi = secondiTot//60
+        oreTrascorse = minutiTrascorsi//60
+        Testo = wx.StaticText(panel, label = "Tempo trascorso: "+str(oreTrascorse)+":"+str(minutiTrascorsi)+":"+str(secondiTrascorsi))
+        Testo.SetFont(font20)
+        Testo.SetForegroundColour("white")
+        box.Add(Testo, proportion = 0, flag = wx.ALL, border = 5)
         for n in classifica:
             vbox = wx.BoxSizer(wx.VERTICAL)
             hbox = wx.BoxSizer(wx.HORIZONTAL)
