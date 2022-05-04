@@ -62,19 +62,32 @@ class Gioco:
         pygame.mixer.music.load("../audio/MarioGalaxy.mp3")
         pygame.mixer.music.play(-1)
         self.Impostazioni = Impostazioni.finestraImpostazioni()
-        self.Impostazioni.combo.Bind(wx.EVT_COMBOBOX, self.cambioTema)
+        self.Impostazioni.r1.Bind(wx.EVT_RADIOBUTTON, self.cambioTema)
+        self.Impostazioni.r2.Bind(wx.EVT_RADIOBUTTON, self.cambioTema)
         self.FinestraLobby.PImpostazioni.Bind(wx.EVT_BUTTON, self.apriImpostazioni)
         self.Impostazioni.Bind(wx.EVT_CLOSE, self.tornaAllaLobby)
+        self.Impostazioni.list.Bind(wx.EVT_LISTBOX_DCLICK,self.tornaAllaLobby)
+        self.Impostazioni.pulsIndietro.Bind(wx.EVT_BUTTON,self.tornaAllaLobby)
+        self.ColoreSfondo = (40, 40, 40)
+        self.ColoreTesto = (255,255,255)
         self.Impostazioni.list.Bind(wx.EVT_LISTBOX, self.sceltaTracciaAudio)
-        self.tracciaAudio = "../audio/Lacrimosa.mp3"
-        
+        self.tracciaAudio = "../audio/Bg/Lacrimosa.mp3"
+
         return
     def cambioTema(self,evt):
-        if self.Impostazioni.combo.GetStringSelection() == "Chiaro":
-            self.Impostazioni.panel.SetBackgroundColour((240,240,240))
-            self.Impostazioni.panel.SetForegroundColour("black")
-        
-            
+        if self.Impostazioni.r1.GetValue():
+            self.ColoreSfondo = (240,240,240)
+            self.ColoreTesto = (40,40,40)
+        else:
+            self.ColoreSfondo = (40,40,40)
+            self.ColoreTesto = "white"
+
+        self.Impostazioni.panel.SetBackgroundColour(self.ColoreSfondo)
+        for n in self.Impostazioni.listaTesti:
+            n.SetForegroundColour(self.ColoreTesto)
+        self.FinestraLobby.panel.SetBackgroundColour(self.ColoreSfondo)
+
+        self.FinestraLobby.Refresh()
         self.Impostazioni.Refresh()
         return
     
@@ -90,7 +103,7 @@ class Gioco:
     
     def sceltaTracciaAudio(self,evt):
         if self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection()) != "":
-            self.tracciaAudio = "../audio/"+self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection())+".mp3"
+            self.tracciaAudio = "../audio/Bg/"+self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection())+".mp3"
         return
     
     def chiudiGioco(self,event):
@@ -106,7 +119,6 @@ class Gioco:
         return
 
     def IniziaPartita(self,evt):
-        self.OraInizio = datetime.datetime.now()
         giocatori = []
         conta=0
         nomi = []
@@ -120,6 +132,7 @@ class Gioco:
                 break
         #l'else viene eseguito se non il ciclo for si completa
         else:
+            self.OraInizio = datetime.datetime.now()
             self.tabellone.Show()
             self.FinestraLobby.Destroy()
             self.listaGiocatori = giocatori
@@ -139,6 +152,9 @@ class Gioco:
             #self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
             pygame.mixer.music.load(self.tracciaAudio)
             pygame.mixer.music.play(-1)
+            for n in self.tabellone.listaTesti:
+                n.SetForegroundColour(self.ColoreTesto)
+            self.tabellone.panel.SetBackgroundColour(self.ColoreSfondo)
         return
 
     def AggiornaTurno(self):
@@ -214,7 +230,8 @@ class Gioco:
                     #QUALCUNO HA VINTO
                     TempoTrascorso = datetime.datetime.now() - self.OraInizio
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
-                    self.tabellone.finale(self.listaGiocatori, TempoTrascorso)
+                    self.tabellone.finale(self.listaGiocatori,self.ColoreSfondo,self.ColoreTesto, TempoTrascorso)
+                    pygame.mixer.stop()
                     self.tabellone.pulsanteChiudi.Bind(wx.EVT_BUTTON, self.chiudiGioco)
                     self.tabellone.pulsanteRigioca.Bind(wx.EVT_BUTTON, self.Riavvia)
                     return
@@ -239,6 +256,7 @@ class Gioco:
             self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore,tipoDiCasella)
             self.finestraDomanda.ShowWithEffect(wx.SHOW_EFFECT_ROLL_TO_BOTTOM,timeout=600)
             self.finestraDomanda.SetFocus()
+            self.finestraDomanda.Raise()
             self.finestraDomanda.PulsanteA.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             self.finestraDomanda.PulsanteB.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
             self.finestraDomanda.PulsanteC.Bind(wx.EVT_BUTTON, self.visualizzaCorretteErrate)
@@ -249,12 +267,19 @@ class Gioco:
         ID = event.GetId()
         if self.finestraDomanda.esitoRisposta(ID):
             #se la risposta è corretta
-            wx.adv.Sound("../audio/audioPositive"+str(random.randint(1,6))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
+            suond = wx.adv.Sound("../audio/audioPositive"+str(random.randint(1,7))+".wav")
+            if self.tracciaAudio in ("../audio/Bg/Lacrimosa.mp3","../audio/Bg/Aria.mp3","../audio/Bg/Inverno.mp3","../audio/Bg/Palladio.mp3"):
+                sound = wx.adv.Sound("../audio/audioPositive"+str(random.choice((7,1)))+".wav")
+            sound.Play(flags = wx.adv.SOUND_ASYNC)
             self.EsitoDomanda = True
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaEsatto.png"))
         else:
             #se la risposta NON è corretta
-            wx.adv.Sound("../audio/audioNegative"+str(random.randint(1,4))+".wav").Play(flags = wx.adv.SOUND_ASYNC)
+            suond = wx.adv.Sound("../audio/audioNegative" + str(random.randint(1, 5)) + ".wav")
+            if self.tracciaAudio in (
+            "../audio/Bg/Lacrimosa.mp3", "../audio/Bg/Aria.mp3", "../audio/Bg/Inverno.mp3", "../audio/Bg/Palladio.mp3"):
+                sound = wx.adv.Sound("../audio/audioNegative" + str(random.choice((5, 1))) + ".wav")
+            sound.Play(flags=wx.adv.SOUND_ASYNC)
             self.EsitoDomanda = False
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaErrato.png"))
             
@@ -292,7 +317,7 @@ class Gioco:
             bmp = wx.Bitmap(percorso)
             bmp.SetSize( (100,100) )
             self.tabellone.viewerDado.SetBitmap(bmp)
-            time.sleep(0.2)
+            time.sleep(0.15)
         return uscito
 
     def creaTipoCaselle(self):
