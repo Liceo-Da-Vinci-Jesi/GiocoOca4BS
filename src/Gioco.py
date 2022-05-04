@@ -397,6 +397,7 @@ class Gioco:
                 icona = Image.open("../tabellone/quadratoNeroTrasparente-500.png")
             icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
             sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
+            sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
         img = Image.open("../tabellone/fileScheletroTabellone.png")
         sfondo.paste(img,(0,0),img)
         
