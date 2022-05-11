@@ -16,7 +16,7 @@ class Domanda:
 
 class FinestraDomanda(wx.Frame):
     def __init__(self,Domanda,giocatore,tipo):
-        super().__init__(None, title="Domanda - "+giocatore.nome)
+        super().__init__(None, title="Domanda - "+giocatore.nome + " - " + tipo)
         panel = wx.Panel(self)
         self.suonoChiusura = wx.adv.Sound()
         font13Norm = wx.Font(13, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
@@ -90,7 +90,7 @@ class FinestraDomanda(wx.Frame):
             puls.SetFont(font10Norm)
 
         n = ("operette","canti","poeticaDeiPaesaggi","luoghiAutobiografici")
-        c = ((255,253,227),(255,225,225),(227,233,255),(228,255,227))
+        c = ((249,194,68),(241,105,99),(73,154,200),(66,215,132))
         #imposto il colore dello sfondo in base alla tipologia di Casella in cui mi trovo
         panel.SetBackgroundColour(c[n.index(tipo)])
 

@@ -15,7 +15,7 @@ class Statistiche(wx.Frame):
         Testo = wx.StaticText(panel, label = "Tempo trascorso: "+str(oreTrascorse)+":"+str(minutiTrascorsi)+":"+str(secondiTrascorsi))
         Testo.SetFont(font20)
         Testo.SetForegroundColour(coloreTesto)
-        box.Add(Testo, proportion = 0, flag = wx.ALL, border = 5)
+        box.Add(Testo, proportion = 0, flag = wx.ALL, border = 15)
         panel.SetBackgroundColour(coloreSfondo)
         for n in classifica:
             vbox = wx.BoxSizer(wx.VERTICAL)

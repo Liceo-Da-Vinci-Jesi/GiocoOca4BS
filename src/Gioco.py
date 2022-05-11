@@ -237,6 +237,7 @@ class Gioco:
                     self.listaGiocatori[self.listaGiocatori.index(self.turnoGiocatore)].muoviGiocatore(1)
                     self.tabellone.finale(self.listaGiocatori,self.ColoreSfondo,self.ColoreTesto, TempoTrascorso)
                     pygame.mixer.stop()
+                    wx.adv.Sound("../audio/vittoria"+str(random.randint(1,2))+".wav").Play()
                     self.tabellone.pulsanteChiudi.Bind(wx.EVT_BUTTON, self.chiudiGioco)
                     self.tabellone.pulsanteRigioca.Bind(wx.EVT_BUTTON, self.Riavvia)
                     return
@@ -252,6 +253,7 @@ class Gioco:
                 return
             if tipoDiCasella == "jolly":
                 #se è capitato su un jolly il giocatore rilancia il dado
+                wx.adv.Sound("../audio/jolly"+str(random.randint(1,5))+".wav").Play()
                 return
 
             ############### Apertura finestra domanda
@@ -272,7 +274,7 @@ class Gioco:
         ID = event.GetId()
         if self.finestraDomanda.esitoRisposta(ID):
             #se la risposta è corretta
-            suond = wx.adv.Sound("../audio/audioPositive"+str(random.randint(1,7))+".wav")
+            sound = wx.adv.Sound("../audio/audioPositive"+str(random.randint(1,7))+".wav")
             if self.tracciaAudio in ("../audio/Bg/Lacrimosa.mp3","../audio/Bg/Aria.mp3","../audio/Bg/Inverno.mp3","../audio/Bg/Palladio.mp3"):
                 sound = wx.adv.Sound("../audio/audioPositive"+str(random.choice((7,1)))+".wav")
             sound.Play(flags = wx.adv.SOUND_ASYNC)
@@ -280,9 +282,8 @@ class Gioco:
             self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("../icone/iconaEsatto.png"))
         else:
             #se la risposta NON è corretta
-            suond = wx.adv.Sound("../audio/audioNegative" + str(random.randint(1, 5)) + ".wav")
-            if self.tracciaAudio in (
-            "../audio/Bg/Lacrimosa.mp3", "../audio/Bg/Aria.mp3", "../audio/Bg/Inverno.mp3", "../audio/Bg/Palladio.mp3"):
+            sound = wx.adv.Sound("../audio/audioNegative" + str(random.randint(1, 5)) + ".wav")
+            if self.tracciaAudio in ("../audio/Bg/Lacrimosa.mp3", "../audio/Bg/Aria.mp3", "../audio/Bg/Inverno.mp3", "../audio/Bg/Palladio.mp3"):
                 sound = wx.adv.Sound("../audio/audioNegative" + str(random.choice((5, 1))) + ".wav")
             sound.Play(flags=wx.adv.SOUND_ASYNC)
             self.EsitoDomanda = False

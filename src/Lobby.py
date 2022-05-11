@@ -22,7 +22,7 @@ class Lobby(wx.Frame):
 
         #creazione e gestione dei vari elementi:
         #pulsanti(togglebutton)
-        listaColori = [(255,253,227),(255,225,225),(227,233,255),(228,255,227)]
+        listaColori = [(249,194,68),(241,105,99),(73,154,200),(66,215,132)]
         random.shuffle(listaColori)
         for n in range(1,5):
             ToggleButton=wx.ToggleButton(self.panel, label="Giocatore "+str(n),id = n)
