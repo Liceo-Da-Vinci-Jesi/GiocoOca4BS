@@ -72,12 +72,14 @@ class Gioco:
         self.ColoreTesto = (255,255,255)
         self.Impostazioni.list.Bind(wx.EVT_LISTBOX, self.sceltaTracciaAudio)
         self.tracciaAudio = "../audio/Bg/Lacrimosa.mp3"
+        self.tabellone.viewerIconaImpo.Bind(wx.EVT_BUTTON,self.apriImpostazioni)
+        self.tabellone.viewerIconaExit.Bind(wx.EVT_BUTTON,self.chiudiGioco)
 
         return
     def cambioTema(self,evt):
         if self.Impostazioni.r1.GetValue():
             #se il radio Button ci da True o  meglio é premuto
-            self.ColoreSfondo = (240,240,240)
+            self.ColoreSfondo = "white"
             self.ColoreTesto = (40,40,40)
         else:
             self.ColoreSfondo = (40,40,40)
@@ -91,6 +93,10 @@ class Gioco:
 
         self.FinestraLobby.Refresh()
         self.Impostazioni.Refresh()
+        self.tabellone.panel.SetBackgroundColour(self.ColoreSfondo)
+        self.tabellone.testoTurno.SetForegroundColour(self.ColoreTesto)
+        self.tabellone.Refresh()
+        self.AggiornaTemaIcone()
         return
     
     def apriImpostazioni(self,evt):
@@ -113,6 +119,7 @@ class Gioco:
     
     def chiudiGioco(self,event):
         #self.tabellone.finale(self.listaGiocatori, datetime.datetime.now() - self.OraInizio)
+        app.ExitMainLoop()
         quit()
         pygame.mixer.music.stop()
         self.tabellone.Close()
@@ -139,7 +146,7 @@ class Gioco:
         else:
             self.OraInizio = datetime.datetime.now()
             self.tabellone.Show()
-            self.FinestraLobby.Destroy()
+            self.FinestraLobby.Hide()
             self.listaGiocatori = giocatori
             random.shuffle(self.listaGiocatori)
             self.turnoGiocatore = self.listaGiocatori[0]
@@ -160,8 +167,21 @@ class Gioco:
             for n in self.tabellone.listaTesti:
                 n.SetForegroundColour(self.ColoreTesto)
             self.tabellone.panel.SetBackgroundColour(self.ColoreSfondo)
+            self.AggiornaTemaIcone()
         return
-
+    def AggiornaTemaIcone(self):
+        bmpImpo = wx.Bitmap("../icone/setting-b.png")
+        bmpExit = wx.Bitmap("../icone/on-off-button-b.png")
+        self.tabellone.viewerIconaImpo.SetBackgroundColour(self.ColoreSfondo)
+        self.tabellone.viewerIconaExit.SetBackgroundColour(self.ColoreSfondo)
+        if self.ColoreSfondo == "white":
+            bmpImpo = wx.Bitmap("../icone/setting-n.png")
+            bmpExit = wx.Bitmap("../icone/on-off-button-n.png")
+        imgImpo = bmpImpo.ConvertToImage().Rescale(30,30)
+        imgExit = bmpExit.ConvertToImage().Rescale(30,30)
+        self.tabellone.viewerIconaImpo.SetBitmap(wx.Bitmap(imgImpo))
+        self.tabellone.viewerIconaExit.SetBitmap(wx.Bitmap(imgExit))
+        return
     def AggiornaTurno(self):
         #"imposta" il tabellone con i dati del giocatore prossimo a giocare
         self.turnoGiocatore = self.giocatoreSuccessivoA(self.turnoGiocatore)
@@ -323,7 +343,7 @@ class Gioco:
             bmp = wx.Bitmap(percorso)
             bmp.SetSize( (100,100) )
             self.tabellone.viewerDado.SetBitmap(bmp)
-            time.sleep(0.15)
+            time.sleep(0.09*n)
         return uscito
 
     def creaTipoCaselle(self):

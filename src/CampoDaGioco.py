@@ -54,22 +54,31 @@ class CampoDaGioco(wx.Frame):
 
         # spazio per l'icona del dado
         bmp = wx.Bitmap()
-        vboxLaterale.Add((-1,10))
+        vboxLaterale.Add((-1,30))
         self.viewerDado = wx.StaticBitmap(self.panel, bitmap=bmp)
         self.viewerDado.SetSize((100,100))
         vbox = wx.BoxSizer(wx.VERTICAL)
-        vbox.Add(self.viewerDado,proportion = 0,flag = wx.ALIGN_CENTER)
+        vbox.Add(self.viewerDado,proportion = 1,flag = wx.ALIGN_CENTER)
         vboxLaterale.Add(vbox, proportion=1, flag=wx.LEFT|wx.RIGHT, border=33)
 
         # spazio per l'icona che da l'esito della risposta
-        vboxLaterale.Add((-1,30))
+        vboxLaterale.Add((-1,50))
         bmp = wx.Bitmap()
         self.viewerIconaEsito = wx.StaticBitmap(self.panel,bitmap = bmp)
         self.viewerIconaEsito.SetSize((100,100))
         vbox2 = wx.BoxSizer(wx.VERTICAL)
-        vbox2.Add(self.viewerIconaEsito,proportion = 0,flag = wx.ALIGN_CENTER)
+        vbox2.Add(self.viewerIconaEsito,proportion = 1,flag = wx.ALIGN_CENTER)
         vboxLaterale.Add(vbox2,proportion = 1,flag = wx.LEFT|wx.RIGHT,border = 33)
 
+        # spazio per le icone impostazioni/uscita
+        vboxLaterale.Add((-1, 70))
+        bmp = wx.Bitmap()
+        self.viewerIconaImpo = wx.BitmapButton(self.panel, bitmap=bmp, size = ((40,40)))
+        self.viewerIconaExit = wx.BitmapButton(self.panel, bitmap=bmp, size = ((40,40)))
+        hbox2 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox2.Add(self.viewerIconaImpo, proportion=1, flag=wx.ALIGN_CENTER|wx.ALL,border = 5)
+        hbox2.Add(self.viewerIconaExit, proportion=1, flag=wx.ALIGN_CENTER|wx.ALL,border = 5)
+        vboxLaterale.Add(hbox2, proportion=1, flag=wx.LEFT | wx.RIGHT, border=33)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         testoSpazio = wx.StaticText(self.panel, label="------------------------")
@@ -77,8 +86,8 @@ class CampoDaGioco(wx.Frame):
         testoSpazio.Disable()
         self.listaTesti.append(testoSpazio)
         hbox.Add(testoSpazio, proportion=0, flag=wx.ALL | wx.ALIGN_BOTTOM)
-        vboxLaterale.Add(hbox, proportion=1, flag=wx.ALL, border=0)
-        box.Add(vboxLaterale, proportion=0, flag=wx.ALL | wx.EXPAND, border=5)
+        vboxLaterale.Add(hbox, proportion=0, flag=wx.ALL, border=0)
+        box.Add(vboxLaterale, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
         #la schermata non può essere ridimensionata poichè altrimenti si andrebbe a perdere le coordinate a cui vanno inserite le icone dei giocatori
         self.SetMinSize((1280, 720))
         self.SetMaxSize((1280, 720))
