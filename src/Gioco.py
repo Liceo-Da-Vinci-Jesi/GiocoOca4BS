@@ -119,10 +119,7 @@ class Gioco:
     
     def chiudiGioco(self,event):
         #self.tabellone.finale(self.listaGiocatori, datetime.datetime.now() - self.OraInizio)
-        app.ExitMainLoop()
-        quit()
-        pygame.mixer.music.stop()
-        self.tabellone.Close()
+        wx.Exit()
         return
 
     def Riavvia(self,event):
