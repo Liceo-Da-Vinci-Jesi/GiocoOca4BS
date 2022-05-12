@@ -48,15 +48,25 @@ class finestraImpostazioni(wx.Frame):
                 testo = testo.replace("..oaudiooBgo","")
                 testo = testo.replace(".mp3","")
                 file.append(testo)
-                
         self.list = wx.ListBox(self.panel, choices = file, style = wx.LB_ALWAYS_SB)
         #va be le list box come dice il nome funzionano con le liste fighissimo
         self.list.SetFont(font13Norm)
         hbox.Add(testo2, proportion = 0, flag = wx.ALL, border = 5)
         hbox.Add(self.list, proportion = 1, flag = wx.ALL|wx.EXPAND, border = 5)
-
-
         vbox.Add(hbox, proportion = 2, flag = wx.EXPAND|wx.ALL, border = 5)
+        vbox.Add(wx.StaticLine(self.panel,size = (800,2)))
+
+
+        self.slider = wx.Slider(self.panel)
+        self.slider.SetRange(0,100)
+        testo = wx.StaticText(self.panel,label = "Volume")
+        testo.SetFont(font25Bold)
+        hbox = wx.BoxSizer(wx.HORIZONTAL)
+        hbox.Add(testo,proportion = 0, flag = wx.ALL,border = 5)
+        hbox.Add(self.slider,proportion = 1,flag = wx.ALL|wx.EXPAND,border =5)
+        vbox.Add(hbox,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
+
+
         self.pulsIndietro = wx.Button(self.panel,label = "Indietro")
         vbox.Add(self.pulsIndietro,proportion = 0,flag = wx.ALL|wx.ALIGN_RIGHT,border = 5)
 

@@ -63,11 +63,13 @@ class Gioco:
         pygame.mixer.music.play(-1)
         self.Impostazioni = Impostazioni.finestraImpostazioni()
         self.Impostazioni.r1.Bind(wx.EVT_RADIOBUTTON, self.cambioTema)
+        self.Impostazioni.slider.SetValue(int(pygame.mixer.music.get_volume()*100))
+        self.Impostazioni.slider.Bind(wx.EVT_SLIDER,self.impostaVolume)
         self.Impostazioni.r2.Bind(wx.EVT_RADIOBUTTON, self.cambioTema)
         self.FinestraLobby.PImpostazioni.Bind(wx.EVT_BUTTON, self.apriImpostazioni)
-        self.Impostazioni.Bind(wx.EVT_CLOSE, self.tornaAllaLobby)
-        self.Impostazioni.list.Bind(wx.EVT_LISTBOX_DCLICK,self.tornaAllaLobby)
-        self.Impostazioni.pulsIndietro.Bind(wx.EVT_BUTTON,self.tornaAllaLobby)
+        self.Impostazioni.Bind(wx.EVT_CLOSE, self.chiudiImpostazioni)
+        self.Impostazioni.list.Bind(wx.EVT_LISTBOX_DCLICK,self.chiudiImpostazioni)
+        self.Impostazioni.pulsIndietro.Bind(wx.EVT_BUTTON,self.chiudiImpostazioni)
         self.ColoreSfondo = (40, 40, 40)
         self.ColoreTesto = (255,255,255)
         self.Impostazioni.list.Bind(wx.EVT_LISTBOX, self.sceltaTracciaAudio)
@@ -98,15 +100,19 @@ class Gioco:
         self.tabellone.Refresh()
         self.AggiornaTemaIcone()
         return
-    
+    def impostaVolume(self,evt):
+        pygame.mixer.music.set_volume(self.Impostazioni.slider.GetValue()/100)
+        return
     def apriImpostazioni(self,evt):
         self.FinestraLobby.Disable()
+        self.tabellone.PGiocaTurno.Disable()
         #non inizi una partita senza prima aver preparato
         #le impostazioni di partita
         self.Impostazioni.Show()
         return
     
-    def tornaAllaLobby(self,evt):
+    def chiudiImpostazioni(self,evt):
+        self.tabellone.PGiocaTurno.Enable()
         self.FinestraLobby.Enable()
         self.Impostazioni.Hide()
         return
@@ -114,6 +120,9 @@ class Gioco:
     def sceltaTracciaAudio(self,evt):
         if self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection()) != "":
             self.tracciaAudio = "../audio/Bg/"+self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection())+".mp3"
+            pygame.mixer.music.load(self.tracciaAudio)
+            pygame.mixer.music.play(-1)
+            self.Impostazioni.slider.SetValue(int(pygame.mixer.music.get_volume()*100))
             #la path e poi serve per il play()
         return
     
@@ -157,10 +166,6 @@ class Gioco:
             bmp.SetSize( (100,100) )
             self.tabellone.viewerIconPlayerTurno.SetBitmap(bmp)
             self.aggiornaGraficaTurni()
-            #self.tabellone.viewerIconPlayerTurno.SetSize((150,100))
-            #self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap((100,100),depth = 2))
-            pygame.mixer.music.load(self.tracciaAudio)
-            pygame.mixer.music.play(-1)
             for n in self.tabellone.listaTesti:
                 n.SetForegroundColour(self.ColoreTesto)
             self.tabellone.panel.SetBackgroundColour(self.ColoreSfondo)
@@ -275,6 +280,7 @@ class Gioco:
 
             ############### Apertura finestra domanda
             self.tabellone.PGiocaTurno.Disable()
+            self.tabellone.viewerIconaImpo.Disable()
             self.attesaDomanda = True
             domanda = Domanda.scegliDomandaDaFare(tipoDiCasella,self.listaDomande)
             self.finestraDomanda = Domanda.FinestraDomanda(domanda,self.turnoGiocatore,tipoDiCasella)
@@ -319,6 +325,7 @@ class Gioco:
         return
 
     def Risposto(self,event):
+        self.tabellone.viewerIconaImpo.Enable()
         self.tabellone.PGiocaTurno.Enable()
         self.attesaDomanda = False
         self.finestraDomanda.Destroy()
