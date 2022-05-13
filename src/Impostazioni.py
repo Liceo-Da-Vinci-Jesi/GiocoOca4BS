@@ -30,7 +30,7 @@ class finestraImpostazioni(wx.Frame):
         hbox.Add(testo, proportion = 0, flag = wx.ALL, border = 5)
         hbox.Add(self.r1, proportion = 1, flag = wx.ALL|wx.ALIGN_CENTRE, border = 5)
         hbox.Add(self.r2, proportion = 1, flag = wx.ALL|wx.ALIGN_CENTRE, border = 5)
-        vbox.Add(hbox, proportion = 1, flag = wx.EXPAND|wx.ALL, border = 5)
+        vbox.Add(hbox, proportion = 0, flag = wx.EXPAND|wx.ALL, border = 5)
         vbox.Add(wx.StaticLine(self.panel,size = (800,2)))
         
         #lato delle musiche
@@ -53,20 +53,49 @@ class finestraImpostazioni(wx.Frame):
         self.list.SetFont(font13Norm)
         hbox.Add(testo2, proportion = 0, flag = wx.ALL, border = 5)
         hbox.Add(self.list, proportion = 1, flag = wx.ALL|wx.EXPAND, border = 5)
-        vbox.Add(hbox, proportion = 2, flag = wx.EXPAND|wx.ALL, border = 5)
+        vbox.Add(hbox, proportion = 1, flag = wx.EXPAND|wx.ALL, border = 5)
         vbox.Add(wx.StaticLine(self.panel,size = (800,2)))
 
 
-        self.slider = wx.Slider(self.panel)
-        self.slider.SetRange(0,100)
-        testo = wx.StaticText(self.panel,label = "Volume")
-        testo.SetFont(font25Bold)
+        vboxVolume = wx.BoxSizer(wx.VERTICAL)
+        #testo = wx.StaticText(self.panel,label = "Volume:")
+        #testo.SetFont(font25Bold)
         hbox = wx.BoxSizer(wx.HORIZONTAL)
-        hbox.Add(testo,proportion = 0, flag = wx.ALL,border = 5)
-        hbox.Add(self.slider,proportion = 1,flag = wx.ALL|wx.EXPAND,border =5)
-        vbox.Add(hbox,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
+        #volGeneraleT = wx.StaticText(self.panel,label = "Volume Generale:")
+        #volGeneraleT.SetFont(font13Norm)
+        #self.listaTesti.append(testo)
+        #self.sliderGenerale = wx.Slider(self.panel)
+        #self.listaTesti.append(volGeneraleT)
+        #self.sliderGenerale.SetRange(0, 100)
+        #vboxVolume.Add(testo,proportion = 0, flag = wx.ALL|wx.ALIGN_LEFT,border = 5)
+        #hbox.Add(volGeneraleT,proportion = 1,flag = wx.ALL|wx.ALIGN_LEFT,border = 5)
+        #hbox.Add(self.sliderGenerale,proportion = 1,flag = wx.ALL|wx.EXPAND,border =5)
+        #vboxVolume.Add(hbox,proportion = 1,flag = wx.ALL|wx.EXPAND,border = 5)
+        #--
+        testo = wx.StaticText(self.panel,label = "Musica")
+        testo.SetFont(font13Norm)
+        self.listaTesti.append(testo)
+        self.sliderMusica = wx.Slider(self.panel)
+        self.sliderMusica.SetRange(0,100)
+        hbox = wx.BoxSizer(wx.HORIZONTAL)
+        hbox.Add(testo, proportion=1, flag=wx.ALL | wx.ALIGN_LEFT, border=5)
+        hbox.Add(self.sliderMusica, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
+        vboxVolume.Add(hbox, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
+        # --
+        testo = wx.StaticText(self.panel, label="Effetti Sonori")
+        testo.SetFont(font13Norm)
+        self.rFx1 = wx.RadioButton(self.panel,label = "Attivi",style = wx.RB_GROUP)
+        self.rFx2 = wx.RadioButton(self.panel,label = "Disattivati")
+        self.listaTesti.append(testo)
+        hbox = wx.BoxSizer(wx.HORIZONTAL)
+        hb = wx.BoxSizer(wx.HORIZONTAL)
+        hb.Add(self.rFx1,proportion = 1,flag = wx.ALL,border = 15)
+        hb.Add(self.rFx2,proportion = 1,flag = wx.ALL,border = 15)
+        hbox.Add(testo, proportion=1, flag=wx.ALL | wx.ALIGN_LEFT, border=5)
+        hbox.Add(hb, proportion=1, flag=wx.ALL, border=5)
+        vboxVolume.Add(hbox, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
 
-
+        vbox.Add(vboxVolume, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         self.pulsIndietro = wx.Button(self.panel,label = "Indietro")
         vbox.Add(self.pulsIndietro,proportion = 0,flag = wx.ALL|wx.ALIGN_RIGHT,border = 5)
 
@@ -78,6 +107,8 @@ class finestraImpostazioni(wx.Frame):
         self.SetMaxSize((590,self.GetSize()[1]+100))
         self.Refresh()
         self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
+        self.listaTesti.append(self.rFx1)
+        self.listaTesti.append(self.rFx2)
         return
 
 
