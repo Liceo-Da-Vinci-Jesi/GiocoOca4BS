@@ -45,7 +45,7 @@ class finestraImpostazioni(wx.Frame):
             if str(n).endswith(".mp3"):
                 testo = str(n)
                 testo = testo.replace(o,"o")
-                testo = testo.replace("..oaudiooBgo","")
+                testo = testo.replace("audiooBgo","")
                 testo = testo.replace(".mp3","")
                 file.append(testo)
         self.list = wx.ListBox(self.panel, choices = file, style = wx.LB_ALWAYS_SB)
