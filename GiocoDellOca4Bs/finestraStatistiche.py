@@ -35,7 +35,7 @@ class Statistiche(wx.Frame):
         box.Fit(self)
         self.SetMinSize(self.GetSize())
         self.SetMaxSize(self.GetSize())
-        self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
         self.Bind(wx.EVT_CLOSE,self.nonChiudere)
 
     def nonChiudere(self,event):

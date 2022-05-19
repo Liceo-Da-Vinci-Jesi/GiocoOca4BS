@@ -40,7 +40,7 @@ class finestraImpostazioni(wx.Frame):
         self.listaTesti = [testo, testo2, self.r1, self.r2]
         file = []
         o = str("\\")
-        path = Path("../audio/Bg")
+        path = Path("audio/Bg")
         for n in path.iterdir():
             if str(n).endswith(".mp3"):
                 testo = str(n)
@@ -106,7 +106,7 @@ class finestraImpostazioni(wx.Frame):
         self.SetSize((500,self.GetSize()[1]))
         self.SetMaxSize((590,self.GetSize()[1]+100))
         self.Refresh()
-        self.SetIcon(wx.Icon("../icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
         self.listaTesti.append(self.rFx1)
         self.listaTesti.append(self.rFx2)
         return
