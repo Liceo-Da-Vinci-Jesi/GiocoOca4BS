@@ -1,10 +1,16 @@
-# IL TUO NUOVO PROGETTO!
+# Gioco dell'Oca (su Leopardi)
 
-Questo file serve per illustrare il contenuto del tuo progetto su Github.
-(probabilmente andrebbe scritto in inglese...)
+Il gioco dell'oca è un classico fra i giochi da tavolo. La nostra versione è una semplice app con un tema
+abbastanza inusuale: la vita e le opere di Giacomo Leopardi.
 
-Modificalo come vuoi! E' scritto in Markdown (estensione .md).
+Con questo software la classe 4BS ha partecipato al concorso **Un gioco per Giacomo** (PS: sono una forza a inventare nomi di concorsi)
 
-Markdown è un linguaggo di rappresentazione delle informazioni molto intuitivo... quindi NON dovrebbe essere necessario
-studiare nulla. Ma se proprio sei uno studente secchione: 
-<a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github">Primi passi con Markdown in Github</a>
+#[il gioco dell'oca](gioco_oca.jpg)
+
+Se non hai mai sentito parlare del gioco dell'oca (o di Leopardi) probabilmente sei appena atterrato sul nostro Pianeta: sappi allora che esiste una enciclopedia libera online abbastanza fornita:
+
+* [Link sul gioco dell'oca](https://it.wikipedia.org/wiki/Gioco_dell%27oca)
+
+* [Link su Giacomo Leopardi](https://it.wikipedia.org/wiki/Giacomo_Leopardi)
+
+
