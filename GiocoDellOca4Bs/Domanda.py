@@ -1,8 +1,14 @@
-import wx,random, wx.adv
+import random
+import wx,wx.adv
 import Giocatore
 
+# ---------------------------------
+import os
+module_dir = os.path.dirname(__file__)
+# ---------------------------------
 
 class Domanda:
+
     def __init__(self,argomento,domanda = "",rispostaA = "",rispostaB = "",rispostaC = "",rispostaEsatta = "",testo = ""):
         self.argomento = argomento
         self.domanda = domanda
@@ -11,10 +17,14 @@ class Domanda:
         self.rispostaC = rispostaC
         self.rispostaEsatta = rispostaEsatta
         self.testo = testo
+
     def __str__(self):
         return self.argomento + self.domanda + self.rispostaA + self.rispostaB + self.rispostaC + self.rispostaEsatta + self.testo
 
+# -----------------------------------------------------------------------------------------------------------------------------------
+
 class FinestraDomanda(wx.Frame):
+
     def __init__(self,Domanda,giocatore,tipo):
         super().__init__(None, title="Domanda - "+giocatore.nome + " - " + tipo)
         panel = wx.Panel(self)
@@ -89,6 +99,7 @@ class FinestraDomanda(wx.Frame):
             puls.SetLabel(label)
             puls.SetFont(font10Norm)
 
+        # PROF: ma... per un lavoro del genere... si possono chiamare 2 variabili "n" e "c"????
         n = ("operette","canti","poeticaDeiPaesaggi","luoghiAutobiografici")
         c = ((249,194,68),(241,105,99),(73,154,200),(66,215,132))
         #imposto il colore dello sfondo in base alla tipologia di Casella in cui mi trovo
@@ -106,7 +117,7 @@ class FinestraDomanda(wx.Frame):
         #la finestra non si deve chiudere e produrra un suono
         self.Bind(wx.EVT_CLOSE,self.nonChiudi)
         self.Centre()
-        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon( os.path.join(module_dir,"icone/iconaInfinito.ico") ))
         
     def esitoRisposta(self,ID):
         if ID == self.IdCorretto:
@@ -118,6 +129,8 @@ class FinestraDomanda(wx.Frame):
         self.suonoChiusura.Play()
         return
 
+# ------------------------------------------------------------------------------------------------------------
+
 def scegliDomandaDaFare(tipologia,lista):
     possibili = []
     for n in lista:
@@ -128,6 +141,7 @@ def scegliDomandaDaFare(tipologia,lista):
     #DA RIMUOVERE # SE NUMERO DI DOMANDE SUFFICIENTI
     lista[n].remove(domanda)
     return Domanda(domanda[0],domanda[1],domanda[2],domanda[3],domanda[4],domanda[5],domanda[6])
+
 
 if __name__ == "__main__":
     import ElencoDomande

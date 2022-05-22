@@ -1,11 +1,14 @@
-import wx
-import wx.adv
-import pygame
-import pygame.mixer
-from PIL import Image
 import random , time
+
+import wx , wx.adv
+import pygame , pygame.mixer
+from PIL import Image
 import Domanda, Lobby , Casella, Giocatore, CampoDaGioco, ElencoDomande, datetime, Impostazioni
 
+# ---------------------------------
+import os
+module_dir = os.path.dirname(__file__)
+# ---------------------------------
 
 coordinateCaselle = {0:((34,524),(80,65)),1:((35,589),(79,63)),2:((114,589),(79,63)), 3:((193,589),(80,63)), 4:((273,589),(79,63)), 5:((352,589),(80,63)), 6: ((433,589),(79,63)), 7:((512,589),(80,63)), 8:((592,589),(79,63)),
                      9:((671,589),(80,63)), 10: ((751,589),(81,63)), 11: ((832,589),(78,63)), 12:((910,589),(80,63)), 13:((910,519),(80,70)), 14:((910,449),(80,70)), 15:((910,377),(80,72)), 16:((910,308),(80,69)),
@@ -32,11 +35,12 @@ coordinateGioc4 = { 0:(82,559), 1:(81,623), 2:(161,623), 3:(240,623) ,4:(319,623
                     13:(956,557) , 14:(956,487) , 15:(956,417) , 16:(956,346) , 17:(956,275) , 18:(956,205) , 19:(956,134) , 20:(956,63), 21:(880,63) , 22:(805,63) , 23:(724,63) , 24:(643,63),
                     25:(563,63) , 26:(483,63), 27:(402,63) , 28:(323,63) , 29:(244,63), 30:(164,63) , 31:(164,131) , 32:(164,201) , 33:(164,273) , 34:(164,343), 35:(164,413) , 36:(244,413) , 37:(323,413),
                     38: (403, 413), 39: (483, 413), 40: (565, 413), 41: (642, 413), 42: (721, 413), 43: (721, 347)}
-pygame.init()
+
 
 class Gioco:
+    
     def __init__(self):
-        self.iconeDisponibili = ["icone/iconaGinestra-100.png" , "icone/iconaCandela-100.png" , "icone/iconaZibaldone-100.png" , "icone/iconaPassero-100.png" ]
+        self.iconeDisponibili = [ os.path.join(module_dir,"icone/iconaGinestra-100.png") , os.path.join(module_dir,"icone/iconaCandela-100.png") , os.path.join(module_dir,"icone/iconaZibaldone-100.png") , os.path.join(module_dir,"icone/iconaPassero-100.png") ]
         random.shuffle(self.iconeDisponibili)
         self.listaTipoCaselle = []
         self.creaTipoCaselle()
@@ -58,8 +62,8 @@ class Gioco:
         self.tabellone.SetTitle("Il gioco dei paesaggi di Giacomo")
         self.coordinatePosizioniGiocatori = [coordinateGioc1,coordinateGioc2,coordinateGioc3,coordinateGioc4]
         self.tabellone.Bind(wx.EVT_CLOSE,self.chiudiGioco)
-        self.audioDadi = wx.adv.Sound("audio/Casting dices.wav")
-        pygame.mixer.music.load("audio/MarioGalaxy.mp3")
+        self.audioDadi = wx.adv.Sound( os.path.join(module_dir,"audio/Casting dices.wav") )
+        pygame.mixer.music.load( os.path.join(module_dir,"audio/MarioGalaxy.mp3") )
         pygame.mixer.music.play(-1)
         self.Impostazioni = Impostazioni.finestraImpostazioni()
         self.Impostazioni.r1.Bind(wx.EVT_RADIOBUTTON, self.cambioTema)
@@ -77,12 +81,13 @@ class Gioco:
         self.ColoreSfondo = (40, 40, 40)
         self.ColoreTesto = (255,255,255)
         self.Impostazioni.list.Bind(wx.EVT_LISTBOX, self.sceltaTracciaAudio)
-        self.tracciaAudio = "audio/Bg/Lacrimosa.mp3"
+        self.tracciaAudio = os.path.join(module_dir,"audio/Bg/Lacrimosa.mp3")
         self.tabellone.viewerIconaImpo.Bind(wx.EVT_BUTTON,self.apriImpostazioni)
         self.tabellone.viewerIconaExit.Bind(wx.EVT_BUTTON,self.chiudiGioco)
         self.statoFx = True
 
         return
+    
     def cambioTema(self,evt):
         if self.Impostazioni.r1.GetValue():
             #se il radio Button ci da True o  meglio é premuto
@@ -105,9 +110,11 @@ class Gioco:
         self.tabellone.Refresh()
         self.AggiornaTemaIcone()
         return
+    
     def impostaVolume(self,evt):
         pygame.mixer.music.set_volume(self.Impostazioni.sliderMusica.GetValue()/100)
         return
+    
     def apriImpostazioni(self,evt):
         self.FinestraLobby.Disable()
         self.tabellone.PGiocaTurno.Disable()
@@ -121,15 +128,17 @@ class Gioco:
         self.FinestraLobby.Enable()
         self.Impostazioni.Hide()
         return
+    
     def impostaEffettiSonori(self,evt):
         if self.Impostazioni.rFx1.GetValue():
             self.statoFx = True
         else:
             self.statoFx = False
         return
+    
     def sceltaTracciaAudio(self,evt):
         if self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection()) != "":
-            self.tracciaAudio = "audio/Bg/"+self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection())+".mp3"
+            self.tracciaAudio = os.path.join(module_dir, "audio/Bg/" + self.Impostazioni.list.GetString(self.Impostazioni.list.GetSelection()) + ".mp3")
             pygame.mixer.music.load(self.tracciaAudio)
             pygame.mixer.music.play(-1)
             self.Impostazioni.sliderMusica.SetValue(int(pygame.mixer.music.get_volume()*100))
@@ -181,19 +190,21 @@ class Gioco:
             self.tabellone.panel.SetBackgroundColour(self.ColoreSfondo)
             self.AggiornaTemaIcone()
         return
+    
     def AggiornaTemaIcone(self):
-        bmpImpo = wx.Bitmap("icone/setting-b.png")
-        bmpExit = wx.Bitmap("icone/on-off-button-b.png")
+        bmpImpo = wx.Bitmap( os.path.join(module_dir,"icone/setting-b.png") )
+        bmpExit = wx.Bitmap( os.path.join(module_dir,"icone/on-off-button-b.png") )
         self.tabellone.viewerIconaImpo.SetBackgroundColour(self.ColoreSfondo)
         self.tabellone.viewerIconaExit.SetBackgroundColour(self.ColoreSfondo)
         if self.ColoreSfondo == "white":
-            bmpImpo = wx.Bitmap("icone/setting-n.png")
-            bmpExit = wx.Bitmap("icone/on-off-button-n.png")
+            bmpImpo = wx.Bitmap( os.path.join(module_dir,"icone/setting-n.png") )
+            bmpExit = wx.Bitmap( os.path.join(module_dir,"icone/on-off-button-n.png") )
         imgImpo = bmpImpo.ConvertToImage().Rescale(30,30)
         imgExit = bmpExit.ConvertToImage().Rescale(30,30)
         self.tabellone.viewerIconaImpo.SetBitmap(wx.Bitmap(imgImpo))
         self.tabellone.viewerIconaExit.SetBitmap(wx.Bitmap(imgExit))
         return
+    
     def AggiornaTurno(self):
         #"imposta" il tabellone con i dati del giocatore prossimo a giocare
         self.turnoGiocatore = self.giocatoreSuccessivoA(self.turnoGiocatore)
@@ -229,6 +240,7 @@ class Gioco:
         nbmp3 = wx.Bitmap(img3)
         self.tabellone.viewerTurno3.SetBitmap(nbmp3)
         return
+    
     #calcola il giocatore successivo a "giocatore"
     def giocatoreSuccessivoA(self,giocatore):
         giocatori = self.listaGiocatori
@@ -270,7 +282,7 @@ class Gioco:
                     self.tabellone.finale(self.listaGiocatori,self.ColoreSfondo,self.ColoreTesto, TempoTrascorso)
                     pygame.mixer.stop()
                     if self.statoFx:
-                        wx.adv.Sound("audio/vittoria"+str(random.randint(1,2))+".wav").Play()
+                        wx.adv.Sound( os.path.join(module_dir,"audio/vittoria" + str(random.randint(1,2)) + ".wav") ).Play()
                     self.tabellone.pulsanteChiudi.Bind(wx.EVT_BUTTON, self.chiudiGioco)
                     self.tabellone.pulsanteRigioca.Bind(wx.EVT_BUTTON, self.Riavvia)
                     return
@@ -287,7 +299,7 @@ class Gioco:
             if tipoDiCasella == "jolly":
                 #se è capitato su un jolly il giocatore rilancia il dado
                 if self.statoFx:
-                    wx.adv.Sound("audio/jolly"+str(random.randint(1,5))+".wav").Play()
+                    wx.adv.Sound( os.path.join(module_dir,"audio/jolly" + str(random.randint(1,5)) + ".wav") ).Play()
                 return
 
             ############### Apertura finestra domanda
@@ -310,21 +322,21 @@ class Gioco:
         if self.finestraDomanda.esitoRisposta(ID):
             #se la risposta è corretta
             if self.statoFx:
-                sound = wx.adv.Sound("audio/audioPositive"+str(random.randint(1,7))+".wav")
-                if self.tracciaAudio in ("audio/Bg/Lacrimosa.mp3","audio/Bg/Aria.mp3","audio/Bg/Inverno.mp3","audio/Bg/Palladio.mp3"):
-                    sound = wx.adv.Sound("audio/audioPositive"+str(random.choice((7,1)))+".wav")
+                sound = wx.adv.Sound( os.path.join(module_dir,"audio/audioPositive" + str(random.randint(1,7)) + ".wav") )
+                if self.tracciaAudio in ( os.path.join(module_dir,"audio/Bg/Lacrimosa.mp3") , os.path.join(module_dir,"audio/Bg/Aria.mp3") , os.path.join(module_dir,"audio/Bg/Inverno.mp3") , os.path.join(module_dir,"audio/Bg/Palladio.mp3") ):
+                    sound = wx.adv.Sound( os.path.join(module_dir, "audio/audioPositive" + str(random.choice((7,1))) + ".wav") )
                 sound.Play(flags = wx.adv.SOUND_ASYNC)
             self.EsitoDomanda = True
-            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("icone/iconaEsatto.png"))
+            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap( os.path.join(module_dir,"icone/iconaEsatto.png") ))
         else:
             #se la risposta NON è corretta
             if self.statoFx:
-                sound = wx.adv.Sound("audio/audioNegative" + str(random.randint(1, 5)) + ".wav")
-                if self.tracciaAudio in ("audio/Bg/Lacrimosa.mp3", "audio/Bg/Aria.mp3", "audio/Bg/Inverno.mp3", "audio/Bg/Palladio.mp3"):
-                    sound = wx.adv.Sound("audio/audioNegative" + str(random.choice((5, 1))) + ".wav")
+                sound = wx.adv.Sound( os.path.join(module_dir,"audio/audioNegative" + str(random.randint(1, 5)) + ".wav") )
+                if self.tracciaAudio in ( os.path.join(module_dir,"audio/Bg/Lacrimosa.mp3") , os.path.join(module_dir,"audio/Bg/Aria.mp3") , os.path.join(module_dir,"audio/Bg/Inverno.mp3") , os.path.join(module_dir,"audio/Bg/Palladio.mp3") ):
+                    sound = wx.adv.Sound( os.path.join(module_dir,"audio/audioNegative" + str(random.choice((5, 1))) + ".wav") )
                 sound.Play(flags=wx.adv.SOUND_ASYNC)
             self.EsitoDomanda = False
-            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap("icone/iconaErrato.png"))
+            self.tabellone.viewerIconaEsito.SetBitmap(wx.Bitmap( os.path.join(module_dir,"icone/iconaErrato.png") ))
             
         self.finestraDomanda.Bind(wx.EVT_TIMER,self.Risposto,self.finestraDomanda.timer)
         self.finestraDomanda.timer.StartOnce(2200)
@@ -358,7 +370,7 @@ class Gioco:
             self.audioDadi.Play(flags = wx.adv.SOUND_ASYNC)
         for n in range(7):
             uscito = random.randint(1, 6)
-            percorso = "dado/dado"+str(uscito)+".png"
+            percorso = os.path.join(module_dir,"dado/dado" + str(uscito) + ".png")
             bmp = wx.Bitmap(percorso)
             bmp.SetSize( (100,100) )
             self.tabellone.viewerDado.SetBitmap(bmp)
@@ -412,33 +424,33 @@ class Gioco:
         #VERDE = LUOGHIAUTOBIOGRAFICI 
         #ROSSO = CANTI 
         #GIALLO = OPERETTE C:\Users\s7096089\Desktop\GiocoOca4BS\GiocoDellOca4Bs\tabellone
-        campoDaGioco = Image.open('tabellone/fileSfondoCampoDaGioco.png')
+        campoDaGioco = Image.open( os.path.join(module_dir,'tabellone/fileSfondoCampoDaGioco.png') )
         #campoDaGioco = Image.open('bgMHA.jpg').resize((1075,670))
         sfondo = campoDaGioco.copy()
         wx_image = wx.Image(sfondo.size[0], sfondo.size[1])
         wx_image.SetData(sfondo.convert("RGB").tobytes())
-        icona = Image.open("tabellone/quadratoNeroTrasparente-500.png")
+        icona = Image.open( os.path.join(module_dir,"tabellone/quadratoNeroTrasparente-500.png") )
         icona = icona.resize((coordinateCaselle[0][1][0], coordinateCaselle[0][1][1]))
         sfondo.paste(icona, (coordinateCaselle[0][0][0], coordinateCaselle[0][0][1]), icona)
         for n in diz:
             tipo = diz[n]
             if tipo != "":
                 if tipo == "luoghiAutobiografici":
-                    icona = Image.open("tabellone/quadratoVerdeTrasparente-500.png")
+                    icona = Image.open( os.path.join(module_dir,"tabellone/quadratoVerdeTrasparente-500.png") )
                 elif tipo == "poeticaDeiPaesaggi":
-                    icona = Image.open("tabellone/quadratoBluTrasparente-500.png")
+                    icona = Image.open( os.path.join(module_dir,"tabellone/quadratoBluTrasparente-500.png") )
                 elif tipo == "canti":
-                    icona = Image.open("tabellone/quadratoRossoTrasparente-500.png")
+                    icona = Image.open( os.path.join(module_dir,"tabellone/quadratoRossoTrasparente-500.png") )
                 elif tipo == "operette":
-                    icona = Image.open("tabellone/quadratoGialloTrasparente-500.png")
+                    icona = Image.open( os.path.join(module_dir,"tabellone/quadratoGialloTrasparente-500.png") )
                 elif tipo == "jolly":
-                    icona = Image.open("tabellone/simboloInfinito-500.png")
+                    icona = Image.open( os.path.join(module_dir,"tabellone/simboloInfinito-500.png") )
             else:
-                icona = Image.open("tabellone/quadratoNeroTrasparente-500.png")
+                icona = Image.open( os.path.join(module_dir,"tabellone/quadratoNeroTrasparente-500.png") )
             icona = icona.resize((coordinateCaselle[n][1][0],coordinateCaselle[n][1][1]))
             sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
             sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
-        img = Image.open("tabellone/fileScheletroTabellone.png")
+        img = Image.open( os.path.join(module_dir,"tabellone/fileScheletroTabellone.png") )
         sfondo.paste(img,(0,0),img)
         
         self.sfondoCampoDaGioco = sfondo
@@ -448,6 +460,7 @@ class Gioco:
         return
 
 if __name__ == "__main__":
+    pygame.init()
     app = wx.App()
     gioco = Gioco()
     app.MainLoop()

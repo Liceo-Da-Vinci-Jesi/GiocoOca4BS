@@ -1,6 +1,13 @@
-import wx, finestraStatistiche
+import wx
+import finestraStatistiche
+
+# ---------------------------------
+import os
+module_dir = os.path.dirname(__file__)
+# ---------------------------------
 
 class CampoDaGioco(wx.Frame):
+    
     def __init__(self):
         super().__init__(None, title="Campo Da Gioco - Preview")
         #E' una schermata di prova, il campo da gioco effettivo verrà visualizzato una volta eseguito il file 'Gioco.py'
@@ -8,7 +15,7 @@ class CampoDaGioco(wx.Frame):
         self.panel.SetOwnBackgroundColour((40, 40, 40))
         #se non cambi niente colore preimpostato
         box = wx.BoxSizer(wx.HORIZONTAL)
-        bmp = wx.Bitmap("tabellone/fileCampoDaGiocoRid.png")
+        bmp = wx.Bitmap( os.path.join(module_dir,"tabellone/fileCampoDaGiocoRid.png") )
         self.viewer = wx.StaticBitmap(self.panel, bitmap=bmp)
         box.Add(self.viewer, proportion=1, flag=wx.ALL, border=5)
 
@@ -92,7 +99,7 @@ class CampoDaGioco(wx.Frame):
         self.SetMinSize((1280, 720))
         self.SetMaxSize((1280, 720))
         self.panel.SetSizer(box)
-        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon( os.path.join(module_dir,"icone/iconaInfinito.ico") ))
         self.Bind(wx.EVT_CLOSE,self.close)
 
 
@@ -158,7 +165,7 @@ class CampoDaGioco(wx.Frame):
         panel2.SetSizer(vbox)
         self.SetMinSize((536, 678))
         self.SetMaxSize((750,730))
-        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon( os.path.join(module_dir,"icone/iconaInfinito.ico") ))
         self.SetSize((670,679))
         return
     

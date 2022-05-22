@@ -1,9 +1,15 @@
 import csv
+
+# ---------------------------------
+import os
+module_dir = os.path.dirname(__file__)
+# ---------------------------------
+
 #calcola tutte le domande presenti nel file "domandeItaliano.csv" e le divide in dizionari
 #con chiavi l'argomento principale (tipo di domanda); i rispettivi valori sono liste con tuple di elementi della domanda (tipo/domanda/rispostaA/rispostaB/rispostaC/rispostaEsatta/eventualeTesto)
 #es: {luoghiAutobiografici': [('luoghiAutobiografici', 'Quando nacque Giacomo a Recanati?', '29 giugno 1798', '29 giugno 1788', '19 giugno 1798', '29 giugno 1798', ''), ('luoghiAutobiografici', 'Dove si trova palazzo Leopardi?', 'Rione Monte Morello', 'Monte Tabor', 'Porto Recanati', 'Rione Monte Morello', '')]}
 def load():
-    file = open("domandeItaliano.csv","r")
+    file = open( os.path.join(module_dir,"domandeItaliano.csv") ,"r")
     lettore = csv.DictReader(file,delimiter = "/")
     tutteLeDomande = {}
     for riga in lettore:

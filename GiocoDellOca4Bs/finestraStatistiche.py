@@ -1,6 +1,12 @@
 import wx
 
+# ---------------------------------
+import os
+module_dir = os.path.dirname(__file__)
+# ---------------------------------
+
 class Statistiche(wx.Frame):
+
     def __init__(self,classifica,coloreSfondo,coloreTesto,Time):
         super().__init__(None, title="Il gioco dei paesaggi di Giacomo - Statistiche")
         # per ogni giocatore (in ordine di classifica) ne va a "schematizzare" le statistiche principali
@@ -35,7 +41,7 @@ class Statistiche(wx.Frame):
         box.Fit(self)
         self.SetMinSize(self.GetSize())
         self.SetMaxSize(self.GetSize())
-        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon( os.path.join(module_dir,"icone/iconaInfinito.ico") ))
         self.Bind(wx.EVT_CLOSE,self.nonChiudere)
 
     def nonChiudere(self,event):

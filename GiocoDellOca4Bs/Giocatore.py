@@ -1,4 +1,5 @@
 class Giocatore:
+    
     def __init__(self,nome,path):
         self.posizione = 0
         self.nome = nome

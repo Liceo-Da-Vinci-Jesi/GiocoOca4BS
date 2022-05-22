@@ -1,7 +1,13 @@
-import wx, re
-
 from pathlib import Path
+import wx
+
+# ---------------------------------
+import os
+module_dir = os.path.dirname(__file__)
+# ---------------------------------
+
 class finestraImpostazioni(wx.Frame):
+    
     def __init__(self):
         super().__init__(None, title="Giochi dei Paesaggi di Giacomo - Impostazioni")
         self.panel = wx.Panel(self)
@@ -40,7 +46,7 @@ class finestraImpostazioni(wx.Frame):
         self.listaTesti = [testo, testo2, self.r1, self.r2]
         file = []
         o = str("\\")
-        path = Path("audio/Bg")
+        path = Path(os.path.join(module_dir, "audio/Bg"))
         for n in path.iterdir():
             if str(n).endswith(".mp3"):
                 testo = str(n)
@@ -106,7 +112,7 @@ class finestraImpostazioni(wx.Frame):
         self.SetSize((500,self.GetSize()[1]))
         self.SetMaxSize((590,self.GetSize()[1]+100))
         self.Refresh()
-        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon( os.path.join(module_dir,"icone/iconaInfinito.ico") ))
         self.listaTesti.append(self.rFx1)
         self.listaTesti.append(self.rFx2)
         return
@@ -118,5 +124,3 @@ if __name__ == "__main__":
     window = finestraImpostazioni()
     window.Show()
     app.MainLoop()
-        
-    

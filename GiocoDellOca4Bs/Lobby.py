@@ -1,7 +1,13 @@
-import wx, random
+import random
+import wx
 
+# ---------------------------------
+import os
+module_dir = os.path.dirname(__file__)
+# ---------------------------------
 
 class Lobby(wx.Frame):
+    
     def __init__(self,listaIconeDisponibili):
         super().__init__(None, title="Giochi dei Paesaggi di Giacomo")
         self.giocatori = []
@@ -69,7 +75,7 @@ class Lobby(wx.Frame):
         self.SetSize((814,380))
         self.SetMaxSize((903,414))
         self.Centre()
-        self.SetIcon(wx.Icon("icone/iconaInfinito.ico"))
+        self.SetIcon(wx.Icon( os.path.join(module_dir,"icone/iconaInfinito.ico") ))
 
     def sbloccaStato(self,event):
         if self.listaToggleButton[event.GetId()-1].GetValue():
@@ -97,6 +103,6 @@ class Lobby(wx.Frame):
 # ----------------------------------------
 if __name__ == "__main__":
     app = wx.App()
-    window = Lobby( ["icone/iconaCandela-100.png" , "icone/iconaGinestra-100.png" , "icone/iconaPassero-100.png" , "icone/iconaZibaldone-100.png"] )
+    window = Lobby( [ os.path.join(module_dir,"icone/iconaCandela-100.png") , os.path.join(module_dir,"icone/iconaGinestra-100.png") , os.path.join(module_dir,"icone/iconaPassero-100.png") , os.path.join(module_dir,"icone/iconaZibaldone-100.png") ] )
     window.Show()
     app.MainLoop()
