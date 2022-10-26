@@ -452,6 +452,7 @@ class Gioco:
             sfondo.paste(icona,(coordinateCaselle[n][0][0],coordinateCaselle[n][0][1]),icona)
         img = Image.open( os.path.join(module_dir,"tabellone/fileScheletroTabellone.png") )
         sfondo.paste(img,(0,0),img)
+        #sfondo.save("tab.png", "PNG")
         
         self.sfondoCampoDaGioco = sfondo
         return
